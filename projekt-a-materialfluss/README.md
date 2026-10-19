@@ -18,9 +18,9 @@ python3 -m http.server 8096 -d ~/__project_applied_research
 # → http://localhost:8096/projekt-a-materialfluss/karte/
 ```
 
-Direktlinks: `?mode=pot` (Potenzial), `?sel=beton` (Firma), `?tab=sankey|personas|tools`, `?theme=dark|light`, `?lang=de|en` (Sprache, Standard Deutsch; Umschalter oben rechts).
+Direktlinks: `?mode=pot` (Potenzial), `?sel=beton` (Firma), `?tab=sankey|personas|tools`, `?theme=dark|light`, `?lang=de|en` (Sprache; ohne Angabe Browsersprache, Umschalter oben rechts), `?ui=A|B|C` (Layout der Bedienung: Bühne · Seitenleiste · Kompakt, Umschalter oben rechts).
 
-Vorschau-Varianten (bis zur Entscheidung): `?ui=A|B|C` (Menüführung: Szenario-Bühne · Seitenleiste · Kommandoleiste), `?col=kpi,branch,status` (zusätzliche Farben, Standard `status`).
+Farbe trägt Bedeutung: Material (Flüsse, Chips), Branche (Symbole, Personas), Zustand (Badges: neu, Reststoff, entfällt, Verbrennung) und je Kennzahl ein eigener Ton.
 
 ## Daten
 

@@ -68,6 +68,9 @@ h1 { font-size: clamp(24px, 3vw, 34px); line-height: 1.15; margin: 0; font-weigh
 .lang button { border: 0; background: transparent; border-radius: var(--radius-sm); padding: 4px 10px; cursor: pointer; font: 600 14px "IBM Plex Mono", monospace; transition: background var(--t-fast); }
 .lang button:hover { background: var(--surface-2); }
 .lang button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.uisw button { font: 500 14px "IBM Plex Sans", sans-serif; display: inline-flex; align-items: center; gap: 6px; }
+.uisw svg { width: 16px; height: 16px; flex: none; }
+@media (max-width: 699px) { .uisw .ul { display: none; } }
 
 /* ---------- Badges ---------- */
 .bdg { display: inline-flex; align-items: center; gap: 6px; font: 600 13px/1.35 "IBM Plex Sans", sans-serif; border: 1px solid var(--line-2); border-radius: var(--radius-sm); padding: 1px 7px; white-space: nowrap; vertical-align: 1px; background: var(--surface); color: var(--ink); }
@@ -375,6 +378,11 @@ footer { font-size: 14px; color: var(--ink-2); display: flex; flex-direction: co
         <button type="button" data-lang="de" aria-pressed="true" lang="de">DE</button>
         <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
       </div>
+      <div class="lang uisw" role="group" data-ta="layout">
+        <button type="button" data-ui="A" aria-pressed="true" data-ta="uiA"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="8" height="6" rx="1"/><rect x="13" y="4" width="8" height="6" rx="1"/><path d="M3 14h18M3 19h18"/></svg><span class="ul" data-t="uiA"></span></button>
+        <button type="button" data-ui="B" aria-pressed="false" data-ta="uiB"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M9 4v16M5 8h2M5 12h2"/></svg><span class="ul" data-t="uiB"></span></button>
+        <button type="button" data-ui="C" aria-pressed="false" data-ta="uiC"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="11" width="18" height="9" rx="1"/></svg><span class="ul" data-t="uiC"></span></button>
+      </div>
       <button class="iconbtn" id="themeBtn" type="button" data-ta="themeAria">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         <span id="themeLbl"></span>
@@ -475,7 +483,7 @@ const Q = new URLSearchParams(location.search); // Direktlinks: ?lang=en&theme=d
 
 /* ---------- Sprache ---------- */
 let LANG = 'de';
-try { LANG = Q.get('lang') || localStorage.getItem('mfk-lang') || 'de'; } catch (e) {}
+try { LANG = Q.get('lang') || localStorage.getItem('mfk-lang') || ((navigator.language || 'de').toLowerCase().startsWith('de') ? 'de' : 'en'); } catch (e) {}
 if (LANG !== 'en') LANG = 'de';
 const L = v => Array.isArray(v) ? v[LANG === 'en' ? 1 : 0] : v; // [de, en]
 const fmt = n => Math.round(n).toLocaleString(LANG === 'en' ? 'en-GB' : 'de-DE');
@@ -484,7 +492,7 @@ const I = {
   h1: ['Materialflüsse im Industriepark Kehrum', 'Material flows in Kehrum industrial park'],
   sub: ['Kalkar · Wer liefert wem welches Material, wo landen Reststoffe – und wo könnten sie im Park weiterverwertet werden?', 'Kalkar, Germany · Who supplies which material to whom, where do residues end up – and where could they be reused inside the park?'],
   demo: ['Demo-Daten · fiktiv', 'Demo data · fictional'],
-  langGroup: ['Sprache', 'Language'], themeAria: ['Farbschema wechseln', 'Switch colour scheme'], dark: ['Dunkel', 'Dark'], light: ['Hell', 'Light'],
+  langGroup: ['Sprache', 'Language'], layout: ['Layout der Bedienung', 'Control layout'], uiA: ['Bühne', 'Stage'], uiB: ['Seitenleiste', 'Sidebar'], uiC: ['Kompakt', 'Compact'], themeAria: ['Farbschema wechseln', 'Switch colour scheme'], dark: ['Dunkel', 'Dark'], light: ['Hell', 'Light'],
   gView: ['Ansicht', 'View'], gScenario: ['Szenario', 'Scenario'], gMat: ['Material', 'Material'], gCat: ['Branche', 'Sector'],
   filter: ['Filter', 'Filter'], all: ['alle zeigen', 'show all'],
   tabMap: ['Karte', 'Map'], tabMapD: ['Lageplan und Flüsse', 'Site plan and flows'],
@@ -1201,11 +1209,20 @@ function themeLbl() { $('#themeLbl').textContent = isDark() ? t('light') : t('da
 try { const th = Q.get('theme') || localStorage.getItem('mfk-theme'); if (th) root.dataset.theme = th; } catch (e) {}
 $('#themeBtn').addEventListener('click', () => { root.dataset.theme = isDark() ? 'light' : 'dark'; try { localStorage.setItem('mfk-theme', root.dataset.theme); } catch (e) {} themeLbl(); });
 
-/* ---------- Varianten der Vorschau (?ui=A|B|C, ?col=kpi,branch,status) ---------- */
-const UI = ['A', 'B', 'C'].includes(Q.get('ui')) ? Q.get('ui') : 'A';
-root.classList.add('ui-' + UI);
-(Q.get('col') ?? 'status').split(',').filter(Boolean).forEach(c => root.classList.add('c-' + c));
-$('#fdrop').open = UI !== 'C';
+/* ---------- Layout der Bedienung: Bühne · Seitenleiste · Kompakt (?ui=A|B|C, gemerkt) ---------- */
+// Farbe trägt Bedeutung: Kennzahlen (Ton je Kennzahl), Branche (Symbole, Chips, Personas), Status-Badges
+root.classList.add('c-kpi', 'c-branch', 'c-status');
+function setUI(u) {
+  if (!['A', 'B', 'C'].includes(u)) u = 'A';
+  root.classList.remove('ui-A', 'ui-B', 'ui-C'); root.classList.add('ui-' + u);
+  $('#fdrop').open = u !== 'C';
+  $$('[data-ui]').forEach(b => b.setAttribute('aria-pressed', b.dataset.ui === u));
+}
+let UI0 = Q.get('ui'); try { UI0 = UI0 || localStorage.getItem('mfk-ui'); } catch (e) {}
+setUI(UI0);
+$$('[data-ui]').forEach(b => b.addEventListener('click', () => {
+  setUI(b.dataset.ui); try { localStorage.setItem('mfk-ui', b.dataset.ui); } catch (e) {} hideTip();
+}));
 
 /* ---------- Start: Flüsse zeichnen sich ein ---------- */
 if (Q.get('mode') === 'pot') { state.mode = 'pot'; segBtns.forEach(b => { b.setAttribute('aria-pressed', b.dataset.mode === 'pot'); b.classList.remove('breathe'); }); }
