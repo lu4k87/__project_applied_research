@@ -8,7 +8,7 @@
 |---|---|---|
 | State of the Art | bestehende Analyse-Tools vergleichen (STAN, Umberto, e!Sankey, openLCA, QGIS, SankeyMATIC, SYNERGie) | erster Vergleich im Reiter „Tool-Vergleich“ der Karte |
 | Kartierung | Industriepark Kehrum kartieren, Firmen einordnen: Materialproduzent, Hersteller, Handel/Logistik, Recycling, Entsorgung | offen – bisher nur fiktive Firmen |
-| Personas | eine Persona je Branche | 5 Personas (Reiter „Personas“) |
+| Personas | eine Persona je Branche | 5 Personas (Reiter „Personas“), DE/EN |
 | Design & Prototyp | interaktive Karte der Materialflüsse zwischen den Firmen | Prototyp mit Demo-Daten: `karte/index.html` |
 
 ## Karte öffnen
@@ -18,7 +18,9 @@ python3 -m http.server 8096 -d ~/__project_applied_research
 # → http://localhost:8096/projekt-a-materialfluss/karte/
 ```
 
-Direktlinks: `?mode=pot` (Potenzial), `?sel=beton` (Firma), `?tab=sankey|personas|tools`, `?theme=dark|light`.
+Direktlinks: `?mode=pot` (Potenzial), `?sel=beton` (Firma), `?tab=sankey|personas|tools`, `?theme=dark|light`, `?lang=de|en` (Sprache, Standard Deutsch; Umschalter oben rechts).
+
+Vorschau-Varianten (bis zur Entscheidung): `?ui=A|B|C` (Menüführung: Szenario-Bühne · Seitenleiste · Kommandoleiste), `?col=kpi,branch,status` (zusätzliche Farben, Standard `status`).
 
 ## Daten
 
