@@ -1,0 +1,1 @@
+- [Projekt A Materialfluss](project-goal-projekt-a.md) — Aufgaben + Stand 2026-10-19, Doppelarbeit mit Gemini-Chat, echte Firmen nur mit Quelle
