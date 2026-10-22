@@ -1,4 +1,5 @@
 [Claude] [Applied Research] KreiswertS: Scroll-Zoom, Logos, Hover
+übernommen von dev-ws-57 am 2026-10-22 13:56
 Rückmeldung an: dev-ws-e8
 Kontext: Echte Grundkarte ist eingebaut (Commits 1c4a8fb, d667c33):
   karte/grundkarte.js = MapLibre + PMTiles, Plattform-Karte mit Ebenen
