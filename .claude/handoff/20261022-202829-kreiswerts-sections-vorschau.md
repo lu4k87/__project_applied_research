@@ -1,4 +1,5 @@
 [Claude] [Applied Research] KreiswertS: übrige Sections per Vorschau
+übernommen von dev-ws-70 am 2026-10-22 20:29
 Rückmeldung an: dev-ws-b3
 Kontext: Section „Projekt“ der KreiswertS-Karte ist neu gestaltet
   und gepusht (890434b, Repo __project_applied_research): volle
