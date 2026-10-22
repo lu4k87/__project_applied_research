@@ -1,4 +1,5 @@
 [Claude] [Applied Research] KreiswertS: echte Karte mit Zoom Deutschland → Land → Kreis → Gemeinde
+übernommen von dev-ws-ea am 2026-10-22 11:18
 Rückmeldung an: dev-ws-1e
 Kontext: KreiswertS-Prototyp in projekt-a-materialfluss/karte/ (Stand
   bc3ef06). Karte heute = selbst gezeichnetes SVG (drawMap in app.js,
