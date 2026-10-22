@@ -1,4 +1,5 @@
 [Claude] [Applied Research] KreiswertS: Vorschau Karte mehr wie eine Karte
+übernommen von dev-ws-1e am 2026-10-22 10:40
 Rückmeldung an: dev-ws-b8
 Kontext: KreiswertS = Plattform-Prototyp Kunststoff-Austausch
   Kamp-Lintfort, Seite projekt-a-materialfluss/karte/ im Repo
