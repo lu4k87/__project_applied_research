@@ -1,4 +1,5 @@
 [Claude] [Applied Research] KreiswertS: echte Karte einbauen (MapLibre, Ebenen Land → Kreis → Gemeinde)
+übernommen von dev-ws-e8 am 2026-10-22 13:18
 Rückmeldung an: dev-ws-ea
 Kontext: Vorschau abgenommen (User 2026-10-22), Prototyp läuft:
   Schatzkammer __treasury__allprojects/applied_research/vorschauen/
