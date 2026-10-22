@@ -16,5 +16,7 @@ Titel: „Digitaler Plattform-Prototyp für den zirkulären Kunststoff-Materiala
 - **Zielgruppen:** abfallerzeugende Unternehmen · Rohstoffeinkäufer · lokale Gemeinschaft · Kommunen & Wirtschaftsförderung.
 - **Erfolgskriterium:** Nachweis plausibler Austauschpotenziale; Transaktionen, Kosteneinsparungen und Umwelteffekte brauchen spätere Validierung mit Partnerunternehmen.
 
+- **Umgesetzt 2026-10-22** (Vorschau-Entscheidung): Start:A + Start:C (Schritt-Leiste, lebender Kreislauf + Lagebild-Karte), Karte:C, Szene:C, Plan:C; Hell/Dunkel-Umschalter (hell Petrol, dunkel Nachtblau/Gold), DE + EN, Live-Selbsttest mit JSON-Sicherung, Leitfaden nur als Text (keine Datenvorlage), je Zielgruppe eine Persona, Plattform-Vergleich auf Austausch-Plattformen umgestellt. Daten in `karte/daten.js` (12 Firmen, 15 Paare, rechnerisch 92 t/Monat).
+
 **Why:** Der User hat den Auftrag wörtlich vorgegeben und „in Memory aufnehmen“ verlangt; jede Seite, jeder Bericht und jede Zahl muss zu diesem Rahmen passen.
 **How to apply:** Seite und Texte an diesen Punkten ausrichten; Firmen bleiben fiktive, klar gekennzeichnete Demo-Daten (Entscheidung 2026-10-22), echte Firmen erst mit Quelle (AGENTS.md §0); nie Einsparungen oder CO₂-Effekte als belegt darstellen. Umbau der Seite lief zuerst als Vorschau mit 3 Richtungen (Wunsch des Users 2026-10-22).

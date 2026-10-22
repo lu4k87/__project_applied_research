@@ -1,28 +1,43 @@
-# Projekt A: Materialflussanalyse
+# KreiswertS
 
-**Fragestellung:** Wie bewegen sich Materialien durch den Industriepark Kehrum (Kalkar), und wo lassen sie sich effizienter nutzen?
+**Digitaler Plattform-Prototyp für den zirkulären Kunststoff-Materialaustausch in Kamp-Lintfort** – vernetzt kunststoffproduzierende, verarbeitende und recycelnde Unternehmen; Profile, Sekundärmaterialien, Bedarfe und mögliche Austauschwege auf einer Karte. Proof of Concept, kein operativer Marktplatz.
 
-## Aufgaben
+Löst seit 2026-10-22 die Materialflusskarte Kehrum unter derselben Adresse ab (alter Stand: Git-Historie, letzter Commit `65ba3e1`).
 
-| Aufgabe | Inhalt | Stand |
-|---|---|---|
-| State of the Art | bestehende Analyse-Tools vergleichen (STAN, Umberto, e!Sankey, openLCA, QGIS, SankeyMATIC, SYNERGie) | erster Vergleich im Reiter „Tool-Vergleich“ der Karte |
-| Kartierung | Industriepark Kehrum kartieren, Firmen einordnen: Materialproduzent, Hersteller, Handel/Logistik, Recycling, Entsorgung | offen – bisher nur fiktive Firmen |
-| Personas | eine Persona je Branche | 5 Personas (Reiter „Personas“), DE/EN |
-| Design & Prototyp | interaktive Karte der Materialflüsse zwischen den Firmen | Prototyp mit Demo-Daten: `karte/index.html` |
+## Ziele und Stand
 
-## Karte öffnen
+| Ziel (Auftrag) | Stand im Prototyp |
+|---|---|
+| ≥ 10 regionale Unternehmen recherchiert | 12 fiktive Profile – Recherche echter Firmen offen |
+| Profile, Materialübersicht, Suche + Filter | im Bereich „Plattform“ klickbar |
+| Materialfluss-Karte mit 3 Szenarien | Bereich „Szenarien“ (Scrollytelling) |
+| Tests für ≥ 5 Kernfunktionen + Ergebnissicherung | Selbsttest mit 6 Prüfungen, Ergebnis als JSON |
+| Schritt-für-Schritt-Leitfaden | Entwurf mit 7 Schritten im Bereich „Einordnung“ |
+
+## Seite öffnen
 
 ```bash
 python3 -m http.server 8096 -d ~/__project_applied_research
 # → http://localhost:8096/projekt-a-materialfluss/karte/
 ```
 
-Direktlinks: `?mode=pot` (Potenzial), `?sel=beton` (Firma), `?tab=sankey|personas|tools`, `?theme=dark|light`, `?lang=de|en` (Sprache; ohne Angabe Browsersprache, Umschalter oben rechts), `?ui=A|B|C` (Layout der Bedienung: Bühne · Seitenleiste · Kompakt, Umschalter oben rechts).
+Direktlinks: `?lang=de|en` (ohne Angabe Browsersprache), `?theme=light|dark` (ohne Angabe Systemeinstellung), `?firm=<id>` (Firma in der Plattform, z. B. `regrana`), `?scn=s1|s2|s3` (Szenario).
 
-Farbe trägt Bedeutung: Material (Flüsse, Chips), Branche (Symbole, Personas), Zustand (Badges: neu, Reststoff, entfällt, Verbrennung) und je Kennzahl ein eigener Ton.
+## Aufbau
+
+| Datei | Inhalt |
+|---|---|
+| `karte/index.html` | Gerüst: Schritt-Leiste + 6 Bereiche (Überblick, Prinzip, Plattform, Szenarien, Projekt, Einordnung) |
+| `karte/daten.js` | alle Daten der Region (DE/EN): Karte, Firmen, Angebote, Bedarfe, Matching-Regeln, Szenarien, Projekttexte, Personas, Plattform-Vergleich |
+| `karte/app.js` | Matching, Karte (SVG), Plattform, Scrollytelling, Selbsttest, Sprache + Theme |
+| `karte/kreiswerts.css` | Look: hell = Aqua-Weiß mit Petrol, dunkel = Nachtblau mit Gold |
+
+**Matching:** Pflicht = gleiches Polymer, passende Form und Qualität; Wert = Qualität 30 % + Menge 35 % + Nähe 35 % (Luftlinie, ab 25 km null). Rechnerisches Austauschpotenzial: Paare nach Wert, jede Tonne Angebot und Bedarf nur einmal vergeben.
+
+**Replikation:** eine andere Region ersetzt nur `daten.js` – Karte, Matching, Szenarien und Selbsttest passen sich an.
 
 ## Daten
 
-- Alle Firmen, Personas und Mengen in `karte/index.html` sind **fiktiv** (Demo-Daten, auf der Seite gekennzeichnet).
-- Echte Firmen aus der Kartierung kommen mit Quelle hinzu; Mengen bleiben als Annahme gekennzeichnet, bis Firmen sie bestätigen.
+- Alle Firmen, Mengen, Wege und Personas sind **fiktiv** (auf der Seite gekennzeichnet).
+- Echte Firmen kommen nur mit Quelle hinzu; Mengen bleiben als Annahme gekennzeichnet, bis Firmen sie bestätigen.
+- Plattform-Vergleich (State of the Art): Recherche vom 2026-10-22, Quellen auf der Seite verlinkt – vor der Abgabe beim Anbieter prüfen.

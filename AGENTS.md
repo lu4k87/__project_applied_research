@@ -15,13 +15,13 @@ Ergänzt die gemeinsamen Regeln aller Projekte (`~/.claude/CLAUDE.md` → `~/ai_
 | Ort | Zweck |
 |---|---|
 | `README.md` | Übersicht aller Teilprojekte + Start-Befehl |
-| `projekt-a-materialfluss/` | Projekt A: `README.md` (Aufgaben, Stand), `karte/index.html` (Prototyp) |
-| `projekt-a-materialfluss/karte/index.html` | Prototyp: Karte, Stoffstrombilanz (Sankey), Personas, Tool-Vergleich – eine Datei, Demo-Daten oben im Skript |
+| `projekt-a-materialfluss/` | KreiswertS (löst die Kehrum-Karte ab): `README.md` (Ziele, Stand, Aufbau), `karte/` (Prototyp) |
+| `projekt-a-materialfluss/karte/` | Prototyp KreiswertS: `index.html` (Gerüst), `daten.js` (alle Daten der Region, DE/EN – Replikation tauscht nur diese Datei), `app.js` (Matching, Karte, Selbsttest), `kreiswerts.css` |
 | `AGENTS.md` | diese Regeln (`GEMINI.md` = Link darauf) |
 | `.claude/memory/` | Projekt-Memory, Index `MEMORY.md` (Claude lädt ihn selbst, Codex/Gemini lesen ihn zu Beginn) |
 | Schatzkammer `~/ai_dev_workflow_global/__treasury__allprojects/applied_research/` | Vorschauen, Varianten, Ideen (nicht hier im Repo) |
 
 ## 5. Arbeitsweise
 - **Start:** `python3 -m http.server 8096 -d ~/__project_applied_research` → `http://localhost:8096/projekt-a-materialfluss/karte/`.
-- **Prüfungen (Definition of Done):** Headless Chrome mit eigenem Profil – hell + dunkel, 1280 px und 360 px, keine Konsolenfehler; Klicks auf Szenario, Firma, Maßnahme, Reiter; Endzustand mit `--force-prefers-reduced-motion` ansehen (Einblend-Animationen laufen in virtueller Zeit nicht durch).
+- **Prüfungen (Definition of Done):** Headless Chrome mit eigenem Profil – hell + dunkel, 1280 px und 360 px, keine Konsolenfehler, Selbsttest der Seite 6/6 bestanden; Klicks auf Firma, Suche, Lücken, Reiter, Szenario, Persona; Endzustand mit `--force-prefers-reduced-motion` ansehen (dann keine bewegten Punkte).
 - **Commit + Push:** direkt in diesem Repo (`git@github.com:lu4k87/__project_applied_research.git`, privat), Skill `commit`; Liste aller Projekte: `~/ai_dev_workflow_global/config/projects.yaml`.

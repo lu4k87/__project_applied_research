@@ -4,7 +4,7 @@ Angewandte Forschungsprojekte, je Projekt ein eigener Ordner.
 
 | Projekt | Fragestellung | Einstieg |
 |---|---|---|
-| A · Materialflussanalyse | Wie bewegen sich Materialien durch den Industriepark Kehrum (Kalkar), und wo lassen sie sich effizienter nutzen? | [projekt-a-materialfluss/](projekt-a-materialfluss/README.md) |
+| KreiswertS | Wie lassen sich Kunststoff-Reste in Kamp-Lintfort regional austauschen? Plattform-Prototyp mit Karte, Matching und drei Szenarien | [projekt-a-materialfluss/](projekt-a-materialfluss/README.md) |
 
 ## Seiten lokal öffnen
 
