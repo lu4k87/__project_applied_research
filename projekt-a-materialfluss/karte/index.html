@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=JetBrains+Mono:wght@400..700&family=Space+Grotesk:wght@500..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/maplibre-gl.css">
 <link rel="stylesheet" href="kreiswerts.css">
 </head>
 <body>
@@ -92,7 +93,7 @@
   <div class="plat">
     <div class="tile mapc">
       <div class="stage"><svg class="map" id="mapPlat" role="group"></svg></div>
-      <div class="hint"><span data-t="mapHint"></span><span class="legend" id="legendPlat"></span></div>
+      <div class="hint"><span data-t="mapHint"></span><span id="geoHint"></span><span class="legend" id="legendPlat"></span></div>
     </div>
     <div class="tile panel">
       <div class="tabs" role="tablist" id="ptabs">
@@ -146,6 +147,7 @@
 </main>
 <footer class="foot"><div class="wrap" data-t="foot"></div></footer>
 <script src="daten.js"></script>
+<script src="vendor/pmtiles.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

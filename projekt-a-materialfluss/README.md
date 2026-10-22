@@ -29,12 +29,15 @@ Direktlinks: `?lang=de|en` (ohne Angabe Browsersprache), `?theme=light|dark` (oh
 |---|---|
 | `karte/index.html` | Gerüst: Schritt-Leiste + 6 Bereiche (Überblick, Prinzip, Plattform, Szenarien, Projekt, Einordnung) |
 | `karte/daten.js` | alle Daten der Region (DE/EN): Karte, Firmen, Angebote, Bedarfe, Matching-Regeln, Szenarien, Projekttexte, Personas, Plattform-Vergleich |
-| `karte/app.js` | Matching, Karte (SVG), Plattform, Scrollytelling, Selbsttest, Sprache + Theme |
+| `karte/app.js` | Matching, Karte (SVG-Lage: Wege, Firmen; ohne Grundkarte schematisch), Plattform, Scrollytelling, Selbsttest, Sprache + Theme |
+| `karte/grundkarte.js` | echte Grundkarte (MapLibre + PMTiles): Lagebild + Szenarien fest auf der Region, Plattform mit Ebenen Deutschland → Land → Kreis → Gemeinde (Pfadleiste + Zurück, Esc) |
+| `karte/geo/` | Kartendaten: `de.pmtiles` (bis Zoom 8), `region.pmtiles` (Region bis Zoom 14, lädt erst beim Hineinzoomen), `grenzen/` (VG250, Gemeinden je Land), `fonts/`; Herkunft, Lizenzen, Befehle: [`QUELLEN.md`](karte/geo/QUELLEN.md) |
+| `karte/vendor/` | MapLibre GL 6.15 + pmtiles 4.5 lokal, mit Lizenztexten |
 | `karte/kreiswerts.css` | Look: hell = Aqua-Weiß mit Petrol, dunkel = Nachtblau mit Gold |
 
 **Matching:** Pflicht = gleiches Polymer, passende Form und Qualität; Wert = Qualität 30 % + Menge 35 % + Nähe 35 % (Luftlinie, ab 25 km null). Rechnerisches Austauschpotenzial: Paare nach Wert, jede Tonne Angebot und Bedarf nur einmal vergeben.
 
-**Replikation:** eine andere Region ersetzt nur `daten.js` – Karte, Matching, Szenarien und Selbsttest passen sich an.
+**Replikation:** eine andere Region ersetzt `daten.js` (inkl. `region.ags` = Startebene) und `geo/region.pmtiles` (Befehl in `geo/QUELLEN.md`) – Karte, Matching, Szenarien und Selbsttest passen sich an. `?schematic` zeigt die eigene schematische Karte ohne Grundkarte.
 
 ## Daten
 
