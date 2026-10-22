@@ -17,6 +17,7 @@ Ergänzt die gemeinsamen Regeln aller Projekte (`~/.claude/CLAUDE.md` → `~/ai_
 | `README.md` | Übersicht aller Teilprojekte + Start-Befehl |
 | `projekt-a-materialfluss/` | KreiswertS (löst die Kehrum-Karte ab): `README.md` (Ziele, Stand, Aufbau), `karte/` (Prototyp) |
 | `projekt-a-materialfluss/karte/` | Prototyp KreiswertS: `index.html` (Gerüst), `daten.js` (alle Daten der Region, DE/EN – Replikation tauscht nur diese Datei), `app.js` (Matching, Karte, Selbsttest), `grundkarte.js` (MapLibre-Grundkarte, Ebenen der Plattform), `geo/` (Kartendaten + `QUELLEN.md`), `vendor/` (MapLibre, pmtiles), `kreiswerts.css` |
+| `TODOS.md` | offene Punkte aller Teilprojekte (Backlog) |
 | `AGENTS.md` | diese Regeln (`GEMINI.md` = Link darauf) |
 | `.claude/memory/` | Projekt-Memory, Index `MEMORY.md` (Claude lädt ihn selbst, Codex/Gemini lesen ihn zu Beginn) |
 | Schatzkammer `~/ai_dev_workflow_global/__treasury__allprojects/applied_research/` | Vorschauen, Varianten, Ideen (nicht hier im Repo) |
