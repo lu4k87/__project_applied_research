@@ -1,4 +1,5 @@
 [Claude] [KreiswertS] Section Prinzip animieren + Farben prüfen
+übernommen von dev-ws-49 am 2026-10-22 22:31
 Rückmeldung an: dev-ws-27
 Kontext: KreiswertS-Prototyp (~/__project_applied_research, Stand 069e296),
   Section „Prinzip“ (#prinzip, index.html Z. 63-83) hat 3 Kacheln:
