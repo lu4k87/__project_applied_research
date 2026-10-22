@@ -1,4 +1,5 @@
 [Claude] [Applied Research] KreiswertS: Section Projekt umsetzen
+übernommen von dev-ws-f2 am 2026-10-22 20:13
 Rückmeldung an: dev-ws-99
 Kontext: Vorschau „Redesign der Kacheln in der Section Projekt“
   entschieden 2026-10-22 (Schatzkammer applied_research/vorschauen/
