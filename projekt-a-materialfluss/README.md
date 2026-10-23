@@ -27,7 +27,7 @@ Direktlinks: `?lang=de|en` (ohne Angabe Browsersprache), `?theme=light|dark` (oh
 
 | Datei | Inhalt |
 |---|---|
-| `karte/index.html` | Gerüst: Schritt-Leiste + 6 Bereiche (Überblick, Prinzip, Plattform, Szenarien, Projekt, Einordnung) |
+| `karte/index.html` | Gerüst: Logo (S-Schleife, auch `favicon.svg`), Schritt-Leiste + 7 Bereiche (Überblick, Prinzip, Plattform, Szenarien, Projekt, Einordnung, Funktionen) |
 | `karte/daten.js` | alle Daten der Region (DE/EN): Karte, Firmen, Angebote, Bedarfe, Matching-Regeln, Szenarien, Projekttexte, Personas, Plattform-Vergleich |
 | `karte/app.js` | Matching, Karte (SVG-Lage: Wege, Firmen; ohne Grundkarte schematisch), Plattform, Scrollytelling, Selbsttest, Sprache + Theme |
 | `karte/grundkarte.js` | echte Grundkarte (MapLibre + PMTiles): Lagebild + Szenarien fest auf der Region, Plattform mit Ebenen Deutschland → Land → Kreis → Gemeinde (Pfadleiste + Zurück, Esc) |
