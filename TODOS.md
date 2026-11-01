@@ -6,7 +6,7 @@ Offene Punkte der Teilprojekte. Neue Punkte nur auf Wunsch des Users; Erledigtes
 
 | Nr | Bereich | Punkt | Stand | Quelle |
 |---|---|---|---|---|
-| – | – | keine offenen Punkte | – | – |
+| A2 | KreiswertS · öffentliche Karte | Gäste sehen wie in der Mock-API nur grobe Angaben: Polymer, Menge gerundet, Gemeinde – keine Firmennamen (Karte, Börse, Profile, Szenarien) | Offen – Entscheidung F1 „ja“ vom 2026-11-01, Umsetzung später | [Claude] dev-ws-fe, nach Konten-Umsetzung `48f53dc` |
 
 ## Erledigt
 
