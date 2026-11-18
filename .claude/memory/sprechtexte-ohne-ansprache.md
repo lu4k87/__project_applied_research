@@ -9,6 +9,8 @@ Sprechtexte für die Folien immer **ohne Personalpronomen der Ansprache**: kein 
 
 Abkürzungen wie **ORM** im Sprechtext ausschreiben („das Object-Relational Mapping, kurz ORM“); User 2026-11-18: „ORM -> im sprechtext ausschreiben..“.
 
+Jedes Tool (TypeScript, Next.js, Node.js, Better Auth, Zod, Data Access Layer, ORM) **bei der ersten Nennung in einem Halbsatz erklären** (was es ist/macht); User 2026-11-18.
+
 Sprechtext **an der Folienüberschrift ausrichten**: Einstieg nennt Titel + Untertitel-Idee, Gliederung folgt deren Teilen (z. B. „Tech-Stack“ → „Weg einer Anfrage“); User 2026-11-18: „die sprechtexte auch passend zur überschrift der folie..“.
 
 **Why:** User 2026-11-18 zur ersten Fassung der Sprechtexte Folie 1+2: „Wir/ihr... -> nein! ohne wir/ihr usw“.
