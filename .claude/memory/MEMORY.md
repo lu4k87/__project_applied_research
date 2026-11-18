@@ -2,3 +2,4 @@
 - [Projekt A Materialfluss](project-goal-projekt-a.md) — Kehrum-Karte bis 2026-10-22 (Vorgänger), Doppelarbeit mit Gemini-Chat, echte Firmen nur mit Quelle
 - [Datenmodell für App-Folien](app-architektur-datenmodell.md) — Tabellen + Begriffe laut ER-Diagramm 2026-11-18 für die 3 Folien (Folie 3 = ER-Diagramm); Folien bleiben bei „Matches“, E-Mail-Funktion entfernt
 - [Folien: immer beide URLs](folien-beide-urls.md) — nach Folien-Änderung Links zu Folie 1 + 2 nennen (8096, EN + DE), nie nur die geänderte
+- [Sprechtexte ohne Ansprache](sprechtexte-ohne-ansprache.md) — Folien-Sprechtexte ohne wir/ihr/du/man/uns, neutral formulieren
