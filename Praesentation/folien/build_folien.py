@@ -39,7 +39,7 @@ EN = {
     "Routing + API": "Routing + API", "Next.js Routing\u00a0+\u00a0API": "Next.js Routing\u00a0+\u00a0API",
     "Benutzeroberfläche": "User interface", "Sicherheit": "Security", "Daten": "Data",
     "Funktion:": "Function:", "Automatische E-Mails": "Automated emails", "Mail-Dienst": "Email service",
-    "Gast": "Guest", "ohne Cookie": "no cookie", "Ohne": "Not", "Login": "logged in",
+    "Gast": "Guest", "Mitglied": "Member", "ohne Cookie": "no cookie", "Ohne": "Not", "Login": "logged in",
     "Standort": "Site", "+ Login": "+ logged in", "Frontend · Browser": "Frontend · browser",
     "mit Session-Cookie": "with session cookie",
     "Next.js-Server auf Node.js · für Besucher unsichtbar": "Next.js server on Node.js · hidden from visitors",
@@ -49,7 +49,6 @@ EN = {
     "Autorisierung": "Authorization", "Was darf Gast oder Mitglied sehen?": "What may guest or member see?",
     "Baut sichere": "Builds safe", "SQL-Abfragen": "SQL queries",
     "Datenbank": "Database", "Standorte, Nutzer, Materialien, Angebote, Matches": "Sites, users, materials, offers, matches",
-    "→ Folie 3": "→ slide 3",
     "Gast sieht": "Guest sees", "Mitglied sieht": "Member sees",
     "• Titel + Material": "• Title + material", "• Menge + Stadt": "• Quantity + city",
     "• Registrieren": "• Sign up", "• Login": "• Log in", "• E-Mail bestätigen": "• Confirm email",
@@ -57,45 +56,6 @@ EN = {
     "• + Preis + Beschreibung": "• + Price + description", "• + Kontakt": "• + Contact",
     "• Match anfragen": "• Request a match", "• Angebote einstellen": "• Post offers",
     "• Eigene Matches": "• Own matches", "• E-Mail-Erinnerung,..": "• Email reminder,..",
-    "• Industriestandard": "• Industry standard", "• Sicherer Login + Rechte": "• Secure login + access",
-    "• Zeitgesteuerte Jobs": "• Scheduled jobs", "• TypeScript überall": "• TypeScript everywhere",
-    "• Typsichere Datenbank": "• Type-safe database", "• Erinnerungs-E-Mails,..": "• Reminder emails,..",
-    "Datenbank und 7-Tage-Job": "Database and 7-Day Job",
-    "PostgreSQL hält 5 Tabellen. Ein Hintergrund-Job erinnert nach 7 Tagen jeden Standort ohne Match.":
-        "PostgreSQL holds 5 tables. A background job reminds every site without a match after 7 days.",
-    "Links die fünf Tabellen nach dem UML-Datenmodell: Standorte (sites) mit genau einem Login (users), "
-    "Materialkatalog, Angebote und Matches; Linien zeigen die Beziehungen. Rechts der zeitgesteuerte Job: "
-    "BullMQ plant ihn bei der Registrierung, Redis hält ihn, der Worker zählt nach 7 Tagen die Matches "
-    "und verschickt nur bei 0 Matches eine Erinnerung.":
-        "Left: the five tables of the UML data model: sites with exactly one login (users), the material "
-        "catalog, offers and matches; lines show the relations. Right: the timed job. BullMQ plans it at "
-        "sign-up, Redis keeps it, after 7 days the worker counts the matches and sends a reminder only if there are 0.",
-    "PostgreSQL · 5 Tabellen": "PostgreSQL · 5 tables",
-    "Login eines Standorts": "Login of a site", "Betrieb mit Standort": "Business with its site",
-    "Materialkatalog": "Material catalog", "Angebot eines Standorts": "Offer of a site",
-    "Vom Mitglied angefragt": "Requested by a member",
-    "eindeutig": "unique", "7-Tage-Frist": "7-day timer", "optional": "optional",
-    "Mitglied": "Member",
-    "Primärschlüssel": "primary key", "verweist auf Tabelle": "points to a table",
-    "eins zu vielen": "one to many", "öffentlich sichtbar": "public", "nach Login": "after login",
-    "Kein Zugriff aus dem Browser: nur das Backend liest und schreibt.":
-        "No access from the browser: only the backend reads and writes.",
-    "Zugang": "login", "ordnet ein": "classifies", "Vereinbarung": "agreement",
-    "Verkäufer": "seller", "Käufer": "buyer",
-    "Hintergrund-Job · 7 Tage, ohne Browser": "Background job · 7 days, no browser",
-    "Job einplanen": "Plan the job",
-    "Bei der Registrierung, Frist ab users.created_at": "At sign-up, timer from users.created_at",
-    "Job-Speicher": "Job storage",
-    "Hält den Job, auch über Neustarts": "Keeps the job, even across restarts",
-    "Inaktivität prüfen": "Check inactivity",
-    "Zählt Matches, ab\u00a01\u00a0Match endet der Job": "Counts matches, ends at the first match",
-    "E-Mail bauen": "Build the email",
-    "React-Komponente, gerendert zu HTML": "React component, turned into HTML",
-    "Versand ins Postfach": "Delivery to the inbox",
-    "Noch offen: z. B. Resend, Postmark oder Amazon SES": "Not chosen yet: e.g. Resend, Postmark or Amazon SES",
-    "7 Tage verzögert": "7-day delay", "Job fällig": "job due",
-    "nur bei 0 Matches": "only if 0 matches", "Erinnerungs-E-Mail": "reminder email",
-    "Anzahl": "Match", "Matches": "count",
     "Software Architecture Stack: Was jeder Baustein tut": "Software Architecture Stack: What Each Building Block Does",
     "11 Bausteine zwischen Frontend und Datenbank – was sie tun und warum wir sie gewählt haben.":
         "11 building blocks between frontend and database – what they do and why we chose them.",
@@ -403,12 +363,11 @@ def slide_request(prs):
     db.adjustments[0] = 0.14
     db.line.width = Pt(1.25)
     text(s, dbx + 0.1, top + 0.3, dbw - 0.2, fh - 0.4,
-         [[run("PostgreSQL", 13, True, INK, TOOL)], [run("Standorte, Nutzer, Materialien, Angebote, Matches", 11)],
-          [run("→ Folie 3", 11, True, S3)]], align=C, anchor=M, space=4)
+         [[run("PostgreSQL", 13, True, INK, TOOL)], [run("Standorte, Nutzer, Materialien, Angebote, Matches", 11)]], align=C, anchor=M, space=4)
     arrow(s, dbx + dbw + 0.03, mid - 0.12, sx - 0.03, mid - 0.12, S3, both=True, width=2.5)
     text(s, dbx + dbw - 0.02, mid - 0.04, 0.46, 0.22, [[run("SQL", 10.5, True, S3)]], align=C)
 
-    # Antwort nach Rolle + Merksatz: Icon links, Text mittig daneben
+    # Antwort nach Rolle: Gast und Mitglied nebeneinander, als Paar mittig auf der Folie
     ry, rh = 6.16, 1.06
     rw = (12.333 - 2 * 0.2) / 3
     def bullets(x, y, w, cols, color, size=10.5):
@@ -427,7 +386,7 @@ def slide_request(prs):
                  ["Angebote einstellen", "Eigene Matches", "E-Mail-Erinnerung,.."]])]
     bar = 0.3
     for i, (ic, head, field, cols) in enumerate(windows):
-        x = 0.5 + i * (rw + 0.2)
+        x = 0.5 + (12.333 - 2 * rw - 0.2) / 2 + i * (rw + 0.2)
         frame = box(s, x, ry, rw, rh, SURFACE, tint(S1, 0.45))
         frame.line.width = Pt(1.25)
         top_bar = box(s, x, ry, rw, bar, tint(S1, 0.14), shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)
@@ -441,15 +400,6 @@ def slide_request(prs):
         icon(s, ic, x + rw - 0.36, ry + 0.05, 0.2, S1)
         bullets(x + 0.2, ry + bar + 0.08, rw - 0.3, cols, INK)
 
-    # Benefits: Kopf mit Icon, darunter 2 Spalten Stichpunkte, linksbündig
-    x = 0.5 + 2 * (rw + 0.2)
-    box(s, x, ry, rw, rh, INK)
-    hw = label_width("Benefits", 13.5) + 0.06
-    text(s, x + 0.22, ry + 0.06, hw, 0.28, [[run("Benefits", 13.5, True, SURFACE)]], anchor=M)
-    icon(s, "badge-check", x + 0.22 + hw + 0.08, ry + 0.07, 0.26, ON_INK)  # Icon rechts neben dem Titel
-    benefits = [["Industriestandard", "Sicherer Login + Rechte", "Zeitgesteuerte Jobs"],
-                ["TypeScript überall", "Typsichere Datenbank", "Erinnerungs-E-Mails,.."]]
-    bullets(x + 0.22, ry + 0.44, rw - 0.32, benefits, ON_INK)  # oben = unten, Luft unter dem Titel
 
 
 # Folie 2: die 11 Bausteine des Stacks, je Karte Rolle, Name, was er tut, Alltagsvergleich, Grund der Wahl
@@ -573,142 +523,6 @@ def slide_stack(prs):
     text(s, x1 - 0.06, mids[0] - 0.3, rg + 0.12, 0.22, [[run("SQL", 10.5, True, S3)]], align=C)
 
 
-def slide_data_job(prs):
-    s = new_slide(
-        prs,
-        "Datenbank und 7-Tage-Job",
-        "PostgreSQL hält 5 Tabellen. Ein Hintergrund-Job erinnert nach 7 Tagen jeden Standort ohne Match.",
-        "Links die fünf Tabellen nach dem UML-Datenmodell: Standorte (sites) mit genau einem Login (users), "
-        "Materialkatalog, Angebote und Matches; Linien zeigen die Beziehungen. Rechts der zeitgesteuerte Job: "
-        "BullMQ plant ihn bei der Registrierung, Redis hält ihn, der Worker zählt nach 7 Tagen die Matches "
-        "und verschickt nur bei 0 Matches eine Erinnerung.",
-    )
-    C, M, R = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE, PP_ALIGN.RIGHT
-    FS = 9  # Feldzeilen
-
-    def col(name, *rest):
-        return [run(name, FS, True, INK, MONO)] + list(rest)
-
-    def tag(t, color=S3):
-        return run(" " + t, FS, True, color)
-
-    def note(t):
-        return run(" " + t, FS)
-
-    def fk(target):
-        return [tag("FK"), note("→ " + target)]
-
-    GUEST, MEMBER = (lambda: tag("Gast", S2)), (lambda: tag("Mitglied", S4))
-
-    # Raster: 3 Spalten × 2 Reihen, rechts daneben der Job; breite Lücke für den Pfeil „Anzahl Matches“
-    rw = 4.1
-    rx = 12.833 - rw
-    W, G = [1.85, 2.2, 2.0], [0.66, 0.9]
-    X = [0.5, 0.5 + W[0] + G[0], 0.5 + W[0] + G[0] + W[1] + G[1]]
-    lw = X[2] + W[2] - 0.5
-    Y, H = [1.95, 4.75], [2.1, 2.5]
-    zone(s, 0.5, 1.6, lw, "PostgreSQL · 5 Tabellen", S3, "database")
-
-    tables = {
-        "users": (0, 0, "Login eines Standorts",
-                  [col("id", tag("PK")), col("site_id", *fk("sites")), col("email", note("eindeutig")),
-                   col("password_hash"), col("account_status"), col("created_at", tag("7-Tage-Frist", S4))]),
-        "sites": (1, 0, "Betrieb mit Standort",
-                  [col("id", tag("PK")), col("business_name"), col("branch_name"), col("city", GUEST()),
-                   col("latitude, longitude"), col("contact_email,..", MEMBER())]),
-        "materials": (0, 1, "Materialkatalog",
-                      [col("id", tag("PK")), col("code", note("eindeutig")), col("name", GUEST()),
-                       col("category"), col("impact_factor_*", note("optional"))]),
-        "offers": (1, 1, "Angebot eines Standorts",
-                   [col("id", tag("PK")), col("seller_site_id", *fk("sites")),
-                    col("material_id", *fk("materials")), col("title", GUEST()),
-                    col("available_quantity_kg", GUEST()), col("price_eur_per_kg", MEMBER()),
-                    col("description", MEMBER()), col("status,..")]),
-        "matches": (2, 1, "Vom Mitglied angefragt",
-                    [col("id", tag("PK")), col("offer_id", *fk("offers")), col("buyer_site_id", *fk("sites")),
-                     col("agreed_quantity_kg"), col("agreed_price_eur_per_kg"), col("status"),
-                     col("completed_at", note("optional")), col("actual_quantity_kg,..")]),
-    }
-    hh = 0.62
-    for name, (c, r, desc, cols) in tables.items():
-        x, y, w, h = X[c], Y[r], W[c], H[r]
-        box(s, x, y, w, h, SURFACE, LINE)
-        head = box(s, x, y, w, hh, tint(S3, 0.14), shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)
-        head.adjustments[0] = 0.09 / hh
-        text(s, x + 0.08, y, w - 0.16, hh, [[run(name, 14, True, INK, MONO)], [run(desc, 10, True, S3)]],
-             align=C, anchor=M, space=1)
-        text(s, x + 0.12, y + hh + 0.1, w - 0.2, h - hh - 0.15, cols, space=2)
-
-    # Legende oben rechts
-    lx_, ly_ = X[2], Y[0]
-    box(s, lx_, ly_, W[2], H[0], tint(S3, 0.06), LINE)
-    text(s, lx_ + 0.14, ly_ + 0.12, W[2] - 0.24, H[0] - 0.2, [
-        [run("PK", 10, True, S3), run(" Primärschlüssel", 10)],
-        [run("FK", 10, True, S3), run(" verweist auf Tabelle", 10)],
-        [run("1:n", 10, True, S3), run(" eins zu vielen", 10)],
-        [run("Gast", 10, True, S2), run(" öffentlich sichtbar", 10)],
-        [run("Mitglied", 10, True, S4), run(" nach Login", 10)],
-        [run("Kein Zugriff aus dem Browser: nur das Backend liest und schreibt.", 10)]], space=3)
-
-    def link(x1, y1, x2, y2):
-        c = slide_line(s, x1, y1, x2, y2, S3)
-        return c
-
-    def hlabel(x1, x2, y, card, role):
-        """Kardinalität über, Rolle unter einer waagerechten Linie."""
-        text(s, x1, y - 0.25, x2 - x1, 0.22, [[run(card, 10, True, S3)]], align=C)
-        text(s, x1, y + 0.04, x2 - x1, 0.22, [[run(role, 9, True, S3)]], align=C)
-
-    # users 1:1 sites · materials 1:n offers · offers 1:n matches (waagerecht)
-    for (c, r, card, role) in [(0, 0, "1:1", "Zugang"), (0, 1, "1:n", "ordnet ein"), (1, 1, "1:n", "Vereinbarung")]:
-        x1, x2, y = X[c] + W[c], X[c + 1], Y[r] + (0.95 if r == 0 else 1.1)
-        link(x1, y, x2, y)
-        hlabel(x1, x2, y, card, role)
-    # sites 1:n offers (senkrecht) · sites 1:n matches (Winkel durch die Lücke zwischen den Reihen)
-    gy0, gy1 = Y[0] + H[0], Y[1]
-    vx = X[1] + 0.5 * W[1]
-    link(vx, gy0, vx, gy1)
-    text(s, X[1], gy0 + 0.08, vx - X[1] - 0.08, gy1 - gy0 - 0.16,
-         [[run("1:n", 10, True, S3), run(" Verkäufer", 9.5, True, S3)]], align=R, anchor=M)
-    ex, my, tx = X[1] + 0.85 * W[1], (gy0 + gy1) / 2, X[2] + W[2] / 2
-    link(ex, gy0, ex, my)
-    link(ex, my, tx, my)
-    link(tx, my, tx, gy1)
-    text(s, ex + 0.1, my - 0.26, tx - ex - 0.2, 0.22,
-         [[run("1:n", 10, True, S3), run(" Käufer", 9.5, True, S3)]], align=C)
-
-    # 7-Tage-Job, senkrecht
-    zone(s, rx, 1.6, rw, "Hintergrund-Job · 7 Tage, ohne Browser", S4, "clock")
-    icons = ["clock", "hard-drive", "search", "mail", "send"]
-    steps = [("BullMQ Queue", "Job einplanen", "Bei der Registrierung, Frist ab users.created_at"),
-             ("Redis", "Job-Speicher", "Hält den Job, auch über Neustarts"),
-             ("BullMQ Worker", "Inaktivität prüfen", "Zählt Matches, ab\u00a01\u00a0Match endet der Job"),
-             ("React Email", "E-Mail bauen", "React-Komponente, gerendert zu HTML"),
-             ("Mail-Dienst", "Versand ins Postfach", "Noch offen: z. B. Resend, Postmark oder Amazon SES")]
-    hops = ["7 Tage verzögert", "Job fällig", "nur bei 0 Matches", "Erinnerungs-E-Mail"]
-    sy0, sh, d = 1.95, 0.8, 0.4
-    sgap = (Y[1] + H[1] - sy0 - 5 * sh) / 4
-    ax = rx + 0.16 + d / 2
-    for i, (name, role, desc) in enumerate(steps):
-        y = sy0 + i * (sh + sgap)
-        box(s, rx, y, rw, sh, tint(S4, 0.1))
-        step(s, rx + 0.16, y + (sh - d) / 2, i + 1, S4, d=d)
-        icon(s, icons[i], rx + rw - 0.44, y + (sh - 0.3) / 2, 0.3, S4)
-        text(s, rx + 0.68, y, rw - 1.18, sh,
-             [[run(name, 12, True, INK, TOOL), run("  " + role, 11, True, S4)], [run(desc, 11)]],
-             anchor=M, space=2)
-        if i < 4:
-            arrow(s, ax, y + sh + 0.03, ax, y + sh + sgap - 0.03, S4, width=2.5)
-            text(s, ax + 0.2, y + sh, rw - 0.6, sgap, [[run(hops[i], 11, True, S4)]], anchor=M)
-
-    # matches → Worker (gestrichelt: der Worker liest die Anzahl der Matches)
-    worker_y = sy0 + 2 * (sh + sgap)
-    ay = (max(Y[1], worker_y) + min(Y[1] + H[1], worker_y + sh)) / 2
-    x1, x2 = X[2] + W[2], rx
-    arrow(s, x1 + 0.04, ay, x2 - 0.04, ay, S4, dashed=True, width=2.25)
-    text(s, x1, ay - 0.5, x2 - x1, 0.44, lines("Anzahl\nMatches", 10, True, S4), align=C, anchor=MSO_ANCHOR.BOTTOM)
-
-
 def main():
     global LANG
     for LANG in ("de", "en"):
@@ -716,7 +530,6 @@ def main():
         prs.slide_width, prs.slide_height = Emu(12192000), Emu(6858000)  # 16:9, 13,333 × 7,5 Zoll
         slide_request(prs)
         slide_stack(prs)
-        slide_data_job(prs)
         prs.core_properties.title = tr("App-Architektur")
         prs.core_properties.language = {"de": "de-DE", "en": "en-US"}[LANG]
         prs.save(OUT[LANG])
