@@ -1,4 +1,5 @@
 [Folien] Neue Folie 2: Software Architecture Stack erklären
+übernommen von dev-ws-4c am 2026-11-18 17:54
 Rückmeldung an: [Claude] dev-ws-d5
 Kontext: Repo ~/__project_applied_research, Folien in
   Praesentation/folien/ (build_folien.py → App-Architektur.pptx DE +
