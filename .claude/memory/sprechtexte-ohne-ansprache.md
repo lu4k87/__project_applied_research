@@ -9,6 +9,8 @@ Sprechtexte für die Folien immer **ohne Personalpronomen der Ansprache**: kein 
 
 Abkürzungen wie **ORM** im Sprechtext ausschreiben („das Object-Relational Mapping, kurz ORM“); User 2026-11-18: „ORM -> im sprechtext ausschreiben..“.
 
+Sprechtext **an der Folienüberschrift ausrichten**: Einstieg nennt Titel + Untertitel-Idee, Gliederung folgt deren Teilen (z. B. „Tech-Stack“ → „Weg einer Anfrage“); User 2026-11-18: „die sprechtexte auch passend zur überschrift der folie..“.
+
 **Why:** User 2026-11-18 zur ersten Fassung der Sprechtexte Folie 1+2: „Wir/ihr... -> nein! ohne wir/ihr usw“.
 
 **How to apply:** Gilt für alle Sprechtexte/Notizen der Präsentation (DE + EN: kein „we/you“). Vor Abgabe Text nach diesen Wörtern durchsuchen. Ton weiter locker-sachlich, nichts von der Folie ablesen. Verwandt: [[app-architektur-datenmodell]]
