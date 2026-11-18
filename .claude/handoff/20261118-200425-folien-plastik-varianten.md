@@ -1,4 +1,5 @@
 [Claude] [Folien] 2 neue Folien Plastik-Hub: je 3 Varianten zeigen
+übernommen von dev-ws-b3 am 2026-11-18 20:04
 Rückmeldung an: dev-ws-2d
 Kontext: Deck Praesentation/folien/ hat 2 Folien (Folie 1 Tech-Stack +
   Weg einer Anfrage, Folie 2 Software Architecture Stack), gebaut mit
