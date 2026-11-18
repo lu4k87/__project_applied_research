@@ -225,7 +225,8 @@
 
   @media (max-width:1080px){
     .connect{grid-template-columns:1fr;gap:18px;max-width:620px}
-    .fig{padding:10px}
+    .fig{padding:10px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+    .fig svg{min-width:900px}
     .layers,.be-cols{grid-template-columns:1fr;gap:0}
     .wrap{max-width:620px}
     svg#wires,.legend .wide{display:none}
