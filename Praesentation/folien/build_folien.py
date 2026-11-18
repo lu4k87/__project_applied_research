@@ -79,8 +79,8 @@ EN = {
         "Framework on React for pages and API. Every file in the app/ folder becomes an address.",
     "/offers zeigt die Liste, /offers/[id] ein einzelnes Angebot":
         "/offers shows the list, /offers/[id] a single offer",
-    "Frontend und Backend in einem Projekt":
-        "frontend and backend in one project",
+    "ein Projekt statt zwei: Seiten und API teilen Code, Typen und ein Deployment":
+        "one project instead of two: pages and API share code, types and one deployment",
     "Führt den Server-Code aus: nimmt Anfragen an und hält die Verbindung zur Datenbank.":
         "Runs the server code: takes requests and keeps the connection to the database.",
     "bearbeitet viele Anfragen gleichzeitig, ohne zu blockieren":
@@ -450,7 +450,8 @@ STACK = {  # Schlüssel: (Name, Rolle, Icon, Farbe, was er tut, Beispiel im Proj
         "ein Angebot hat einen Titel (Text) und eine Menge (Zahl)", "eine Sprache für Frontend, Backend und Datenzugriff"),
     "next": ("Next.js", "Framework", "layers", INK,
         "Framework auf React für Seiten und API. Jede Datei im Ordner app/ wird zu einer Adresse.",
-        "/offers zeigt die Liste, /offers/[id] ein einzelnes Angebot", "Frontend und Backend in einem Projekt"),
+        "/offers zeigt die Liste, /offers/[id] ein einzelnes Angebot",
+        "ein Projekt statt zwei: Seiten und API teilen Code, Typen und ein Deployment"),
     "node": ("Node.js", "Laufzeit", "cpu", INK,
         "Führt den Server-Code aus: nimmt Anfragen an und hält die Verbindung zur Datenbank.",
         "bearbeitet viele Anfragen gleichzeitig, ohne zu blockieren", "Standard-Laufzeit für Next.js, gleiche Sprache wie im Browser"),
