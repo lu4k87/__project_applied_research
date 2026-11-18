@@ -5,10 +5,10 @@ metadata:
   type: project
 ---
 
-Das Deck in `Praesentation/folien/` hat 2 Folien: Folie 1 (Tech-Stack + Weg einer Anfrage) und Folie 2 (Software Architecture Stack: 7 Bausteine). Die UML-Folie ist gestrichen (User 2026-11-18). Das Datenmodell bleibt nur als Wissen, damit Begriffe auf beiden Folien dazu passen. Die Datenbank präsentiert eine andere Person direkt danach, das Frontend eine andere Gruppe.
+Das Deck in `Praesentation/folien/` hat 3 Folien: Folie 1 (Tech-Stack + Weg einer Anfrage), Folie 2 (Software Architecture Stack: 7 Bausteine), Folie 3 (ER-Diagramm „Erstes Datenmodell“, alle Felder + Typen 1:1 aus dem Bild des Users, Krähenfuß-Linien; `slide_db`). Die alte UML-Folie war am 2026-11-18 gestrichen, Folie 3 hat der User am selben Tag ausdrücklich neu bestellt. Die Datenbank präsentiert eine andere Person direkt danach, das Frontend eine andere Gruppe.
 
 **Why:** User: „UML-Folie kann weg, nur Tabellen und Namen/Begriffe merken für die 2 Folien.“ Abgleich mit dem ER-Diagramm am 2026-11-18: Tabelle heißt dort `agreements`, die Folien bleiben trotzdem bei „Matches“ (User-Entscheidung). Die Funktion „Automatische E-Mails“ (7-Tage-Erinnerung, BullMQ, Redis, React Email, Mail-Dienst) hat der User am selben Tag ganz aus den Folien entfernt.
-**How to apply:** Texte auf Folie 1/2 gegen diese Liste prüfen; „Matches“ nicht in „Vereinbarungen“ ändern; E-Mail-Zeile und 7-Tage-Job nicht wieder einbauen; keine eigene Datenbank-Folie mehr bauen.
+**How to apply:** Texte auf Folie 1/2 gegen diese Liste prüfen; „Matches“ nicht in „Vereinbarungen“ ändern; E-Mail-Zeile und 7-Tage-Job nicht wieder einbauen; Folie 3 zeigt die Tabellennamen wie im ER-Diagramm (`agreements`, Untertitel „Match: Käufer + Angebot“); sites–users ist dort 1:1 (beide Enden ||).
 
 PostgreSQL, 5 Tabellen (ER-Diagramm 2026-11-18):
 - **users** (Login eines Standorts): id PK, site_id FK→sites, email (U), password, account_status – kein created_at

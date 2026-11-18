@@ -5,8 +5,8 @@ metadata:
   type: feedback
 ---
 
-Nach jeder Änderung an `Praesentation/folien/` immer **beide** Folien-URLs nennen, nicht nur die geänderte Folie:
-`http://localhost:8096/Praesentation/folien/slide-1-en.png`, `…/slide-2-en.png` (DE: `folie-1.png`, `folie-2.png`).
+Nach jeder Änderung an `Praesentation/folien/` immer **alle** Folien-URLs nennen, nicht nur die geänderte Folie:
+`http://localhost:8096/Praesentation/folien/slide-1-en.png`, `…/slide-2-en.png`, `…/slide-3-en.png` (DE: `folie-1.png`, `folie-2.png`, `folie-3.png`).
 
 **Why:** Der User (2026-11-18): „gib immer beide folien urls!“. Er hatte nachgefragt, weil nur eine Folie verlinkt war.
 

@@ -1,4 +1,4 @@
-"""Erzeugt die 2 Folien (16:9) aus der Architektur-Seite Praesentation/index.html.
+"""Erzeugt die 3 Folien (16:9) aus der Architektur-Seite Praesentation/index.html.
 
 Ausgabe: App-Architektur.pptx (deutsch) und App-Architecture-EN.pptx (englisch);
 PNGs (1920 × 1080) per LibreOffice:
@@ -115,6 +115,25 @@ EN = {
         "The building blocks of the stack: what they do, an example from the app and why we chose them.",
     "Beispiel:": "Example:", "Warum": "Why", "Grundlage": "foundation",
     "App-Architektur": "App Architecture",
+    "Datenbank: Erstes Datenmodell": "Database: Initial Database Design",
+    "5 Tabellen in PostgreSQL. Jede Linie verbindet einen Fremdschlüssel (FK) mit der id der Zieltabelle.":
+        "5 tables in PostgreSQL. Each line links a foreign key (FK) to the id of the target table.",
+    "Das erste Datenmodell: fünf Tabellen in PostgreSQL. Ein Standort (sites) hat genau einen Login (users), "
+    "verkauft über Angebote (offers) Materialien aus dem Katalog (materials) und kauft über Matches "
+    "(agreements) die Angebote anderer Standorte.":
+        "The initial data model: five tables in PostgreSQL. A site has exactly one login (users), sells "
+        "materials from the catalog through offers and buys other sites' offers through matches (agreements).",
+    "Betrieb mit Standort": "Business with a location", "Login eines Standorts": "Login of a site",
+    "Materialkatalog": "Material catalog", "Angebot eines Standorts": "Offer from a site",
+    "Match: Käufer + Angebot": "Match: buyer + offer",
+    "Verkäufer": "seller", "Käufer": "buyer",
+    "Legende": "Legend", "Primärschlüssel": "primary key", "Fremdschlüssel → id einer anderen Tabelle":
+        "foreign key → id of another table", "eindeutig (unique)": "unique", "darf leer sein (nullable)":
+        "may be empty (nullable)", "genau eins": "exactly one", "keins bis viele": "zero to many",
+    "Beziehungen": "Relationships", "1 Standort : 1 Login": "1 site : 1 login",
+    "1 Standort : n Angebote (verkauft)": "1 site : n offers (sells)",
+    "1 Standort : n Matches (kauft)": "1 site : n matches (buys)",
+    "1 Material : n Angebote": "1 material : n offers", "1 Angebot : n Matches": "1 offer : n matches",
 }
 MISSING = set()
 
@@ -580,6 +599,192 @@ def slide_stack(prs):
     text(s, x1 - 0.06, mid - 0.3, rg + 0.12, 0.22, [[run("SQL", 10.5, True, S3)]], align=PP_ALIGN.CENTER)
 
 
+# Datenmodell laut ER-Diagramm „Initial Database Design“: (Schlüssel, Spalte, Typ)
+DB_TABLES = {
+    "sites": ("Betrieb mit Standort", [
+        ("PK", "id", "BIGINT"), ("", "company_name", "VARCHAR(200)"), ("", "branch_name", "VARCHAR(200)"),
+        ("N", "description", "TEXT"), ("", "street_address", "VARCHAR(255)"), ("", "postal_code", "VARCHAR(20)"),
+        ("", "city", "VARCHAR(100)"), ("", "latitude", "NUMERIC(9,6)"), ("", "longitude", "NUMERIC(9,6)"),
+        ("", "contact_name", "VARCHAR(150)"), ("", "contact_email", "VARCHAR(254)"),
+        ("", "contact_phone", "VARCHAR(30)")]),
+    "users": ("Login eines Standorts", [
+        ("PK", "id", "BIGINT"), ("FK", "site_id", "BIGINT"), ("U", "email", "VARCHAR(255)"),
+        ("", "password", "VARCHAR(255)"), ("", "account_status", "VARCHAR(20)")]),
+    "materials": ("Materialkatalog", [
+        ("PK", "id", "BIGINT"), ("U", "code", "VARCHAR(30)"), ("", "name", "VARCHAR(150)"),
+        ("", "category", "VARCHAR(100)"), ("", "impact_factor_kg_co2e_per_kg", "INTEGER")]),
+    "offers": ("Angebot eines Standorts", [
+        ("PK", "id", "BIGINT"), ("FK", "seller_site_id", "BIGINT"), ("FK", "material_id", "BIGINT"),
+        ("", "title", "VARCHAR(200)"), ("", "available_quantity_kg", "BIGINT"), ("", "price_eur_per_kg", "FLOAT"),
+        ("", "available_from", "DATETIME"), ("", "status", "VARCHAR(20)"), ("", "created_at", "TIMESTAMP"),
+        ("", "updated_at", "TIMESTAMP")]),
+    "agreements": ("Match: Käufer + Angebot", [
+        ("PK", "id", "BIGINT"), ("FK", "offer_id", "BIGINT"), ("FK", "buyer_site_id", "BIGINT"),
+        ("", "agreed_quantity_kg", "BIGINT"), ("", "agreed_price_eur_per_kg", "INTEGER"),
+        ("", "status", "VARCHAR(20)"), ("N", "buyer_confirmed_at", "TIMESTAMP"),
+        ("N", "seller_confirmed_at", "TIMESTAMP"), ("N", "actual_quantity_kg", "BIGINT"),
+        ("N", "completed_at", "TIMESTAMP"), ("N", "impact_factor_used", "INTEGER"), ("", "created_at", "TIMESTAMP")]),
+}
+
+
+def code(t, size=9, bold=False, color=INK):
+    """Bezeichner aus dem Code: nie übersetzt, Courier New."""
+    return dict(text=t, size=size, bold=bold, color=color, font=MONO)
+
+
+def mono_width(t, size, bold):
+    """Breite eines Courier-New-Texts in Zoll (Liberation Mono ist maßgleich)."""
+    from PIL import ImageFont
+    face = "Bold" if bold else "Regular"
+    font = ImageFont.truetype(f"/usr/share/fonts/truetype/liberation2/LiberationMono-{face}.ttf", int(size * 10))
+    return font.getlength(t) / 10 / 72
+
+
+def no_shadow(shape):
+    """Theme-Schatten abschalten (LibreOffice zeichnet ihn sonst)."""
+    shape._element.find(qn("p:style")).find(qn("a:effectRef")).set("idx", "0")
+
+
+def er_end(s, x, y, d, kind, color=S3):
+    """Krähenfuß-Ende an Punkt (x, y) der Tabellenkante; d = Richtung von der Tabelle weg.
+    kind „one“ = genau eins (||), „many“ = keins bis viele (o<)."""
+    dx, dy = {"l": (-1, 0), "r": (1, 0), "u": (0, -1), "d": (0, 1)}[d]
+    px, py = abs(dy), abs(dx)  # senkrecht zur Linie
+    if kind == "one":
+        for t in (0.08, 0.14):
+            cx, cy = x + dx * t, y + dy * t
+            slide_line(s, cx - px * 0.08, cy - py * 0.08, cx + px * 0.08, cy + py * 0.08, color, width=1.5)
+        return
+    tip = (x + dx * 0.15, y + dy * 0.15)
+    for o in (-0.09, 0, 0.09):
+        slide_line(s, tip[0], tip[1], x + px * o, y + py * o, color, width=1.5)
+    r, t = 0.05, 0.22
+    c = box(s, x + dx * t - r, y + dy * t - r, 2 * r, 2 * r, BG, line=color, shape=MSO_SHAPE.OVAL)
+    c.line.width = Pt(1.5)
+    no_shadow(c)
+
+
+def slide_db(prs):
+    s = new_slide(
+        prs,
+        "Datenbank: Erstes Datenmodell",
+        "5 Tabellen in PostgreSQL. Jede Linie verbindet einen Fremdschlüssel (FK) mit der id der Zieltabelle.",
+        "Das erste Datenmodell: fünf Tabellen in PostgreSQL. Ein Standort (sites) hat genau einen Login (users), "
+        "verkauft über Angebote (offers) Materialien aus dem Katalog (materials) und kauft über Matches "
+        "(agreements) die Angebote anderer Standorte.",
+    )
+    M = MSO_ANCHOR.MIDDLE
+    FS, RH, HH = 9, 0.172, 0.5  # Schrift der Feldzeilen, Zeilenhöhe, Kopfhöhe
+    KW, PAD, CG = 0.3, 0.12, 0.14  # Schlüssel-Spalte, Innenabstand, Abstand Name | Typ
+
+    def widths(names):
+        nw = max(mono_width(c[1], FS, True) for n in names for c in DB_TABLES[n][1])
+        tw = max(mono_width(c[2], FS, False) for n in names for c in DB_TABLES[n][1])
+        return nw, tw, PAD + KW + nw + CG + tw + PAD
+
+    def height(n):
+        return HH + 0.06 + len(DB_TABLES[n][1]) * RH + 0.08
+
+    def table(n, x, y, nw, w):
+        desc, cols = DB_TABLES[n]
+        h = height(n)
+        box(s, x, y, w, h, SURFACE, LINE)
+        head = box(s, x, y, w, HH, tint(S3, 0.14), shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)
+        head.adjustments[0] = 0.09 / HH
+        text(s, x + 0.08, y, w - 0.16, HH, [[code(n, 13, True)], [run(desc, 9.5, True, S3)]],
+             align=PP_ALIGN.CENTER, anchor=M, space=1)
+        by = y + HH + 0.06
+        # Trennlinien wie im ER-Diagramm: Schlüssel | Name | Typ
+        for lx in (x + PAD + KW - 0.06, x + PAD + KW + nw + CG / 2):
+            slide_line(s, lx, by - 0.02, lx, y + h - 0.06, LINE, width=0.75)
+        rows = {}
+        for i, (k, name, typ) in enumerate(cols):
+            ry = by + i * RH
+            if k:
+                text(s, x + PAD, ry, KW, RH, [[code(k, FS, True, S3)]], anchor=M)
+            text(s, x + PAD + KW, ry, nw + 0.05, RH, [[code(name, FS, True)]], anchor=M)
+            text(s, x + PAD + KW + nw + CG, ry, w - PAD - KW - nw - CG, RH, [[code(typ, FS)]], anchor=M)
+            rows[name] = ry + RH / 2
+        return rows, h
+
+    # 3 Spalten: sites über users | offers über agreements | materials + Legende
+    nb, _, wb = widths(["sites", "users"])
+    nc, _, wc = widths(["offers", "agreements"])
+    nd, _, wd = widths(["materials"])
+    gap = (12.333 - wb - wc - wd) / 2 - 0.15  # breite Lücken für Linien + Beschriftung
+    xb = (13.333 - wb - wc - wd - 2 * gap) / 2
+    xc, xd = xb + wb + gap, xb + wb + gap + wc + gap
+    vg = 0.52  # senkrechter Abstand zwischen zwei Tabellen (Platz für die Linien-Enden)
+    y0 = 1.5
+
+    sites, hs = table("sites", xb, y0, nb, wb)
+    offers, ho = table("offers", xc, y0, nc, wc)
+    ya = y0 + ho + vg
+    agr, ha = table("agreements", xc, ya, nc, wc)
+    yu = ya + ha - height("users")  # users unten bündig mit agreements
+    users, hu = table("users", xb, yu, nb, wb)
+    mats, hm = table("materials", xd, y0, nd, wd)
+
+    def link(pts):
+        for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
+            slide_line(s, x1, y1, x2, y2, S3)
+
+    def label(x, y, w, t):
+        text(s, x, y - 0.27, w, 0.22, [[run(t, 9.5, True, S3)]], align=PP_ALIGN.CENTER)
+
+    # sites 1 : 1 users (senkrecht, users.site_id)
+    ux = xb + wb / 2
+    link([(ux, y0 + hs), (ux, yu)])
+    er_end(s, ux, y0 + hs, "d", "one")
+    er_end(s, ux, yu, "u", "one")
+    # sites 1 : n offers (Verkäufer, offers.seller_site_id)
+    ys = offers["seller_site_id"]
+    link([(xb + wb, ys), (xc, ys)])
+    er_end(s, xb + wb, ys, "r", "one")
+    er_end(s, xc, ys, "l", "many")
+    label(xb + wb + 0.2, ys, gap - 0.4, "Verkäufer")
+    # sites 1 : n agreements (Käufer, agreements.buyer_site_id): Winkel durch die Lücke
+    yk, ex = agr["buyer_site_id"], xb + wb + gap / 2
+    ys2 = y0 + hs - 0.35
+    link([(xb + wb, ys2), (ex, ys2), (ex, yk), (xc, yk)])
+    er_end(s, xb + wb, ys2, "r", "one")
+    er_end(s, xc, yk, "l", "many")
+    label(ex, yk, xc - ex, "Käufer")
+    # materials 1 : n offers (offers.material_id)
+    ym = offers["material_id"]
+    link([(xd, ym), (xc + wc, ym)])
+    er_end(s, xd, ym, "l", "one")
+    er_end(s, xc + wc, ym, "r", "many")
+    # offers 1 : n agreements (agreements.offer_id), senkrecht
+    ox = xc + wc / 2
+    link([(ox, y0 + ho), (ox, ya)])
+    er_end(s, ox, y0 + ho, "d", "one")
+    er_end(s, ox, ya, "u", "many")
+
+    # Legende + Beziehungen unter materials, unten bündig mit agreements
+    ly, bottom = y0 + hm + vg, ya + ha
+    lh = 1.84
+    box(s, xd, ly, wd, lh, tint(S3, 0.06), LINE)
+    text(s, xd + 0.16, ly + 0.12, wd - 0.3, 0.25, [[run("Legende", 11, True, S3)]])
+    keys = [("PK", "Primärschlüssel"), ("FK", "Fremdschlüssel → id einer anderen Tabelle"),
+            ("U", "eindeutig (unique)"), ("N", "darf leer sein (nullable)")]
+    for i, (k, t) in enumerate(keys):
+        yy = ly + 0.42 + i * 0.2
+        text(s, xd + 0.16, yy, 0.32, 0.2, [[code(k, 9.5, True, S3)]], anchor=M)
+        text(s, xd + 0.62, yy, wd - 0.74, 0.2, [[run(t, 10)]], anchor=M)
+    for i, (kind, t) in enumerate([("one", "genau eins"), ("many", "keins bis viele")]):
+        yy = ly + 1.34 + i * 0.24 + 0.1  # Symbol links, Text in der Spalte der Erklärungen
+        slide_line(s, xd + 0.16, yy, xd + 0.5, yy, S3)
+        er_end(s, xd + 0.16, yy, "r", kind)
+        text(s, xd + 0.62, yy - 0.1, wd - 0.74, 0.2, [[run(t, 10)]], anchor=M)
+    ry = ly + lh + 0.2
+    box(s, xd, ry, wd, bottom - ry, tint(S3, 0.06), LINE)
+    rel = ["1 Standort : 1 Login", "1 Standort : n Angebote (verkauft)", "1 Standort : n Matches (kauft)",
+           "1 Material : n Angebote", "1 Angebot : n Matches"]
+    text(s, xd + 0.16, ry + 0.12, wd - 0.3, bottom - ry - 0.2,
+         [[run("Beziehungen", 11, True, S3)]] + [[run(t, 10)] for t in rel], space=2)
+
+
 def main():
     global LANG
     for LANG in ("de", "en"):
@@ -587,6 +792,7 @@ def main():
         prs.slide_width, prs.slide_height = Emu(12192000), Emu(6858000)  # 16:9, 13,333 × 7,5 Zoll
         slide_request(prs)
         slide_stack(prs)
+        slide_db(prs)
         prs.core_properties.title = tr("App-Architektur")
         prs.core_properties.language = {"de": "de-DE", "en": "en-US"}[LANG]
         prs.save(OUT[LANG])
