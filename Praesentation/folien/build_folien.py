@@ -65,26 +65,31 @@ EN = {
         "Top: the backend. TypeScript, Next.js and Node.js carry everything. Below, the chain of every request: "
         "Better Auth, Zod, Data Access Layer and Prisma/Drizzle. On the left the frontend hands over (other "
         "group), on the right it goes on to the database (next part).",
-    "Backend": "Backend", "trägt alles": "carries everything", "Jede Anfrage": "Every request",
+    "Backend": "Backend", "Jede Anfrage": "Every request",
     "andere Gruppe": "other group", "nächster Teil": "next part", "React-Seiten": "React pages",
-    "Frontend": "Frontend", "PostgreSQL": "PostgreSQL", "SQL": "SQL", "≈": "≈", "✓ Gewählt:": "✓ Chosen:",
+    "Frontend": "Frontend", "PostgreSQL": "PostgreSQL", "SQL": "SQL", 
     "Framework": "Framework", "ORM": "ORM",
-    "JavaScript mit Typen: Fehler zeigt schon der Editor.": "JavaScript with types: the editor shows errors early.",
-    "Rechtschreibprüfung für Code": "spell checker for code",
-    "eine Sprache für Browser und Server": "one language for browser and server",
-    "Liefert Seiten und API aus einem Projekt, auf React.": "Serves pages and API from one project, on React.",
-    "Rezeption für alle Anfragen": "front desk for all requests", "Seiten + API in einem Repo": "pages + API in one repo",
-    "Führt TypeScript auf dem Server aus.": "Runs TypeScript on the server.",
-    "Motor, der den Code antreibt": "engine that drives the code",
-    "gleiche Sprache wie im Browser": "same language as in the browser",
-    "Login, Session-Cookie, Passwort-Reset.": "Login, session cookie, password reset.",
-    "Ausweiskontrolle": "ID check at the door", "geprüft, Konten in unserer DB": "proven, accounts stay in our DB",
-    "Prüft jede Eingabe gegen ein Schema.": "Checks every input against a schema.",
-    "Türsteher mit Checkliste": "bouncer with a checklist", "Schema = Prüfung + Typ": "schema = check + type",
-    "Jeder Datenzugriff läuft hier durch.": "Every data access passes through here.",
-    "Akten nur mit Erlaubnis": "files only with permission", "Rechte an einer Stelle": "access rules in one place",
-    "Übersetzt TypeScript in SQL-Abfragen.": "Turns TypeScript into SQL queries.",
-    "Dolmetscher Code ↔ SQL": "interpreter code ↔ SQL", "typsicher, keine SQL-Injection": "type-safe, no SQL injection",
+    "JavaScript mit Typangaben; Fehler fallen schon beim Schreiben auf.":
+        "JavaScript with type annotations; errors show up while writing.",
+    "eine Sprache für Frontend und Backend": "one language for frontend and backend",
+    "Stellt Seiten und API-Endpunkte bereit.": "Serves pages and API endpoints.",
+    "Frontend und Backend in einem Projekt": "frontend and backend in one project",
+    "Führt den Server-Code aus.": "Runs the server code.",
+    "Standard-Laufzeit für Next.js": "standard runtime for Next.js",
+    "Verwaltet Login, Sitzung und Passwort-Reset.": "Handles login, session and password reset.",
+    "erkennt, ob ein Gast oder ein Mitglied anfragt": "tells whether a guest or a member is asking",
+    "Open Source, Nutzerkonten bleiben in unserer Datenbank": "open source, user accounts stay in our database",
+    "Prüft jede Eingabe gegen ein festes Schema.": "Checks every input against a fixed schema.",
+    "Menge in kg muss eine positive Zahl sein": "quantity in kg must be a positive number",
+    "ein Schema liefert Prüfung und TypeScript-Typ": "one schema gives the check and the TypeScript type",
+    "Alle Lese- und Schreibzugriffe auf Daten laufen hier durch.":
+        "All reads and writes of data pass through here.",
+    "Preis und Kontakt nur für Mitglieder": "price and contact for members only",
+    "Zugriffsregeln an einer Stelle statt verteilt": "access rules in one place instead of scattered",
+    "Übersetzt TypeScript-Aufrufe in SQL-Abfragen.": "Turns TypeScript calls into SQL queries.",
+    "alle Angebote eines Materials laden": "load all offers of one material",
+    "typsicher, schützt vor SQL-Injection": "type-safe, protects against SQL injection",
+    "Beispiel:": "Example:", "Grund:": "Reason:", "Grundlage": "foundation",
     "App-Architektur": "App Architecture",
 }
 MISSING = set()
@@ -390,21 +395,21 @@ def slide_request(prs):
 
 
 # Folie 2: die 7 Bausteine des Stacks, je Karte Rolle, Name, was er tut, Alltagsvergleich, Grund der Wahl
-STACK = {  # Schlüssel: (Name, Rolle, Icon, Farbe, was er tut, Alltagsvergleich, gewählt weil)
-    "ts": ("TypeScript", "Sprache", "file-code", INK, "JavaScript mit Typen: Fehler zeigt schon der Editor.",
-           "Rechtschreibprüfung für Code", "eine Sprache für Browser und Server"),
-    "next": ("Next.js", "Framework", "layers", INK, "Liefert Seiten und API aus einem Projekt, auf React.",
-             "Rezeption für alle Anfragen", "Seiten + API in einem Repo"),
-    "node": ("Node.js", "Laufzeit", "cpu", INK, "Führt TypeScript auf dem Server aus.",
-             "Motor, der den Code antreibt", "gleiche Sprache wie im Browser"),
-    "auth": ("Better Auth", "Authentifizierung", "key-round", S2, "Login, Session-Cookie, Passwort-Reset.",
-             "Ausweiskontrolle", "geprüft, Konten in unserer DB"),
-    "zod": ("Zod", "Validierung", "list-checks", S2, "Prüft jede Eingabe gegen ein Schema.",
-            "Türsteher mit Checkliste", "Schema = Prüfung + Typ"),
-    "dal": ("Data Access Layer", "Autorisierung", "eye", S2, "Jeder Datenzugriff läuft hier durch.",
-            "Akten nur mit Erlaubnis", "Rechte an einer Stelle"),
-    "orm": ("Prisma / Drizzle", "ORM", "database", S3, "Übersetzt TypeScript in SQL-Abfragen.",
-            "Dolmetscher Code ↔ SQL", "typsicher, keine SQL-Injection"),
+STACK = {  # Schlüssel: (Name, Rolle, Icon, Farbe, was er tut, Beispiel im Projekt, Grund der Wahl)
+    "ts": ("TypeScript", "Sprache", "file-code", INK, "JavaScript mit Typangaben; Fehler fallen schon beim Schreiben auf.",
+           None, "eine Sprache für Frontend und Backend"),
+    "next": ("Next.js", "Framework", "layers", INK, "Stellt Seiten und API-Endpunkte bereit.",
+             None, "Frontend und Backend in einem Projekt"),
+    "node": ("Node.js", "Laufzeit", "cpu", INK, "Führt den Server-Code aus.",
+             None, "Standard-Laufzeit für Next.js"),
+    "auth": ("Better Auth", "Authentifizierung", "key-round", S2, "Verwaltet Login, Sitzung und Passwort-Reset.",
+             "erkennt, ob ein Gast oder ein Mitglied anfragt", "Open Source, Nutzerkonten bleiben in unserer Datenbank"),
+    "zod": ("Zod", "Validierung", "list-checks", S2, "Prüft jede Eingabe gegen ein festes Schema.",
+            "Menge in kg muss eine positive Zahl sein", "ein Schema liefert Prüfung und TypeScript-Typ"),
+    "dal": ("Data Access Layer", "Autorisierung", "eye", S2, "Alle Lese- und Schreibzugriffe auf Daten laufen hier durch.",
+            "Preis und Kontakt nur für Mitglieder", "Zugriffsregeln an einer Stelle statt verteilt"),
+    "orm": ("Prisma / Drizzle", "ORM", "database", S3, "Übersetzt TypeScript-Aufrufe in SQL-Abfragen.",
+            "alle Angebote eines Materials laden", "typsicher, schützt vor SQL-Injection"),
 }
 
 
@@ -419,8 +424,8 @@ def fit_size(label, width, sizes=(12, 11.5, 11, 10.5)):
 
 
 def stack_card(s, x, y, w, h, key):
-    """Karte: Icon + Rolle + Name oben, darunter ein Textfluss (was · Vergleich · Grund) – nichts überlappt."""
-    name, role, ic, col, what, like, why = STACK[key]
+    """Karte: Icon + Rolle + Name oben, darunter ein Textfluss (was · Beispiel · Grund) – nichts überlappt."""
+    name, role, ic, col, what, example, why = STACK[key]
     p, nx = 0.12, 0.56
     box(s, x, y, w, h, tint(col, 0.1))
     icon(s, ic, x + p, y + 0.13, 0.34, col)
@@ -429,8 +434,8 @@ def stack_card(s, x, y, w, h, key):
          [[run(name, fit_size(name, w - nx - 0.1), True, INK, TOOL)]])
     text(s, x + p, y + 0.66, w - 2 * p, h - 0.74, [
         [run(what, 10.5)],
-        [run("≈ ", 10.5, True, col), run(like, 10.5, True, col)],
-        [run("✓ Gewählt:", 10, True, col), run(" " + why, 10)]], space=3)
+        [run("Beispiel:", 10, True, col), run(" " + example, 10)],
+        [run("Grund:", 10, True, col), run(" " + why, 10)]], space=4)
 
 
 def handover(s, x, y, w, h, ic, head, who, what, col):
@@ -453,7 +458,7 @@ def slide_stack(prs):
     )
     C, M = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE
     # Eine Kette: Backend-Band + Kartenreihe senkrecht mittig unter dem Untertitel (1,55–7,2 Zoll)
-    bh, zg, rh = 1.2, 0.36, 2.0
+    bh, zg, rh = 1.4, 0.36, 2.2
     y0 = 1.55 + (7.2 - 1.55 - (bh + zg + rh)) / 2
     y1, rw, rg = y0 + bh + zg + rh, 1.05, 0.34
     handover(s, 0.5, y0, rw, y1 - y0, "monitor", "Frontend", "andere Gruppe", "React-Seiten", S1)
@@ -466,18 +471,18 @@ def slide_stack(prs):
     box(s, x0, y0, sw, bh, INK)
     lw = 1.25
     icon(s, "server", x0 + (lw - 0.32) / 2, y0 + 0.2, 0.32, SURFACE)
-    text(s, x0, y0 + 0.58, lw, 0.5, [[run("Backend", 13, True, SURFACE)], [run("trägt alles", 10, False, ON_INK)]],
+    text(s, x0, y0 + 0.58, lw, 0.5, [[run("Backend", 13, True, SURFACE)], [run("Grundlage", 10, False, ON_INK)]],
          align=C, space=1)
     iw = (sw - lw - 0.1) / 3
     for j, key in enumerate(["ts", "next", "node"]):
-        name, role, ic, _, what, like, why = STACK[key]
+        name, role, ic, _, what, _, why = STACK[key]
         x = x0 + lw + j * iw
         icon(s, ic, x + 0.04, y0 + 0.16, 0.3, SURFACE)
         text(s, x + 0.44, y0 + 0.08, iw - 0.5, 0.2, [[run(role, 10, True, ON_INK)]])
         text(s, x + 0.44, y0 + 0.26, iw - 0.5, 0.26, [[run(name, 12, True, SURFACE, TOOL)]])
         text(s, x + 0.04, y0 + 0.6, iw - 0.12, bh - 0.66, [
-            [run("≈ ", 10.5, True, ON_INK), run(like, 10.5, True, ON_INK)],
-            [run("✓ Gewählt:", 10, True, ON_INK), run(" " + why, 10, False, SURFACE)]], space=2)
+            [run(what, 10.5, False, SURFACE)],
+            [run("Grund:", 10, True, ON_INK), run(" " + why, 10, False, SURFACE)]], space=2)
 
     # Kette mit Pfeilen: jede Anfrage
     ag = 0.26
