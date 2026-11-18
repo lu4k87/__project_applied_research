@@ -1,4 +1,5 @@
 [Claude] [Präsentation] Volle Breite + Vorschau mit Bausteinen
+übernommen von dev-ws-52 am 2026-11-18 10:49
 Rückmeldung an: dev-ws-71
 Kontext: Präsentation/ im Repo __project_applied_research
   (index.html, style.css, script.js; Stand 09707c2).
