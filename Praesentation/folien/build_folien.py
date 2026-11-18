@@ -66,7 +66,7 @@ EN = {
         "Better Auth, Zod, Data Access Layer and Prisma/Drizzle. On the left the frontend hands over (other "
         "group), on the right it goes on to the database (next part).",
     "Backend": "Backend", "Jede Anfrage": "Every request",
-    "andere Gruppe": "other group", "nächster Teil": "next part", "React-Seiten": "React pages",
+    "React-Seiten": "React pages",
     "Frontend": "Frontend", "PostgreSQL": "PostgreSQL", "SQL": "SQL", 
     "Framework": "Framework", "ORM": "ORM",
     "JavaScript mit Typangaben. Der Editor meldet Fehler, bevor der Code läuft.":
@@ -494,13 +494,13 @@ def stack_card(s, x, y, w, h, key):
          run("?", 10, True, label), BR, run(why, 10, False, ink)]], anchor=MSO_ANCHOR.BOTTOM)
 
 
-def handover(s, x, y, w, h, ic, head, who, what, col):
+def handover(s, x, y, w, h, ic, head, what, col):
     """Gestrichelte Leiste: Teil, den eine andere Person vorstellt."""
     r = box(s, x, y, w, h, tint(col, 0.08), tint(col, 0.45))
     r.line.dash_style = 4
-    icon(s, ic, x + (w - 0.32) / 2, y + h / 2 - 0.9, 0.32, col)
-    text(s, x + 0.03, y + h / 2 - 0.5, w - 0.06, 1.4,
-         [[run(head, 11, True, col)], [run(who, 10)], [run(what, 10.5, True, INK, TOOL)]], align=PP_ALIGN.CENTER, space=4)
+    icon(s, ic, x + (w - 0.32) / 2, y + h / 2 - 0.5, 0.32, col)
+    text(s, x + 0.03, y + h / 2 - 0.1, w - 0.06, 1.0,
+         [[run(head, 11, True, col)], [run(what, 10.5, True, INK, TOOL)]], align=PP_ALIGN.CENTER, space=4)
 
 
 def slide_stack(prs):
@@ -517,9 +517,9 @@ def slide_stack(prs):
     y0 = 1.38 + (7.35 - 1.38 - (zl + bh + zg + rh)) / 2
     top_base = y0 + zl
     y1, rw, rg = top_base + bh + zg + rh, 1.05, 0.34
-    handover(s, 0.5, top_base, rw, y1 - top_base, "monitor", "Frontend", "andere Gruppe", "React-Seiten", S1)
+    handover(s, 0.5, top_base, rw, y1 - top_base, "monitor", "Frontend", "React-Seiten", S1)
     dbx = 12.833 - rw
-    handover(s, dbx, top_base, rw, y1 - top_base, "database", "Datenbank", "nächster Teil", "PostgreSQL", S3)
+    handover(s, dbx, top_base, rw, y1 - top_base, "database", "Datenbank", "PostgreSQL", S3)
     x0, x1 = 0.5 + rw + rg, dbx - rg
     sw = x1 - x0
 
