@@ -263,7 +263,11 @@ def slide_request(prs):
     C, M = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE
 
     # Tech-Stack: 3 Fundament-Karten (dunkel) + 4 Gruppen, alles mittig
-    y, h = 1.62, 1.76
+    # Reihe mittig zwischen Untertitel und Zonen-Titeln des Anfrage-Wegs: oben = unten
+    top = 3.8  # Oberkante des Anfrage-Wegs (Zonen-Titel 0,31 darüber)
+    lead_bottom, flow_head = 1.26, top - 0.31
+    h = 1.62
+    y = lead_bottom + (flow_head - lead_bottom - h) / 2
     fx, fw, bg = 0.5, 4.1, 0.12
     bw3 = (fw - 2 * bg) / 3
     base = [("file-code", "Sprache", "TypeScript", "Browser, Server, Hintergrund-Jobs"),
@@ -272,10 +276,10 @@ def slide_request(prs):
     for i, (ic, lab, name, desc) in enumerate(base):
         x = fx + i * (bw3 + bg)
         box(s, x, y, bw3, h, INK)
-        icon(s, ic, x + (bw3 - 0.3) / 2, y + 0.15, 0.3, SURFACE)
-        text(s, x, y + 0.52, bw3, 0.2, [[run(lab, 10.5, True, ON_INK)]], align=C)
-        text(s, x, y + 0.74, bw3, 0.34, [[run(name, 13, True, SURFACE, TOOL)]], align=C, anchor=M)
-        text(s, x + 0.08, y + 1.1, bw3 - 0.16, 0.45, [[run(desc, 10.5, False, ON_INK)]], align=C)
+        icon(s, ic, x + (bw3 - 0.26) / 2, y + 0.16, 0.26, SURFACE)
+        text(s, x, y + 0.52, bw3, 0.2, [[run(lab, 10, True, ON_INK)]], align=C)
+        text(s, x, y + 0.71, bw3, 0.3, [[run(name, 12, True, SURFACE, TOOL)]], align=C, anchor=M)
+        text(s, x + 0.08, y + 1.03, bw3 - 0.16, 0.42, [[run(desc, 10, False, ON_INK)]], align=C)
     groups = [("monitor", "Benutzeroberfläche", S1, ["React", "Next.js Routing\u00a0+\u00a0API"]),
               ("shield-check", "Sicherheit", S2, ["Better Auth", "Zod", "Data Access Layer"]),
               ("database", "Daten", S3, ["Prisma / Drizzle", "PostgreSQL"]),
@@ -285,39 +289,52 @@ def slide_request(prs):
     for i, (ic, lab, col, items) in enumerate(groups):
         x = gx + i * (gw + gap)
         box(s, x, y, gw, h, tint(col, 0.1))
-        edge = box(s, x, y, gw, 0.08, col, shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)  # Farbkante = Gruppe
+        edge = box(s, x, y, gw, 0.07, col, shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)  # Farbkante = Gruppe
         edge.adjustments[0] = 0.5
-        icon(s, ic, x + (gw - 0.26) / 2, y + 0.12, 0.26, col)
-        text(s, x + 0.08, y + 0.42, gw - 0.16, h - 0.44,  # Titel mit \n = fester Umbruch
-             [[run(t, 11, True, col)] for t in lab.split("\n")] + [[run(it, 11, True, INK, TOOL)] for it in items],
-             align=C, space=2)
+        icon(s, ic, x + (gw - 0.24) / 2, y + 0.13, 0.24, col)
+        text(s, x + 0.08, y + 0.4, gw - 0.16, h - 0.42,  # Titel mit \n = fester Umbruch
+             [[run(t, 10, True, col)] for t in lab.split("\n")] + [[run(it, 10, True, INK, TOOL)] for it in items],
+             align=C, space=1)
 
-    # Weg einer Anfrage: Browser → 5 Stationen → Datenbank
-    top, fh = 3.8, 2.2
-    zone(s, 0.5, top - 0.3, 1.6, "Frontend · Browser", S1, "monitor")
-    bw = 1.6
+    # Weg einer Anfrage: Datenbank ← 5 Stationen ← Browser (Frontend rechts, Datenbank links)
+    fh = 2.2
+    bw, dbw = 1.6, 1.55
     ch = (fh - 0.15) / 2
+    dbx, fex = 0.5, 12.833 - bw
+    sx = dbx + dbw + 0.42
+    sw = fex - 0.42 - sx
+    mid = top + fh / 2  # Pfeil + Label gemeinsam auf der senkrechten Mitte von Server und Datenbank
+    card_mid = [top + i * (ch + 0.15) + ch / 2 for i in range(2)]
+
+    # Spalten Datenbank | Server | Frontend: dezente gestrichelte Linien mittig in den Lücken,
+    # zuerst gezeichnet (liegen hinten) und dort unterbrochen, wo Pfeile oder „SQL“ kreuzen
+    def divider(x, holes):
+        y0 = top - 0.34
+        for a, b in sorted(holes) + [(top + fh, top + fh)]:
+            c = slide_line(s, x, y0, x, a, tint(INK, 0.28), width=1)
+            etree.SubElement(c.line._get_or_add_ln(), qn("a:prstDash")).set("val", "dash")
+            y0 = b
+    divider(dbx + dbw + 0.21, [(mid - 0.26, mid + 0.22)])
+    divider(sx + sw + 0.21, [(m - 0.14, m + 0.14) for m in card_mid])
+
+    zone(s, fex, top - 0.3, bw, "Frontend · Browser", S1, "monitor")
     people = [("user", "Gast", "ohne Cookie", "Ohne\nLogin"),
               ("user-check", "Mitglied", "mit Session-Cookie", "Standort\n+ Login")]
     for i, (ic, who, how, state) in enumerate(people):
         cy = top + i * (ch + 0.15)
-        # Kontostand senkrecht links neben der Karte (Textfeld um 270° gedreht, Mitte bleibt)
+        # Kontostand senkrecht rechts neben der Karte (Textfeld um 270° gedreht, Mitte bleibt)
         vh = 0.38
-        tb = text(s, 0.29 - ch / 2, cy + ch / 2 - vh / 2, ch, vh, lines(state, 10, True, S1), align=C, anchor=M)
+        tb = text(s, fex + bw + 0.21 - ch / 2, cy + ch / 2 - vh / 2, ch, vh, lines(state, 10, True, S1),
+                  align=C, anchor=M)
         tb.rotation = 270
-        box(s, 0.5, cy, bw, ch, tint(S1, 0.1))
-        icon(s, ic, 0.5 + (bw - 0.28) / 2, cy + 0.12, 0.28, S1)
-        text(s, 0.55, cy + 0.44, bw - 0.1, ch - 0.48, [[run(who, 14, True)], [run(how, 11)]], align=C, space=1)
+        box(s, fex, cy, bw, ch, tint(S1, 0.1))
+        icon(s, ic, fex + (bw - 0.28) / 2, cy + 0.12, 0.28, S1)
+        text(s, fex + 0.05, cy + 0.44, bw - 0.1, ch - 0.48, [[run(who, 14, True)], [run(how, 11)]], align=C, space=1)
 
-    dbw = 1.55
-    dbx = 12.833 - dbw
-    sx = 0.5 + bw + 0.42
-    sw = dbx - 0.42 - sx
     zone(s, sx, top - 0.3, sw, "Next.js-Server auf Node.js · für Besucher unsichtbar", S2, "server")
     box(s, sx, top, sw, fh, tint(S2, 0.1))
-    for i in range(2):
-        cy = top + i * (ch + 0.15) + ch / 2
-        arrow(s, 0.5 + bw + 0.04, cy, sx - 0.02, cy, S1, width=2.5)
+    for m in card_mid:
+        arrow(s, fex - 0.04, m, sx + sw + 0.02, m, S1, width=2.5)
 
     stations = [("log-in", "Next.js\nRouting + API", "Einstiegspunkt", "Nimmt jede Anfrage an"),
                 ("key-round", "Better Auth", "Authentifizierung", "Wer fragt? Gast oder Mitglied"),
@@ -329,15 +346,15 @@ def slide_request(prs):
     sty, sth = top + pad, fh - 2 * pad
     my = sty + 0.14 + d / 2  # Mittellinie von Icon und Nummer
     for i, (ic, name, role, desc) in enumerate(stations):
-        x = sx + pad + i * (stw + ag)
+        x = sx + pad + (4 - i) * (stw + ag)  # Station 1 rechts am Browser, Station 5 links an der Datenbank
         box(s, x, sty, stw, sth, SURFACE)
         icon(s, ic, x + stw / 2 - 0.42, my - 0.16, 0.32, S2)  # Icon links, Nummer rechts
         step(s, x + stw / 2 + 0.06, sty + 0.14, i + 1, S2, d=d)
         text(s, x + 0.04, sty + 0.6, stw - 0.08, 0.22, [[run(role, 10.5, True, S2)]], align=C)
         text(s, x + 0.04, sty + 0.82, stw - 0.08, 0.46, lines(name, 12, True, INK, TOOL), align=C, anchor=M)
         text(s, x + 0.06, sty + 1.32, stw - 0.12, 0.6, lines(desc, 11), align=C)
-        if i:
-            arrow(s, x - ag + 0.03, sty + sth / 2, x - 0.03, sty + sth / 2, S2, width=2.5)  # senkrecht mittig zur Karte
+        if i:  # Pfeil von der vorigen Station (rechts) nach links, senkrecht mittig zur Karte
+            arrow(s, x + stw + ag - 0.03, sty + sth / 2, x + stw + 0.03, sty + sth / 2, S2, width=2.5)
 
     zone(s, dbx, top - 0.3, dbw, "Datenbank", S3, "database")
     db = box(s, dbx, top, dbw, fh, tint(S3, 0.12), S3, shape=MSO_SHAPE.CAN)
@@ -346,9 +363,8 @@ def slide_request(prs):
     text(s, dbx + 0.1, top + 0.3, dbw - 0.2, fh - 0.4,
          [[run("PostgreSQL", 13, True, INK, TOOL)], [run("Standorte, Nutzer, Materialien, Angebote, Matches", 11)],
           [run("→ Folie 2", 11, True, S3)]], align=C, anchor=M, space=4)
-    mid = top + fh / 2  # Pfeil + Label gemeinsam auf der senkrechten Mitte von Server und Datenbank
-    arrow(s, sx + sw + 0.03, mid - 0.12, dbx - 0.03, mid - 0.12, S3, both=True, width=2.5)
-    text(s, sx + sw - 0.02, mid - 0.04, 0.46, 0.22, [[run("SQL", 10.5, True, S3)]], align=C)
+    arrow(s, dbx + dbw + 0.03, mid - 0.12, sx - 0.03, mid - 0.12, S3, both=True, width=2.5)
+    text(s, dbx + dbw - 0.02, mid - 0.04, 0.46, 0.22, [[run("SQL", 10.5, True, S3)]], align=C)
 
     # Antwort nach Rolle + Merksatz: Icon links, Text mittig daneben
     ry, rh = 6.16, 1.06
