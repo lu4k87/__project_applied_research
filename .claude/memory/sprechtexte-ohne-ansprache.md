@@ -13,4 +13,4 @@ Sprechtext **an der Folienüberschrift ausrichten**: Einstieg nennt Titel + Unte
 
 **Why:** User 2026-11-18 zur ersten Fassung der Sprechtexte Folie 1+2: „Wir/ihr... -> nein! ohne wir/ihr usw“.
 
-**How to apply:** Gilt für alle Sprechtexte/Notizen der Präsentation (DE + EN: kein „we/you“). Vor Abgabe Text nach diesen Wörtern durchsuchen. Ton weiter locker-sachlich, nichts von der Folie ablesen. Verwandt: [[app-architektur-datenmodell]]
+**How to apply:** Gilt für alle Sprechtexte/Notizen der Präsentation (DE + EN: kein „we/you“). Vor Abgabe Text nach diesen Wörtern durchsuchen. Ton sachlich, **ohne Floskeln** (kein „Spannender ist …“, „Egal, wer kommt“, „sozusagen“, „Also: …“; User 2026-11-18: „weniger floskeln, mehr sachlich“), nichts von der Folie ablesen. Verwandt: [[app-architektur-datenmodell]]
