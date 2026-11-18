@@ -40,65 +40,62 @@ EN = {
     "Benutzeroberfläche": "User interface", "Sicherheit": "Security", "Daten": "Data",
     "Hintergrund & E-Mail": "Background & email", "Mail-Dienst": "Email service",
     "Gast": "Guest", "ohne Cookie": "no cookie", "Ohne": "Not", "Login": "logged in",
-    "Registriert": "Registered", "+ Login": "+ logged in",
-    "Mitglied": "Member", "mit Session-Cookie": "with session cookie",
+    "Standort": "Site", "+ Login": "+ logged in", "Frontend · Browser": "Frontend · browser",
+    "mit Session-Cookie": "with session cookie",
     "Next.js-Server auf Node.js · für Besucher unsichtbar": "Next.js server on Node.js · hidden from visitors",
     "Einstiegspunkt": "Entry point", "Nimmt jede Anfrage an": "Takes every request",
     "Authentifizierung": "Authentication", "Wer fragt? Gast oder Mitglied": "Who asks? Guest or member",
     "Validierung": "Validation", "Ist die Eingabe gültig?": "Is the input valid?",
-    "Autorisierung": "Authorization", "Was darf diese Rolle (User) sehen?": "What may this role (user) see?",
+    "Autorisierung": "Authorization", "Was darf Gast oder Mitglied sehen?": "What may guest or member see?",
     "Baut sichere": "Builds safe", "SQL-Abfragen": "SQL queries",
-    "Datenbank": "Database", "Konten, Logins, Angebote, Trades": "Accounts, logins, offers, trades",
+    "Datenbank": "Database", "Standorte, Nutzer, Materialien, Angebote, Matches": "Sites, users, materials, offers, matches",
     "→ Folie 2": "→ slide 2",
     "Gast sieht": "Guest sees", "Mitglied sieht": "Member sees",
-    "• Angebote als Vorschau": "• Offers as preview", "• Öffentliche Seiten": "• Public pages",
+    "• Titel + Material": "• Title + material", "• Menge + Stadt": "• Quantity + city",
     "• Registrieren": "• Sign up", "• Login": "• Log in", "• E-Mail bestätigen": "• Confirm email",
     "• Passwort zurücksetzen,..": "• Reset password,..",
-    "• Alle Angebots-Details": "• All offer details", "• Eigene Angebote einstellen": "• Post own offers",
-    "• Handeln mit Mitgliedern": "• Trade with members", "• Eigene Trades": "• Own trades",
-    "• Mitglieder-Dashboard": "• Member dashboard", "• E-Mail-Erinnerung,..": "• Email reminder,..",
+    "• + Preis + Beschreibung": "• + Price + description", "• + Kontakt": "• + Contact",
+    "• Match anfragen": "• Request a match", "• Angebote einstellen": "• Post offers",
+    "• Eigene Matches": "• Own matches", "• E-Mail-Erinnerung,..": "• Email reminder,..",
     "• Industriestandard": "• Industry standard", "• Sicherer Login + Rechte": "• Secure login + access",
     "• Zeitgesteuerte Jobs": "• Scheduled jobs", "• TypeScript überall": "• TypeScript everywhere",
-    "• Typsichere Datenbank": "• Type-safe database", "• Automatische E-Mails,..": "• Automated emails,..",
+    "• Typsichere Datenbank": "• Type-safe database", "• Erinnerungs-E-Mails,..": "• Reminder emails,..",
     "Datenbank und 7-Tage-Job": "Database and 7-Day Job",
-    "PostgreSQL hält 6 Tabellen. Ein Hintergrund-Job erinnert nach 7 Tagen alle, die noch nicht gehandelt haben.":
-        "PostgreSQL holds 6 tables. A background job reminds everyone who has not traded after 7 days.",
-    "Links die sechs Tabellen: vier legt Better Auth an, zwei gehören zur App. Rechts der zeitgesteuerte Job: "
-    "BullMQ plant ihn bei der Registrierung, Redis hält ihn, der Worker zählt nach 7 Tagen die Trades "
-    "und verschickt nur bei 0 Trades eine Erinnerung.":
-        "Left: the six tables. Better Auth creates four, two belong to the app. Right: the timed job. "
-        "BullMQ plans it at sign-up, Redis keeps it, after 7 days the worker counts the trades "
-        "and sends a reminder only if there are 0.",
-    "PostgreSQL · 6 Tabellen": "PostgreSQL · 6 tables",
-    "Ein Eintrag pro Person": "One row per person", "Anzeigename": "display name", "eindeutig": "unique",
-    "ja/nein": "yes/no", "7-Tage-Frist": "7-day timer",
-    "Aktive Logins, je Gerät": "Active logins, per device", "steht im Cookie": "stored in the cookie",
-    "Ablaufdatum": "expiry date",
-    "Passwort oder z. B. Google": "Password or e.g. Google",
-    "Login-Art": "login type", "nur als Hash": "hash only",
-    "Codes für E-Mail und Reset": "Codes for email and reset",
-    "wofür": "purpose", "der Code": "the code", "läuft ab": "expires",
-    "Angebote, zwei Sichtbarkeiten": "Offers, two visibility levels",
-    "öffentlich": "public", "Mitglieder": "members",
-    "Abgeschlossene Trades": "Finished trades", "Abschluss": "finished at",
-    "Primärschlüssel: eindeutige ID": "Primary key: unique ID",
-    "Fremdschlüssel: verweist auf eine andere Tabelle": "Foreign key: points to another table",
-    "Kein Zugriff aus dem Browser: nur die Stationen im Backend lesen und schreiben.":
-        "No access from the browser: only the backend steps read and write.",
-    "7-Tage-Job · zeitgesteuert, ohne Browser": "7-day job · on a timer, no browser",
+    "PostgreSQL hält 5 Tabellen. Ein Hintergrund-Job erinnert nach 7 Tagen jeden Standort ohne Match.":
+        "PostgreSQL holds 5 tables. A background job reminds every site without a match after 7 days.",
+    "Links die fünf Tabellen nach dem UML-Datenmodell: Standorte (sites) mit genau einem Login (users), "
+    "Materialkatalog, Angebote und Matches; Linien zeigen die Beziehungen. Rechts der zeitgesteuerte Job: "
+    "BullMQ plant ihn bei der Registrierung, Redis hält ihn, der Worker zählt nach 7 Tagen die Matches "
+    "und verschickt nur bei 0 Matches eine Erinnerung.":
+        "Left: the five tables of the UML data model: sites with exactly one login (users), the material "
+        "catalog, offers and matches; lines show the relations. Right: the timed job. BullMQ plans it at "
+        "sign-up, Redis keeps it, after 7 days the worker counts the matches and sends a reminder only if there are 0.",
+    "PostgreSQL · 5 Tabellen": "PostgreSQL · 5 tables",
+    "Login eines Standorts": "Login of a site", "Betrieb mit Standort": "Business with its site",
+    "Materialkatalog": "Material catalog", "Angebot eines Standorts": "Offer of a site",
+    "Vom Mitglied angefragt": "Requested by a member",
+    "eindeutig": "unique", "7-Tage-Frist": "7-day timer", "optional": "optional",
+    "Mitglied": "Member",
+    "Primärschlüssel": "primary key", "verweist auf Tabelle": "points to a table",
+    "eins zu vielen": "one to many", "öffentlich sichtbar": "public", "nach Login": "after login",
+    "Kein Zugriff aus dem Browser: nur das Backend liest und schreibt.":
+        "No access from the browser: only the backend reads and writes.",
+    "Zugang": "login", "ordnet ein": "classifies", "Vereinbarung": "agreement",
+    "Verkäufer": "seller", "Käufer": "buyer",
+    "Hintergrund-Job · 7 Tage, ohne Browser": "Background job · 7 days, no browser",
     "Job einplanen": "Plan the job",
-    "Bei der Registrierung: Job anlegen, fällig in 7\u00a0Tagen": "At sign-up: add a job, due in 7\u00a0days",
+    "Bei der Registrierung, Frist ab users.created_at": "At sign-up, timer from users.created_at",
     "Job-Speicher": "Job storage",
     "Hält den Job, auch über Neustarts": "Keeps the job, even across restarts",
     "Inaktivität prüfen": "Check inactivity",
-    "Eigener Node.js-Prozess: zählt die Trades, ab\u00a01\u00a0Trade endet der Job":
-        "Its own Node.js process: counts the trades, from 1 trade on the job ends",
+    "Zählt Matches, ab\u00a01\u00a0Match endet der Job": "Counts matches, ends at the first match",
     "E-Mail bauen": "Build the email",
     "React-Komponente, gerendert zu HTML": "React component, turned into HTML",
     "Versand ins Postfach": "Delivery to the inbox",
     "Noch offen: z. B. Resend, Postmark oder Amazon SES": "Not chosen yet: e.g. Resend, Postmark or Amazon SES",
-    "7 Tage warten": "wait 7 days", "fällig": "due",
-    "nur bei 0 Trades": "only if 0 trades", "fertige E-Mail": "finished email",
+    "7 Tage verzögert": "7-day delay", "Job fällig": "job due",
+    "nur bei 0 Matches": "only if 0 matches", "Erinnerungs-E-Mail": "reminder email",
+    "Anzahl": "Match", "Matches": "count",
     "App-Architektur": "App Architecture",
 }
 MISSING = set()
@@ -187,6 +184,14 @@ def arrow(slide, x1, y1, x2, y2, color, both=False, dashed=False, width=1.75):
         e.set("type", "triangle")
         e.set("w", "med")
         e.set("h", "med")
+    return c
+
+
+def slide_line(slide, x1, y1, x2, y2, color, width=1.5):
+    """Gerade Linie ohne Spitzen (Beziehung zwischen Tabellen)."""
+    c = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(x1), Inches(y1), Inches(x2), Inches(y2))
+    c.line.color.rgb = rgb(color)
+    c.line.width = Pt(width)
     return c
 
 
@@ -289,11 +294,11 @@ def slide_request(prs):
 
     # Weg einer Anfrage: Browser → 5 Stationen → Datenbank
     top, fh = 3.8, 2.2
-    zone(s, 0.5, top - 0.3, 1.6, "Browser", S1, "monitor")
+    zone(s, 0.5, top - 0.3, 1.6, "Frontend · Browser", S1, "monitor")
     bw = 1.6
     ch = (fh - 0.15) / 2
     people = [("user", "Gast", "ohne Cookie", "Ohne\nLogin"),
-              ("user-check", "Mitglied", "mit Session-Cookie", "Registriert\n+ Login")]
+              ("user-check", "Mitglied", "mit Session-Cookie", "Standort\n+ Login")]
     for i, (ic, who, how, state) in enumerate(people):
         cy = top + i * (ch + 0.15)
         # Kontostand senkrecht links neben der Karte (Textfeld um 270° gedreht, Mitte bleibt)
@@ -317,12 +322,12 @@ def slide_request(prs):
     stations = [("log-in", "Next.js\nRouting + API", "Einstiegspunkt", "Nimmt jede Anfrage an"),
                 ("key-round", "Better Auth", "Authentifizierung", "Wer fragt? Gast oder Mitglied"),
                 ("list-checks", "Zod", "Validierung", "Ist die Eingabe gültig?"),
-                ("eye", "Data Access Layer", "Autorisierung", "Was darf diese Rolle (User) sehen?"),
+                ("eye", "Data Access Layer", "Autorisierung", "Was darf Gast oder Mitglied sehen?"),
                 ("database", "Prisma / Drizzle", "ORM", "Baut sichere\nSQL-Abfragen")]
     pad, ag, d = 0.12, 0.26, 0.4
     stw = (sw - 2 * pad - 4 * ag) / 5
     sty, sth = top + pad, fh - 2 * pad
-    my = sty + 0.14 + d / 2  # Mittellinie der Nummern = Höhe der Pfeile
+    my = sty + 0.14 + d / 2  # Mittellinie von Icon und Nummer
     for i, (ic, name, role, desc) in enumerate(stations):
         x = sx + pad + i * (stw + ag)
         box(s, x, sty, stw, sth, SURFACE)
@@ -332,14 +337,14 @@ def slide_request(prs):
         text(s, x + 0.04, sty + 0.82, stw - 0.08, 0.46, lines(name, 12, True, INK, TOOL), align=C, anchor=M)
         text(s, x + 0.06, sty + 1.32, stw - 0.12, 0.6, lines(desc, 11), align=C)
         if i:
-            arrow(s, x - ag + 0.03, my, x - 0.03, my, S2, width=2.5)
+            arrow(s, x - ag + 0.03, sty + sth / 2, x - 0.03, sty + sth / 2, S2, width=2.5)  # senkrecht mittig zur Karte
 
     zone(s, dbx, top - 0.3, dbw, "Datenbank", S3, "database")
     db = box(s, dbx, top, dbw, fh, tint(S3, 0.12), S3, shape=MSO_SHAPE.CAN)
     db.adjustments[0] = 0.14
     db.line.width = Pt(1.25)
     text(s, dbx + 0.1, top + 0.3, dbw - 0.2, fh - 0.4,
-         [[run("PostgreSQL", 13, True, INK, TOOL)], [run("Konten, Logins, Angebote, Trades", 11)],
+         [[run("PostgreSQL", 13, True, INK, TOOL)], [run("Standorte, Nutzer, Materialien, Angebote, Matches", 11)],
           [run("→ Folie 2", 11, True, S3)]], align=C, anchor=M, space=4)
     mid = top + fh / 2  # Pfeil + Label gemeinsam auf der senkrechten Mitte von Server und Datenbank
     arrow(s, sx + sw + 0.03, mid - 0.12, dbx - 0.03, mid - 0.12, S3, both=True, width=2.5)
@@ -356,12 +361,12 @@ def slide_request(prs):
             text(s, cx, y, cw, rh - 0.4, [[run("• " + t, size, False, color)] for t in items], space=1)
 
     # Gast / Mitglied als Browserfenster: Titelleiste mit Punkten + Adresszeile, darunter die Seite
-    windows = [("eye", "Gast sieht", "previewText",
-                [["Angebote als Vorschau", "Öffentliche Seiten", "E-Mail bestätigen"],
-                 ["Registrieren", "Login", "Passwort zurücksetzen,.."]]),
-               ("lock-open", "Mitglied sieht", "+ memberDetails",
-                [["Alle Angebots-Details", "Eigene Angebote einstellen", "Handeln mit Mitgliedern"],
-                 ["Eigene Trades", "Mitglieder-Dashboard", "E-Mail-Erinnerung,.."]])]
+    windows = [("eye", "Gast sieht", "/offers",
+                [["Titel + Material", "Menge + Stadt", "Registrieren"],
+                 ["Login", "E-Mail bestätigen", "Passwort zurücksetzen,.."]]),
+               ("lock-open", "Mitglied sieht", "/offers/[id]",
+                [["+ Preis + Beschreibung", "+ Kontakt", "Match anfragen"],
+                 ["Angebote einstellen", "Eigene Matches", "E-Mail-Erinnerung,.."]])]
     bar = 0.3
     for i, (ic, head, field, cols) in enumerate(windows):
         x = 0.5 + i * (rw + 0.2)
@@ -385,7 +390,7 @@ def slide_request(prs):
     text(s, x + 0.22, ry + 0.06, hw, 0.28, [[run("Benefits", 13.5, True, SURFACE)]], anchor=M)
     icon(s, "badge-check", x + 0.22 + hw + 0.08, ry + 0.07, 0.26, ON_INK)  # Icon rechts neben dem Titel
     benefits = [["Industriestandard", "Sicherer Login + Rechte", "Zeitgesteuerte Jobs"],
-                ["TypeScript überall", "Typsichere Datenbank", "Automatische E-Mails,.."]]
+                ["TypeScript überall", "Typsichere Datenbank", "Erinnerungs-E-Mails,.."]]
     bullets(x + 0.22, ry + 0.44, rw - 0.32, benefits, ON_INK)  # oben = unten, Luft unter dem Titel
 
 
@@ -393,97 +398,136 @@ def slide_data_job(prs):
     s = new_slide(
         prs,
         "Datenbank und 7-Tage-Job",
-        "PostgreSQL hält 6 Tabellen. Ein Hintergrund-Job erinnert nach 7 Tagen alle, die noch nicht gehandelt haben.",
-        "Links die sechs Tabellen: vier legt Better Auth an, zwei gehören zur App. Rechts der zeitgesteuerte Job: "
-        "BullMQ plant ihn bei der Registrierung, Redis hält ihn, der Worker zählt nach 7 Tagen die Trades "
-        "und verschickt nur bei 0 Trades eine Erinnerung.",
+        "PostgreSQL hält 5 Tabellen. Ein Hintergrund-Job erinnert nach 7 Tagen jeden Standort ohne Match.",
+        "Links die fünf Tabellen nach dem UML-Datenmodell: Standorte (sites) mit genau einem Login (users), "
+        "Materialkatalog, Angebote und Matches; Linien zeigen die Beziehungen. Rechts der zeitgesteuerte Job: "
+        "BullMQ plant ihn bei der Registrierung, Redis hält ihn, der Worker zählt nach 7 Tagen die Matches "
+        "und verschickt nur bei 0 Matches eine Erinnerung.",
     )
-    C, M = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE
+    C, M, R = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE, PP_ALIGN.RIGHT
+    FS = 9  # Feldzeilen
 
-    lx, lw = 0.5, 7.7
-    zone(s, lx, 1.6, lw, "PostgreSQL · 6 Tabellen", S3, "database")
-    BA, APP = ("Better Auth", S2), ("App", S3)
-
-    def col(name, *note):
-        return [run(name, 10.5, True, INK, MONO)] + list(note)
+    def col(name, *rest):
+        return [run(name, FS, True, INK, MONO)] + list(rest)
 
     def tag(t, color=S3):
-        return run(" " + t, 10.5, True, color)
+        return run(" " + t, FS, True, color)
 
     def note(t):
-        return run(" " + t, 10.5)
+        return run(" " + t, FS)
 
-    tables = [
-        ("user", BA, "Ein Eintrag pro Person",
-         [col("id", tag("PK")), col("name", note("Anzeigename")), col("email", note("eindeutig")),
-          col("emailVerified", note("ja/nein")), col("createdAt", tag("7-Tage-Frist", S4))]),
-        ("session", BA, "Aktive Logins, je Gerät",
-         [col("id", tag("PK")), col("userId", tag("FK"), note("→ user")), col("token", note("steht im Cookie")),
-          col("expiresAt", note("Ablaufdatum"))]),
-        ("account", BA, "Passwort oder z. B. Google",
-         [col("id", tag("PK")), col("userId", tag("FK"), note("→ user")), col("providerId", note("Login-Art")),
-          col("password", tag("nur als Hash", S4))]),
-        ("verification", BA, "Codes für E-Mail und Reset",
-         [col("id", tag("PK")), col("identifier", note("wofür")), col("value", note("der Code")),
-          col("expiresAt", note("läuft ab"))]),
-        ("listings", APP, "Angebote, zwei Sichtbarkeiten",
-         [col("id", tag("PK")), col("ownerId", tag("FK"), note("→ user")), col("previewText", tag("öffentlich", S2)),
-          col("memberDetails", tag("Mitglieder", S4))]),
-        ("trades", APP, "Abgeschlossene Trades",
-         [col("id", tag("PK")), col("listingId", tag("FK"), note("→ listings")),
-          col("sellerId", tag("FK"), note("→ user")), col("buyerId", tag("FK"), note("→ user")),
-          col("completedAt", note("Abschluss"))]),
-    ]
-    tw, gap = (lw - 2 * 0.2) / 3, 0.2
-    ty0, th, hh = 1.95, 2.25, 0.66
-    for i, (name, (origin, ocol), desc, cols) in enumerate(tables):
-        x, y = lx + (i % 3) * (tw + gap), ty0 + (i // 3) * (th + gap)
-        box(s, x, y, tw, th, SURFACE, LINE)
-        head = box(s, x, y, tw, hh, tint(ocol, 0.14), shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)
+    def fk(target):
+        return [tag("FK"), note("→ " + target)]
+
+    GUEST, MEMBER = (lambda: tag("Gast", S2)), (lambda: tag("Mitglied", S4))
+
+    # Raster: 3 Spalten × 2 Reihen, rechts daneben der Job; breite Lücke für den Pfeil „Anzahl Matches“
+    rw = 4.1
+    rx = 12.833 - rw
+    W, G = [1.85, 2.2, 2.0], [0.66, 0.9]
+    X = [0.5, 0.5 + W[0] + G[0], 0.5 + W[0] + G[0] + W[1] + G[1]]
+    lw = X[2] + W[2] - 0.5
+    Y, H = [1.95, 4.75], [2.1, 2.5]
+    zone(s, 0.5, 1.6, lw, "PostgreSQL · 5 Tabellen", S3, "database")
+
+    tables = {
+        "users": (0, 0, "Login eines Standorts",
+                  [col("id", tag("PK")), col("site_id", *fk("sites")), col("email", note("eindeutig")),
+                   col("password_hash"), col("account_status"), col("created_at", tag("7-Tage-Frist", S4))]),
+        "sites": (1, 0, "Betrieb mit Standort",
+                  [col("id", tag("PK")), col("business_name"), col("branch_name"), col("city", GUEST()),
+                   col("latitude, longitude"), col("contact_email,..", MEMBER())]),
+        "materials": (0, 1, "Materialkatalog",
+                      [col("id", tag("PK")), col("code", note("eindeutig")), col("name", GUEST()),
+                       col("category"), col("impact_factor_*", note("optional"))]),
+        "offers": (1, 1, "Angebot eines Standorts",
+                   [col("id", tag("PK")), col("seller_site_id", *fk("sites")),
+                    col("material_id", *fk("materials")), col("title", GUEST()),
+                    col("available_quantity_kg", GUEST()), col("price_eur_per_kg", MEMBER()),
+                    col("description", MEMBER()), col("status,..")]),
+        "matches": (2, 1, "Vom Mitglied angefragt",
+                    [col("id", tag("PK")), col("offer_id", *fk("offers")), col("buyer_site_id", *fk("sites")),
+                     col("agreed_quantity_kg"), col("agreed_price_eur_per_kg"), col("status"),
+                     col("completed_at", note("optional")), col("actual_quantity_kg,..")]),
+    }
+    hh = 0.62
+    for name, (c, r, desc, cols) in tables.items():
+        x, y, w, h = X[c], Y[r], W[c], H[r]
+        box(s, x, y, w, h, SURFACE, LINE)
+        head = box(s, x, y, w, hh, tint(S3, 0.14), shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)
         head.adjustments[0] = 0.09 / hh
-        text(s, x + 0.1, y, tw - 0.2, hh, [[run(origin, 9.5, True, ocol, TOOL)], [run(name, 15, True, INK, MONO)]],
+        text(s, x + 0.08, y, w - 0.16, hh, [[run(name, 14, True, INK, MONO)], [run(desc, 10, True, S3)]],
              align=C, anchor=M, space=1)
-        text(s, x + 0.16, y + hh + 0.1, tw - 0.32, th - hh - 0.15,
-             [[run(desc, 11, True)]] + cols, space=3)
+        text(s, x + 0.12, y + hh + 0.1, w - 0.2, h - hh - 0.15, cols, space=2)
 
-    ly = ty0 + 2 * th + gap + 0.15
-    text(s, lx, ly, lw, 0.45, [[
-        run("PK", 11, True, S3), run(" Primärschlüssel: eindeutige ID   ", 11),
-        run("FK", 11, True, S3), run(" Fremdschlüssel: verweist auf eine andere Tabelle", 11)], [
-        run("Kein Zugriff aus dem Browser: nur die Stationen im Backend lesen und schreiben.", 11)]],
-        align=C, space=2)
+    # Legende oben rechts
+    lx_, ly_ = X[2], Y[0]
+    box(s, lx_, ly_, W[2], H[0], tint(S3, 0.06), LINE)
+    text(s, lx_ + 0.14, ly_ + 0.12, W[2] - 0.24, H[0] - 0.2, [
+        [run("PK", 10, True, S3), run(" Primärschlüssel", 10)],
+        [run("FK", 10, True, S3), run(" verweist auf Tabelle", 10)],
+        [run("1:n", 10, True, S3), run(" eins zu vielen", 10)],
+        [run("Gast", 10, True, S2), run(" öffentlich sichtbar", 10)],
+        [run("Mitglied", 10, True, S4), run(" nach Login", 10)],
+        [run("Kein Zugriff aus dem Browser: nur das Backend liest und schreibt.", 10)]], space=3)
+
+    def link(x1, y1, x2, y2):
+        c = slide_line(s, x1, y1, x2, y2, S3)
+        return c
+
+    def hlabel(x1, x2, y, card, role):
+        """Kardinalität über, Rolle unter einer waagerechten Linie."""
+        text(s, x1, y - 0.25, x2 - x1, 0.22, [[run(card, 10, True, S3)]], align=C)
+        text(s, x1, y + 0.04, x2 - x1, 0.22, [[run(role, 9, True, S3)]], align=C)
+
+    # users 1:1 sites · materials 1:n offers · offers 1:n matches (waagerecht)
+    for (c, r, card, role) in [(0, 0, "1:1", "Zugang"), (0, 1, "1:n", "ordnet ein"), (1, 1, "1:n", "Vereinbarung")]:
+        x1, x2, y = X[c] + W[c], X[c + 1], Y[r] + (0.95 if r == 0 else 1.1)
+        link(x1, y, x2, y)
+        hlabel(x1, x2, y, card, role)
+    # sites 1:n offers (senkrecht) · sites 1:n matches (Winkel durch die Lücke zwischen den Reihen)
+    gy0, gy1 = Y[0] + H[0], Y[1]
+    vx = X[1] + 0.5 * W[1]
+    link(vx, gy0, vx, gy1)
+    text(s, X[1], gy0 + 0.08, vx - X[1] - 0.08, gy1 - gy0 - 0.16,
+         [[run("1:n", 10, True, S3), run(" Verkäufer", 9.5, True, S3)]], align=R, anchor=M)
+    ex, my, tx = X[1] + 0.85 * W[1], (gy0 + gy1) / 2, X[2] + W[2] / 2
+    link(ex, gy0, ex, my)
+    link(ex, my, tx, my)
+    link(tx, my, tx, gy1)
+    text(s, ex + 0.1, my - 0.26, tx - ex - 0.2, 0.22,
+         [[run("1:n", 10, True, S3), run(" Käufer", 9.5, True, S3)]], align=C)
 
     # 7-Tage-Job, senkrecht
-    rx = lx + lw + 0.4
-    rw = 12.833 - rx
-    zone(s, rx, 1.6, rw, "7-Tage-Job · zeitgesteuert, ohne Browser", S4, "clock")
+    zone(s, rx, 1.6, rw, "Hintergrund-Job · 7 Tage, ohne Browser", S4, "clock")
     icons = ["clock", "hard-drive", "search", "mail", "send"]
-    steps = [("BullMQ Queue", "Job einplanen", "Bei der Registrierung: Job anlegen, fällig in 7\u00a0Tagen"),
+    steps = [("BullMQ Queue", "Job einplanen", "Bei der Registrierung, Frist ab users.created_at"),
              ("Redis", "Job-Speicher", "Hält den Job, auch über Neustarts"),
-             ("BullMQ Worker", "Inaktivität prüfen", "Eigener Node.js-Prozess: zählt die Trades, ab\u00a01\u00a0Trade endet der Job"),
+             ("BullMQ Worker", "Inaktivität prüfen", "Zählt Matches, ab\u00a01\u00a0Match endet der Job"),
              ("React Email", "E-Mail bauen", "React-Komponente, gerendert zu HTML"),
              ("Mail-Dienst", "Versand ins Postfach", "Noch offen: z. B. Resend, Postmark oder Amazon SES")]
-    hops = ["7 Tage warten", "fällig", "nur bei 0 Trades", "fertige E-Mail"]
+    hops = ["7 Tage verzögert", "Job fällig", "nur bei 0 Matches", "Erinnerungs-E-Mail"]
     sy0, sh, d = 1.95, 0.8, 0.4
-    sgap = (ly + 0.45 - sy0 - 5 * sh) / 4
+    sgap = (Y[1] + H[1] - sy0 - 5 * sh) / 4
     ax = rx + 0.16 + d / 2
     for i, (name, role, desc) in enumerate(steps):
         y = sy0 + i * (sh + sgap)
         box(s, rx, y, rw, sh, tint(S4, 0.1))
         step(s, rx + 0.16, y + (sh - d) / 2, i + 1, S4, d=d)
-        icon(s, icons[i], rx + rw - 0.5, y + (sh - 0.32) / 2, 0.32, S4)
-        text(s, rx + 0.72, y, rw - 1.3, sh,
+        icon(s, icons[i], rx + rw - 0.44, y + (sh - 0.3) / 2, 0.3, S4)
+        text(s, rx + 0.68, y, rw - 1.18, sh,
              [[run(name, 12, True, INK, TOOL), run("  " + role, 11, True, S4)], [run(desc, 11)]],
              anchor=M, space=2)
         if i < 4:
             arrow(s, ax, y + sh + 0.03, ax, y + sh + sgap - 0.03, S4, width=2.5)
             text(s, ax + 0.2, y + sh, rw - 0.6, sgap, [[run(hops[i], 11, True, S4)]], anchor=M)
 
-    # trades → Worker (gestrichelt: Worker liest die Anzahl der Trades)
-    trades_y = ty0 + th + gap
+    # matches → Worker (gestrichelt: der Worker liest die Anzahl der Matches)
     worker_y = sy0 + 2 * (sh + sgap)
-    ay = (max(trades_y, worker_y) + min(trades_y + th, worker_y + sh)) / 2
-    arrow(s, lx + lw + 0.04, ay, rx - 0.04, ay, S4, dashed=True, width=2.25)
+    ay = (max(Y[1], worker_y) + min(Y[1] + H[1], worker_y + sh)) / 2
+    x1, x2 = X[2] + W[2], rx
+    arrow(s, x1 + 0.04, ay, x2 - 0.04, ay, S4, dashed=True, width=2.25)
+    text(s, x1, ay - 0.5, x2 - x1, 0.44, lines("Anzahl\nMatches", 10, True, S4), align=C, anchor=MSO_ANCHOR.BOTTOM)
 
 
 def main():
