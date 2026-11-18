@@ -58,8 +58,8 @@ EN = {
     "• Handeln mit Mitgliedern": "• Trade with members", "• Eigene Trades": "• Own trades",
     "• Mitglieder-Dashboard": "• Member dashboard", "• E-Mail-Erinnerung,..": "• Email reminder,..",
     "• Industriestandard": "• Industry standard", "• Sicherer Login + Rechte": "• Secure login + access",
-    "• Geplante Jobs + E-Mails": "• Scheduled jobs + emails", "• TypeScript überall": "• TypeScript everywhere",
-    "• Typsichere Datenbank": "• Type-safe database", "• Große Community,..": "• Large community,..",
+    "• Zeitgesteuerte Jobs": "• Scheduled jobs", "• TypeScript überall": "• TypeScript everywhere",
+    "• Typsichere Datenbank": "• Type-safe database", "• Automatische E-Mails,..": "• Automated emails,..",
     "Datenbank und 7-Tage-Job": "Database and 7-Day Job",
     "PostgreSQL hält 6 Tabellen. Ein Hintergrund-Job erinnert nach 7 Tagen alle, die noch nicht gehandelt haben.":
         "PostgreSQL holds 6 tables. A background job reminds everyone who has not traded after 7 days.",
@@ -381,11 +381,11 @@ def slide_request(prs):
     x = 0.5 + 2 * (rw + 0.2)
     box(s, x, ry, rw, rh, INK)
     hw = label_width("Benefits", 13.5) + 0.06
-    text(s, x + 0.22, ry + 0.1, hw, 0.28, [[run("Benefits", 13.5, True, SURFACE)]], anchor=M)
-    icon(s, "badge-check", x + 0.22 + hw + 0.08, ry + 0.11, 0.26, ON_INK)  # Icon rechts neben dem Titel
-    benefits = [["Industriestandard", "Sicherer Login + Rechte", "Geplante Jobs + E-Mails"],
-                ["TypeScript überall", "Typsichere Datenbank", "Große Community,.."]]
-    bullets(x + 0.22, ry + 0.42, rw - 0.32, benefits, ON_INK)
+    text(s, x + 0.22, ry + 0.06, hw, 0.28, [[run("Benefits", 13.5, True, SURFACE)]], anchor=M)
+    icon(s, "badge-check", x + 0.22 + hw + 0.08, ry + 0.07, 0.26, ON_INK)  # Icon rechts neben dem Titel
+    benefits = [["Industriestandard", "Sicherer Login + Rechte", "Zeitgesteuerte Jobs"],
+                ["TypeScript überall", "Typsichere Datenbank", "Automatische E-Mails,.."]]
+    bullets(x + 0.22, ry + 0.44, rw - 0.32, benefits, ON_INK)  # oben = unten, Luft unter dem Titel
 
 
 def slide_data_job(prs):
