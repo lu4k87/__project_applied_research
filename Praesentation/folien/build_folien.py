@@ -401,7 +401,13 @@ def slide_request(prs):
                ("lock-open", "Mitglied sieht", "/offers/[id]",
                 [["+ Preis + Beschreibung", "+ Kontakt", "Match anfragen"],
                  ["Angebote einstellen", "Eigene Matches,.."]])]
+    def text_w(cols, size=10.5):
+        """Breite der beiden Stichpunkt-Spalten zusammen (wie in bullets())."""
+        return sum(max(label_width("• " + t, size, bold=False) for t in c) for c in cols) + 0.22
+
     bar = 0.3
+    # großes Icon in beiden Fenstern gleich groß: so groß, wie die engste freie Fläche erlaubt (≤ 0.46")
+    big = min(0.46, min(rw - 0.2 - text_w(c) for *_, c in windows) - 0.24)
     for i, (ic, head, field, cols) in enumerate(windows):
         x = 0.5 + (12.333 - 2 * rw - 0.2) / 2 + i * (rw + 0.2)
         frame = box(s, x, ry, rw, rh, SURFACE, tint(S1, 0.45))
@@ -415,6 +421,9 @@ def slide_request(prs):
         text(s, x + 0.7, ry + 0.05, rw - 1.2, bar - 0.1,
              [[run(head, 10.5, True), run("  ·  ", 10.5, True, S1), run(field, 10, True, INK, MONO)]], anchor=M)
         icon(s, ic, x + rw - 0.36, ry + 0.05, 0.2, S1)
+        # dasselbe Icon groß, mittig in der freien Fläche rechts neben den Stichpunkten
+        free_x = x + 0.2 + text_w(cols)
+        icon(s, ic, free_x + (x + rw - free_x - big) / 2, ry + bar + (rh - bar - big) / 2, big, tint(S1, 0.55))
         bullets(x + 0.2, ry + bar + 0.08, rw - 0.3, cols, INK)
 
 
