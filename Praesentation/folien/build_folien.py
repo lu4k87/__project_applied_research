@@ -302,7 +302,7 @@ def slide_request(prs):
     for i, (ic, lab, name, desc) in enumerate(base):
         x = fx + i * (bw3 + bg)
         box(s, x, y, bw3, h, INK)
-        icon(s, ic, x + (bw3 - 0.26) / 2, y + 0.16, 0.26, SURFACE)
+        icon(s, ic, x + (bw3 - 0.32) / 2, y + 0.12, 0.32, SURFACE)  # gleich groß wie in den Gruppen
         text(s, x, y + 0.52, bw3, 0.2, [[run(lab, 10, True, ON_INK)]], align=C)
         text(s, x, y + 0.71, bw3, 0.3, [[run(name, 12, True, SURFACE, TOOL)]], align=C, anchor=M)
         text(s, x + 0.08, y + 1.03, bw3 - 0.16, 0.42, [[run(desc, 10, False, ON_INK)]], align=C)
@@ -317,11 +317,11 @@ def slide_request(prs):
     for i, (ic, lab, col, items) in enumerate(groups):
         x = gx + i * (gw + gap)
         box(s, x, gy, gw, gh, tint(col, 0.1))
-        icon(s, ic, x + pad, gy + 0.13, isz, col)
-        ty = gy + 0.13 + isz + 0.1  # Text mit Abstand unter dem Icon
-        text(s, x + pad, ty, gw - 2 * pad, gy + gh - ty,  # Titel mit \n = fester Umbruch
-             [[run(t, 10, True, col)] for t in lab.split("\n")] + [[run(it, 10, True, INK, TOOL)] for it in items],
-             space=3)
+        icon(s, ic, x + (gw - isz) / 2, gy + 0.13, isz, col)  # Icon + Titel mittig, Liste linksbündig
+        ty = gy + 0.13 + isz + 0.08  # Titel mit Abstand unter dem Icon
+        text(s, x + pad, ty, gw - 2 * pad, 0.2, [[run(lab, 10, True, col)]], align=C)
+        ty += 0.24
+        text(s, x + pad, ty, gw - 2 * pad, gy + gh - ty, [[run(it, 10, True, INK, TOOL)] for it in items], space=3)
 
     # Weg einer Anfrage: Browser → 5 Stationen → Datenbank (Frontend links, Datenbank rechts)
     fh = 2.2
