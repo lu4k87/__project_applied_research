@@ -2,7 +2,7 @@
 
 Ausgabe: App-Architektur.pptx (deutsch) und App-Architecture-EN.pptx (englisch);
 PNGs (1920 × 1080) per LibreOffice:
-    python build_folien.py            # braucht python-pptx + cairosvg (Icons aus icons/)
+    python build_folien.py            # braucht python-pptx, cairosvg, Pillow (Icons aus icons/)
     soffice --headless --convert-to pdf App-Architektur.pptx
     pdftoppm -png -scale-to-x 1920 -scale-to-y 1080 App-Architektur.pdf folie
 Inhalt und Farben folgen index.html / style.css (helles Schema). Schrift Arial:
@@ -207,11 +207,22 @@ def icon(slide, name, x, y, size, color):
     return slide.shapes.add_picture(io.BytesIO(_ICON_CACHE[key]), Inches(x), Inches(y), Inches(size), Inches(size))
 
 
+def label_width(label, size=11):
+    """Breite eines fetten Arial-Labels in Zoll (Liberation Sans Bold ist maßgleich)."""
+    from PIL import ImageFont
+    font = ImageFont.truetype("/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf", size * 10)
+    return font.getlength(tr(label)) / 10 / 72
+
+
 def zone(slide, x, y, w, label, color, ic=None):
+    """Zonen-Titel (Icon + Text) mittig über der Grafik darunter."""
+    tw = label_width(label) + 0.06
+    gw = tw + (0.31 if ic else 0)
+    x0 = x + (w - gw) / 2
     if ic:
-        icon(slide, ic, x, y - 0.01, 0.24, color)
-        x, w = x + 0.31, w - 0.31
-    text(slide, x, y, w, 0.25, [[run(label, 11, True, color)]])
+        icon(slide, ic, x0, y - 0.01, 0.24, color)
+        x0 += 0.31
+    text(slide, x0, y, tw, 0.25, [[run(label, 11, True, color)]])
 
 
 def new_slide(prs, title, lead, notes):
