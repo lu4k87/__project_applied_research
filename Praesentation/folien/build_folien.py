@@ -51,9 +51,9 @@ EN = {
     "→ Folie 2": "→ slide 2",
     "Gast sieht": "Guest sees", "öffentliche Vorschau,..": "public preview,..",
     "Mitglied sieht": "Member sees", "alle Details, Handel,..": "all details, trading,..",
-    "Merke": "Note",
-    "Der Browser spricht nur mit dem Server. Scheitert eine Prüfung, endet die Anfrage dort.":
-        "The browser only talks to the server. If a check fails, the request stops there.",
+    "• Industriestandard, weit verbreitet": "• Industry standard, widely used",
+    "• Fertige Bausteine für Login + Rechte": "• Ready-made parts for login + access",
+    "• Eine Sprache: TypeScript,..": "• One language: TypeScript,..",
     "Datenbank und 7-Tage-Job": "Database and 7-Day Job",
     "PostgreSQL hält 6 Tabellen. Ein Hintergrund-Job erinnert nach 7 Tagen alle, die noch nicht gehandelt haben.":
         "PostgreSQL holds 6 tables. A background job reminds everyone who has not traded after 7 days.",
@@ -329,9 +329,10 @@ def slide_request(prs):
              (tint(S1, 0.1), INK, S1, "lock-open", "Mitglied sieht",
               [[code("previewText"), run(" + ", 12, True, S1), code("memberDetails")],
                [run("alle Details, Handel,..", 12)]]),
-             (INK, SURFACE, ON_INK, "lightbulb", "Merke",
-              [[run("Der Browser spricht nur mit dem Server. Scheitert eine Prüfung, endet die Anfrage dort.",
-                    12, False, ON_INK)]])]
+             (INK, SURFACE, ON_INK, "badge-check", "Benefits",
+              [[run("• " + t, 11, False, ON_INK)] for t in
+               ("Industriestandard, weit verbreitet", "Fertige Bausteine für Login + Rechte",
+                "Eine Sprache: TypeScript,..")])]
     for i, (fill, ink, icol, ic, head, body) in enumerate(cards):
         x = 0.5 + i * (rw + 0.2)
         box(s, x, ry, rw, rh, fill)
