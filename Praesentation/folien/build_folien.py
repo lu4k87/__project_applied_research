@@ -42,7 +42,8 @@ EN = {
     "Gast": "Guest", "Mitglied": "Member", "ohne Cookie": "no cookie", "Ohne": "Not", "Login": "logged in",
     "Standort": "Site", "+ Login": "+ logged in", "Frontend · Browser": "Frontend · browser",
     "mit Session-Cookie": "with session cookie",
-    "Next.js-Server auf Node.js · für Besucher unsichtbar": "Next.js server on Node.js · hidden from visitors",
+    "Backend · Next.js-Server auf Node.js · für Besucher unsichtbar":
+        "Backend · Next.js server on Node.js · hidden from visitors",
     "Einstiegspunkt": "Entry point", "Nimmt jede Anfrage an": "Takes every request",
     "Authentifizierung": "Authentication", "Wer fragt? Gast oder Mitglied": "Who asks? Guest or member",
     "Validierung": "Validation", "Ist die Eingabe gültig?": "Is the input valid?",
@@ -333,7 +334,7 @@ def slide_request(prs):
         icon(s, ic, fex + (bw - 0.28) / 2, cy + 0.12, 0.28, S1)
         text(s, fex + 0.05, cy + 0.44, bw - 0.1, ch - 0.48, [[run(who, 14, True)], [run(how, 11)]], align=C, space=1)
 
-    zone(s, sx, top - 0.3, sw, "Next.js-Server auf Node.js · für Besucher unsichtbar", S2, "server")
+    zone(s, sx, top - 0.3, sw, "Backend · Next.js-Server auf Node.js · für Besucher unsichtbar", S2, "server")
     box(s, sx, top, sw, fh, tint(S2, 0.1))
     for m in card_mid:
         arrow(s, fex - 0.04, m, sx + sw + 0.02, m, S1, width=2.5)
