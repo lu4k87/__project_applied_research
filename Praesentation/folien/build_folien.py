@@ -290,13 +290,13 @@ def slide_request(prs):
              [[run(t, 10, True, col)] for t in lab.split("\n")] + [[run(it, 10, True, INK, TOOL)] for it in items],
              align=C, space=1)
 
-    # Weg einer Anfrage: Datenbank ← 5 Stationen ← Browser (Frontend rechts, Datenbank links)
+    # Weg einer Anfrage: Browser → 5 Stationen → Datenbank (Frontend links, Datenbank rechts)
     fh = 2.2
     bw, dbw = 1.6, 1.55
     ch = (fh - 0.15) / 2
-    dbx, fex = 0.5, 12.833 - bw
-    sx = dbx + dbw + 0.42
-    sw = fex - 0.42 - sx
+    fex, dbx = 0.5, 12.833 - dbw
+    sx = fex + bw + 0.42
+    sw = dbx - 0.42 - sx
     mid = top + fh / 2  # Pfeil + Label gemeinsam auf der senkrechten Mitte von Server und Datenbank
     card_mid = [top + i * (ch + 0.15) + ch / 2 for i in range(2)]
 
@@ -308,17 +308,17 @@ def slide_request(prs):
             c = slide_line(s, x, y0, x, a, tint(INK, 0.28), width=1)
             etree.SubElement(c.line._get_or_add_ln(), qn("a:prstDash")).set("val", "dash")
             y0 = b
-    divider(dbx + dbw + 0.21, [(mid - 0.26, mid + 0.22)])
-    divider(sx + sw + 0.21, [(m - 0.14, m + 0.14) for m in card_mid])
+    divider(fex + bw + 0.21, [(m - 0.14, m + 0.14) for m in card_mid])
+    divider(sx + sw + 0.21, [(mid - 0.26, mid + 0.22)])
 
     zone(s, fex, top - 0.3, bw, "Frontend · Browser", S1, "monitor")
     people = [("user", "Gast", "ohne Cookie", "Ohne\nLogin"),
               ("user-check", "Mitglied", "mit Session-Cookie", "Standort\n+ Login")]
     for i, (ic, who, how, state) in enumerate(people):
         cy = top + i * (ch + 0.15)
-        # Kontostand senkrecht rechts neben der Karte (Textfeld um 270° gedreht, Mitte bleibt)
+        # Kontostand senkrecht links neben der Karte (Textfeld um 270° gedreht, Mitte bleibt)
         vh = 0.38
-        tb = text(s, fex + bw + 0.21 - ch / 2, cy + ch / 2 - vh / 2, ch, vh, lines(state, 10, True, S1),
+        tb = text(s, fex - 0.21 - ch / 2, cy + ch / 2 - vh / 2, ch, vh, lines(state, 10, True, S1),
                   align=C, anchor=M)
         tb.rotation = 270
         box(s, fex, cy, bw, ch, tint(S1, 0.1))
@@ -328,7 +328,7 @@ def slide_request(prs):
     zone(s, sx, top - 0.3, sw, "Backend · Next.js-Server auf Node.js · für Besucher unsichtbar", S2, "server")
     box(s, sx, top, sw, fh, tint(S2, 0.1))
     for m in card_mid:
-        arrow(s, fex - 0.04, m, sx + sw + 0.02, m, S1, width=2.5)
+        arrow(s, fex + bw + 0.04, m, sx - 0.02, m, S1, width=2.5)
 
     stations = [("log-in", "Next.js\nRouting + API", "Einstiegspunkt", "Nimmt jede Anfrage an"),
                 ("key-round", "Better Auth", "Authentifizierung", "Wer fragt? Gast oder Mitglied"),
@@ -340,15 +340,15 @@ def slide_request(prs):
     sty, sth = top + pad, fh - 2 * pad
     my = sty + 0.14 + d / 2  # Mittellinie von Icon und Nummer
     for i, (ic, name, role, desc) in enumerate(stations):
-        x = sx + pad + (4 - i) * (stw + ag)  # Station 1 rechts am Browser, Station 5 links an der Datenbank
+        x = sx + pad + i * (stw + ag)  # Station 1 links am Browser, Station 5 rechts an der Datenbank
         box(s, x, sty, stw, sth, SURFACE)
         icon(s, ic, x + stw / 2 - 0.42, my - 0.16, 0.32, S2)  # Icon links, Nummer rechts
         step(s, x + stw / 2 + 0.06, sty + 0.14, i + 1, S2, d=d)
         text(s, x + 0.04, sty + 0.6, stw - 0.08, 0.22, [[run(role, 10.5, True, S2)]], align=C)
         text(s, x + 0.04, sty + 0.82, stw - 0.08, 0.46, lines(name, 12, True, INK, TOOL), align=C, anchor=M)
         text(s, x + 0.06, sty + 1.32, stw - 0.12, 0.6, lines(desc, 11), align=C)
-        if i:  # Pfeil von der vorigen Station (rechts) nach links, senkrecht mittig zur Karte
-            arrow(s, x + stw + ag - 0.03, sty + sth / 2, x + stw + 0.03, sty + sth / 2, S2, width=2.5)
+        if i:  # Pfeil von der vorigen Station (links) nach rechts, senkrecht mittig zur Karte
+            arrow(s, x - ag + 0.03, sty + sth / 2, x - 0.03, sty + sth / 2, S2, width=2.5)
 
     zone(s, dbx, top - 0.3, dbw, "Datenbank", S3, "database")
     db = box(s, dbx, top, dbw, fh, tint(S3, 0.12), S3, shape=MSO_SHAPE.CAN)
@@ -356,8 +356,8 @@ def slide_request(prs):
     db.line.width = Pt(1.25)
     text(s, dbx + 0.1, top + 0.3, dbw - 0.2, fh - 0.4,
          [[run("PostgreSQL", 13, True, INK, TOOL)], [run("Standorte, Nutzer, Materialien, Angebote, Matches", 11)]], align=C, anchor=M, space=4)
-    arrow(s, dbx + dbw + 0.03, mid - 0.12, sx - 0.03, mid - 0.12, S3, both=True, width=2.5)
-    text(s, dbx + dbw - 0.02, mid - 0.04, 0.46, 0.22, [[run("SQL", 10.5, True, S3)]], align=C)
+    arrow(s, sx + sw + 0.03, mid - 0.12, dbx - 0.03, mid - 0.12, S3, both=True, width=2.5)
+    text(s, sx + sw - 0.02, mid - 0.04, 0.46, 0.22, [[run("SQL", 10.5, True, S3)]], align=C)
 
     # Antwort nach Rolle: Gast und Mitglied nebeneinander, als Paar mittig auf der Folie
     ry, rh = 6.16, 1.06
