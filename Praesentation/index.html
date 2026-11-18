@@ -311,7 +311,7 @@
 
   <div class="connect">
     <figure class="fig">
-      <svg viewBox="0 0 380 872" role="img" aria-label="Verbindungen zwischen Browser, dem Next.js-Server mit seinen Stationen, der PostgreSQL-Datenbank und dem Hintergrund-Job. Der Browser spricht nur mit dem Server, nie direkt mit der Datenbank.">
+      <svg viewBox="0 0 640 872" role="img" aria-label="Verbindungen zwischen Browser, dem Next.js-Server mit seinen Stationen, der PostgreSQL-Datenbank und dem Hintergrund-Job. Der Browser spricht nur mit dem Server, nie direkt mit der Datenbank.">
         <defs>
           <marker id="e1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f1"/></marker>
           <marker id="e2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f2"/></marker>
@@ -320,12 +320,12 @@
 
         <!-- Frontend -->
         <text class="g-layer f1" x="16" y="14">FRONTEND · REACT + NEXT.JS IM BROWSER</text>
-        <rect class="g-box k1" x="16" y="24" width="162" height="44" rx="8"/>
+        <rect class="g-box k1" x="16" y="24" width="292" height="44" rx="8"/>
         <text class="g-title" x="28" y="43">Gast</text>
         <text class="g-sub" x="28" y="58">nicht registriert</text>
-        <rect class="g-box k1" x="202" y="24" width="162" height="44" rx="8"/>
-        <text class="g-title" x="214" y="43">Mitglied</text>
-        <text class="g-sub" x="214" y="58">eingeloggt</text>
+        <rect class="g-box k1" x="332" y="24" width="292" height="44" rx="8"/>
+        <text class="g-title" x="344" y="43">Mitglied</text>
+        <text class="g-sub" x="344" y="58">eingeloggt</text>
 
         <!-- Browser <-> Server -->
         <line class="a a1" x1="34" y1="70" x2="34" y2="122" marker-end="url(#e1)"/>
@@ -334,19 +334,19 @@
         <line class="a a2" x1="112" y1="124" x2="112" y2="72" marker-end="url(#e2)"/>
         <text class="g-lab f2" x="120" y="93">Antwort</text>
         <text class="g-sub" x="120" y="106">nur Vorschau</text>
-        <line class="a a1" x1="220" y1="70" x2="220" y2="122" marker-end="url(#e1)"/>
-        <text class="g-lab f1" x="228" y="93">Anfrage</text>
-        <text class="g-sub" x="228" y="106">mit Cookie</text>
-        <line class="a a2" x1="298" y1="124" x2="298" y2="72" marker-end="url(#e2)"/>
-        <text class="g-lab f2" x="306" y="93">Antwort</text>
-        <text class="g-sub" x="306" y="106">alle Details</text>
+        <line class="a a1" x1="350" y1="70" x2="350" y2="122" marker-end="url(#e1)"/>
+        <text class="g-lab f1" x="358" y="93">Anfrage</text>
+        <text class="g-sub" x="358" y="106">mit Cookie</text>
+        <line class="a a2" x1="428" y1="124" x2="428" y2="72" marker-end="url(#e2)"/>
+        <text class="g-lab f2" x="436" y="93">Antwort</text>
+        <text class="g-sub" x="436" y="106">alle Details</text>
 
         <!-- Backend-Rahmen -->
-        <rect class="g-frame" x="8" y="126" width="364" height="644" rx="14"/>
+        <rect class="g-frame" x="8" y="126" width="624" height="644" rx="14"/>
         <text class="g-layer f2" x="20" y="146">BACKEND · NEXT.JS-SERVER AUF NODE.JS</text>
 
         <!-- Einstiegspunkt -->
-        <rect class="g-box k2" x="20" y="158" width="342" height="46" rx="8"/>
+        <rect class="g-box k2" x="20" y="158" width="600" height="46" rx="8"/>
         <text class="g-name" x="32" y="177">Next.js App Router</text>
         <text class="g-sub" x="32" y="193">Einstiegspunkt: Seiten, Server Actions, Route Handler</text>
         <line class="a a2" x1="44" y1="205" x2="44" y2="231" marker-end="url(#e2)"/>
@@ -355,98 +355,98 @@
         <g transform="translate(0,76)">
 
         <!-- Datenbank -->
-        <rect class="g-db" x="250" y="154" width="112" height="292" rx="10"/>
-        <text class="g-lab f3" x="260" y="171">PostgreSQL</text>
-        <text class="g-sub" x="260" y="186">Better Auth</text>
-        <rect class="g-box k3" x="258" y="192" width="96" height="24" rx="6"/>
-        <text class="g-name" x="266" y="208">user</text>
-        <rect class="g-box k3" x="258" y="222" width="96" height="24" rx="6"/>
-        <text class="g-name" x="266" y="238">session</text>
-        <rect class="g-box k3" x="258" y="252" width="96" height="24" rx="6"/>
-        <text class="g-name" x="266" y="268">account</text>
-        <rect class="g-box k3" x="258" y="282" width="96" height="24" rx="6"/>
-        <text class="g-name" x="266" y="298">verification</text>
-        <text class="g-sub" x="306" y="328" text-anchor="middle">kein Zugriff</text>
-        <text class="g-sub" x="306" y="341" text-anchor="middle">aus dem Browser</text>
-        <text class="g-sub" x="260" y="366">App</text>
-        <rect class="g-box k3" x="258" y="372" width="96" height="28" rx="6"/>
-        <text class="g-name" x="266" y="390">listings</text>
-        <rect class="g-box k3" x="258" y="408" width="96" height="28" rx="6"/>
-        <text class="g-name" x="266" y="426">trades</text>
+        <rect class="g-db" x="448" y="154" width="172" height="292" rx="10"/>
+        <text class="g-lab f3" x="458" y="171">PostgreSQL</text>
+        <text class="g-sub" x="458" y="186">Better Auth</text>
+        <rect class="g-box k3" x="456" y="192" width="156" height="24" rx="6"/>
+        <text class="g-name" x="464" y="208">user</text>
+        <rect class="g-box k3" x="456" y="222" width="156" height="24" rx="6"/>
+        <text class="g-name" x="464" y="238">session</text>
+        <rect class="g-box k3" x="456" y="252" width="156" height="24" rx="6"/>
+        <text class="g-name" x="464" y="268">account</text>
+        <rect class="g-box k3" x="456" y="282" width="156" height="24" rx="6"/>
+        <text class="g-name" x="464" y="298">verification</text>
+        <text class="g-sub" x="534" y="328" text-anchor="middle">kein Zugriff</text>
+        <text class="g-sub" x="534" y="341" text-anchor="middle">aus dem Browser</text>
+        <text class="g-sub" x="458" y="366">App</text>
+        <rect class="g-box k3" x="456" y="372" width="156" height="28" rx="6"/>
+        <text class="g-name" x="464" y="390">listings</text>
+        <rect class="g-box k3" x="456" y="408" width="156" height="28" rx="6"/>
+        <text class="g-name" x="464" y="426">trades</text>
 
         <!-- Better Auth <-> eigene Tabellen -->
-        <line class="a a2" x1="209" y1="166" x2="255" y2="204" marker-start="url(#e2)" marker-end="url(#e2)"/>
-        <line class="a a2" x1="209" y1="176" x2="255" y2="234" marker-start="url(#e2)" marker-end="url(#e2)"/>
-        <line class="a a2" x1="209" y1="186" x2="255" y2="264" marker-start="url(#e2)" marker-end="url(#e2)"/>
-        <line class="a a2" x1="209" y1="196" x2="255" y2="294" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="363" y1="166" x2="453" y2="204" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="363" y1="176" x2="453" y2="234" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="363" y1="186" x2="453" y2="264" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="363" y1="196" x2="453" y2="294" marker-start="url(#e2)" marker-end="url(#e2)"/>
 
         <!-- Vier Stationen -->
-        <rect class="g-box k2" x="20" y="158" width="186" height="46" rx="8"/>
+        <rect class="g-box k2" x="20" y="158" width="340" height="46" rx="8"/>
         <text class="g-name" x="32" y="177">Better Auth</text>
         <text class="g-sub" x="32" y="193">Authentifizierung: wer fragt an?</text>
         <line class="a a2" x1="44" y1="205" x2="44" y2="231" marker-end="url(#e2)"/>
         <text class="g-sub" x="54" y="223">Rolle: Gast oder Mitglied</text>
 
-        <rect class="g-box k2" x="20" y="234" width="186" height="46" rx="8"/>
+        <rect class="g-box k2" x="20" y="234" width="340" height="46" rx="8"/>
         <text class="g-name" x="32" y="253">Zod</text>
         <text class="g-sub" x="32" y="269">Validierung: prüft jede Eingabe</text>
         <line class="a a2" x1="44" y1="281" x2="44" y2="307" marker-end="url(#e2)"/>
         <text class="g-sub" x="54" y="299">nur gültige Eingaben</text>
 
-        <rect class="g-box k2" x="20" y="310" width="186" height="46" rx="8"/>
+        <rect class="g-box k2" x="20" y="310" width="340" height="46" rx="8"/>
         <text class="g-name" x="32" y="329">Data Access Layer</text>
         <text class="g-sub" x="32" y="345">Autorisierung: Felder nach Rolle</text>
         <line class="a a2" x1="44" y1="357" x2="44" y2="383" marker-end="url(#e2)"/>
         <text class="g-sub" x="54" y="375">erlaubte Abfrage</text>
 
-        <rect class="g-box k2" x="20" y="386" width="186" height="46" rx="8"/>
+        <rect class="g-box k2" x="20" y="386" width="340" height="46" rx="8"/>
         <text class="g-name" x="32" y="405">Prisma / Drizzle</text>
         <text class="g-sub" x="32" y="421">ORM: baut sichere SQL-Abfragen</text>
 
         <!-- Server <-> Datenbank -->
-        <line class="a a2" x1="209" y1="402" x2="255" y2="388" marker-start="url(#e2)" marker-end="url(#e2)"/>
-        <line class="a a2" x1="209" y1="418" x2="255" y2="422" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="363" y1="402" x2="453" y2="388" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="363" y1="418" x2="453" y2="422" marker-start="url(#e2)" marker-end="url(#e2)"/>
 
         <!-- Hintergrund-Job -->
-        <line class="g-div" x1="20" y1="456" x2="236" y2="456"/>
+        <line class="g-div" x1="20" y1="456" x2="390" y2="456"/>
         <text class="g-layer f4" x="20" y="474">HINTERGRUND-JOB · ZEITGESTEUERT</text>
 
-        <rect class="g-box k4" x="20" y="484" width="152" height="46" rx="8"/>
+        <rect class="g-box k4" x="20" y="484" width="260" height="46" rx="8"/>
         <text class="g-name" x="32" y="503">BullMQ Queue</text>
         <text class="g-sub" x="32" y="519">Job bei Registrierung</text>
         <line class="a a4" x1="44" y1="531" x2="44" y2="555" marker-end="url(#e4)"/>
         <text class="g-sub" x="54" y="547">7 Tage verzögert</text>
 
-        <rect class="g-box k4" x="20" y="558" width="152" height="46" rx="8"/>
+        <rect class="g-box k4" x="20" y="558" width="260" height="46" rx="8"/>
         <text class="g-name" x="32" y="577">Redis</text>
         <text class="g-sub" x="32" y="593">bewahrt den Job auf</text>
 
-        <line class="a a4" x1="174" y1="581" x2="247" y2="581" marker-end="url(#e4)"/>
-        <text class="g-lab f4" x="211" y="574" text-anchor="middle">Job fällig</text>
-        <text class="g-sub" x="211" y="596" text-anchor="middle">nach 7 Tagen</text>
+        <line class="a a4" x1="282" y1="581" x2="445" y2="581" marker-end="url(#e4)"/>
+        <text class="g-lab f4" x="363" y="574" text-anchor="middle">Job fällig</text>
+        <text class="g-sub" x="363" y="596" text-anchor="middle">nach 7 Tagen</text>
 
-        <rect class="g-box k4" x="250" y="558" width="112" height="46" rx="8"/>
-        <text class="g-name" x="260" y="577">BullMQ Worker</text>
-        <text class="g-sub" x="260" y="593">prüft Inaktivität</text>
+        <rect class="g-box k4" x="448" y="558" width="172" height="46" rx="8"/>
+        <text class="g-name" x="458" y="577">BullMQ Worker</text>
+        <text class="g-sub" x="458" y="593">prüft Inaktivität</text>
 
-        <line class="a a4" x1="306" y1="438" x2="306" y2="555" stroke-dasharray="4 3" marker-end="url(#e4)"/>
-        <text class="g-lab f4" x="298" y="506" text-anchor="end">Anzahl Trades</text>
+        <line class="a a4" x1="534" y1="438" x2="534" y2="555" stroke-dasharray="4 3" marker-end="url(#e4)"/>
+        <text class="g-lab f4" x="526" y="506" text-anchor="end">Anzahl Trades</text>
 
-        <line class="a a4" x1="306" y1="606" x2="306" y2="631" marker-end="url(#e4)"/>
-        <text class="g-sub" x="298" y="622" text-anchor="end">nur bei 0 Trades</text>
+        <line class="a a4" x1="534" y1="606" x2="534" y2="631" marker-end="url(#e4)"/>
+        <text class="g-sub" x="526" y="622" text-anchor="end">nur bei 0 Trades</text>
 
-        <rect class="g-box k4" x="250" y="634" width="112" height="46" rx="8"/>
-        <text class="g-name" x="260" y="653">React Email</text>
-        <text class="g-sub" x="260" y="669">baut die E-Mail</text>
+        <rect class="g-box k4" x="448" y="634" width="172" height="46" rx="8"/>
+        <text class="g-name" x="458" y="653">React Email</text>
+        <text class="g-sub" x="458" y="669">baut die E-Mail</text>
 
-        <line class="a a4" x1="306" y1="682" x2="306" y2="737" marker-end="url(#e4)"/>
-        <text class="g-lab f4" x="298" y="713" text-anchor="end">Erinnerungs-E-Mail</text>
-        <text class="g-sub" x="298" y="726" text-anchor="end">über einen Mail-Dienst</text>
+        <line class="a a4" x1="534" y1="682" x2="534" y2="737" marker-end="url(#e4)"/>
+        <text class="g-lab f4" x="526" y="713" text-anchor="end">Erinnerungs-E-Mail</text>
+        <text class="g-sub" x="526" y="726" text-anchor="end">über einen Mail-Dienst</text>
 
         <!-- Außerhalb -->
-        <rect class="g-box k0" x="202" y="740" width="160" height="46" rx="8"/>
-        <text class="g-title" x="214" y="759">Postfach des Nutzers</text>
-        <text class="g-sub" x="214" y="775">außerhalb der App</text>
+        <rect class="g-box k0" x="460" y="740" width="160" height="46" rx="8"/>
+        <text class="g-title" x="472" y="759">Postfach des Nutzers</text>
+        <text class="g-sub" x="472" y="775">außerhalb der App</text>
         </g>
       </svg>
       <figcaption>Der Browser spricht nur mit dem Next.js-Server. An die Datenbank kommen ausschließlich die Stationen im Backend.</figcaption>
