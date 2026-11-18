@@ -221,7 +221,10 @@ def slide_line(slide, x1, y1, x2, y2, color, width=1.5):
 
 
 def step(slide, x, y, n, color, d=0.34):
-    c = box(slide, x, y, d, d, color, shape=MSO_SHAPE.OVAL)
+    """Nummer als Kreis ohne Füllung: farbiger Rand + Ziffer in der Farbe."""
+    c = box(slide, x, y, d, d, color, line=color, shape=MSO_SHAPE.OVAL)
+    c.fill.background()
+    c.line.width = Pt(1.75)
     tf = c.text_frame
     tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
@@ -230,7 +233,7 @@ def step(slide, x, y, n, color, d=0.34):
     r = p.add_run()
     r.text = str(n)
     r.font.size, r.font.bold, r.font.name = Pt(round(d * 38)), True, SANS
-    r.font.color.rgb = rgb(SURFACE)
+    r.font.color.rgb = rgb(color)
 
 
 def icon(slide, name, x, y, size, color):
