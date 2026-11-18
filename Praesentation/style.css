@@ -214,7 +214,8 @@
   @media (min-width:1400px){
     .layers{grid-template-columns:minmax(230px,.9fr) 4.2fr}
     .be-cols{grid-template-columns:1fr 1.5fr 1fr}
-    .cols{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
+    .cols{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;
+          background:linear-gradient(var(--line),var(--line)) center/1px 100% no-repeat}
     .cols div:last-child{border-bottom:1px solid var(--line);padding-bottom:5px}
   }
   /* Breit: Glossar-Gruppen als vier Spalten */
