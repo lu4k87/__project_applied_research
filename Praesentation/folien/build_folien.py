@@ -396,10 +396,10 @@ def slide_request(prs):
             text(s, cx, y, cw, rh - 0.4, [[run("• " + t, size, False, color)] for t in items], space=1)
 
     # Gast / Mitglied als Browserfenster: Titelleiste mit Punkten + Adresszeile, darunter die Seite
-    windows = [("eye", "Gast sieht", "/offers",
+    windows = [("user", "Gast sieht", "/offers",
                 [["Titel + Material", "Menge + Stadt", "Registrieren"],
                  ["Login", "E-Mail bestätigen", "Passwort zurücksetzen,.."]]),
-               ("lock-open", "Mitglied sieht", "/offers/[id]",
+               ("user-check", "Mitglied sieht", "/offers/[id]",
                 [["+ Preis + Beschreibung", "+ Kontakt", "Match anfragen"],
                  ["Angebote einstellen", "Eigene Matches,.."]])]
     def text_w(cols, size=10.5):
