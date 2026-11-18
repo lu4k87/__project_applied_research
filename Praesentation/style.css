@@ -24,7 +24,8 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;
        padding:28px clamp(16px,2.5vw,48px) 56px;-webkit-text-size-adjust:100%}
-  .page{display:flex;flex-direction:column;gap:22px}
+  /* Obergrenze 1880 px: bei 1920 px Fensterbreite volle Breite, beim Rauszoomen wird die Seite kleiner */
+  .page{max-width:1880px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
 
   header h1{font-family:var(--font-display);font-size:clamp(28px,4.2vw,42px);font-weight:700;letter-spacing:-.02em;line-height:1.1;text-wrap:balance}
   header p{color:var(--muted);margin-top:8px;font-size:17px;text-wrap:pretty}
