@@ -17,7 +17,7 @@ Ergänzt die gemeinsamen Regeln aller Projekte (`~/.claude/CLAUDE.md` → `~/ai_
 | `README.md` | Übersicht aller Teilprojekte + Start-Befehl |
 | `projekt-a-materialfluss/` | KreiswertS (löst die Kehrum-Karte ab): `README.md` (Ziele, Stand, Aufbau), `karte/` (Prototyp) |
 | `projekt-a-materialfluss/karte/` | Prototyp KreiswertS: `index.html` (Gerüst), `daten.js` (alle Daten der Region, DE/EN – Replikation tauscht nur diese Datei), `app.js` (Matching, Karte, Selbsttest), `grundkarte.js` (MapLibre-Grundkarte, Ebenen der Plattform), `matching.js` (Matching-Regel für Karte + Backend), `konto.html/.js/.css` (Anmeldung, Firmenbereich, Verwaltung), `api.js` (simuliertes Backend, später 1:1 tauschen), `api-test.html` (Test der Mock-API), `geo/` (Kartendaten + `QUELLEN.md`), `vendor/` (MapLibre, pmtiles), `kreiswerts.css` |
-| `Präsentation/` | Erklärseite App-Architektur: `index.html` (Inhalt), `style.css`, `script.js` (Wege hervorheben, Verbindungslinien, DE/EN) |
+| `Praesentation/` | Erklärseite App-Architektur: `index.html` (Inhalt), `style.css`, `script.js` (Wege hervorheben, Verbindungslinien, DE/EN) |
 | `TODOS.md` | offene Punkte aller Teilprojekte (Backlog) |
 | `AGENTS.md` | diese Regeln (`GEMINI.md` = Link darauf) |
 | `.claude/memory/` | Projekt-Memory, Index `MEMORY.md` (Claude lädt ihn selbst, Codex/Gemini lesen ihn zu Beginn) |
