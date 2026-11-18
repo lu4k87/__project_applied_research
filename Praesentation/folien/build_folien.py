@@ -459,7 +459,7 @@ STACK = {  # Schlüssel: (Name, Rolle, Icon, Farbe, was er tut, Beispiel im Proj
     "dal": ("Data Access Layer", "Autorisierung", "eye", S2,
         "Eigene Code-Schicht für alle Datenzugriffe. Prüft, ob die Rolle die Daten sehen oder ändern darf.",
         "Preis und Kontakt nur für Mitglieder; ein Angebot ändert nur der eigene Standort", "Zugriffsregeln an einer Stelle statt verteilt"),
-    "orm": ("Prisma / Drizzle", "ORM (Object-\nRelational Mapping)", "database", S3,
+    "orm": ("Prisma / Drizzle", "ORM", "database", S3,
         "Bildet die Tabellen als TypeScript-Objekte ab und übersetzt Aufrufe in SQL-Abfragen.",
         "alle Angebote eines Materials laden", "typsicher, Werte werden sicher eingesetzt (keine SQL-Injection)"),
 }
@@ -499,9 +499,8 @@ def stack_card(s, x, y, w, h, key, what_lines=1):
     p, nx = 0.14, 0.58
     box(s, x, y, w, h, fill)
     icon(s, ic, x + p, y + 0.14, 0.34, ink if dark else col)
-    two = "\n" in role  # Rolle mit Langform in 2 Zeilen: Kopf enger, Text darunter bleibt auf seiner Linie
-    text(s, x + nx, y + (0.03 if two else 0.08), w - nx - 0.06, 0.34 if two else 0.2, lines(role, 10, True, accent))
-    text(s, x + nx, y + (0.35 if two else 0.28), w - nx - 0.06, 0.26 if two else 0.28,
+    text(s, x + nx, y + 0.08, w - nx - 0.06, 0.2, [[run(role, 10, True, accent)]])
+    text(s, x + nx, y + 0.28, w - nx - 0.06, 0.28,
          [[run(name, fit_size(name, w - nx - 0.1), True, ink, TOOL)]])
     label = LABEL_ON_INK if dark else col  # „Beispiel:“ und „Warum …?“ farbig, Text darunter in Textfarbe
     body_y, body_h = y + 0.62, h - 0.62 - 0.12
