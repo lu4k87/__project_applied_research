@@ -1,6 +1,7 @@
 """Erzeugt die 2 Folien (16:9) aus der Architektur-Seite Praesentation/index.html.
 
-Ausgabe: App-Architektur.pptx; PNGs (1920 × 1080) per LibreOffice:
+Ausgabe: App-Architektur.pptx (deutsch) und App-Architecture-EN.pptx (englisch);
+PNGs (1920 × 1080) per LibreOffice:
     python build_folien.py            # braucht python-pptx
     soffice --headless --convert-to pdf App-Architektur.pptx
     pdftoppm -png -scale-to-x 1920 -scale-to-y 1080 App-Architektur.pdf folie
@@ -17,7 +18,86 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.util import Emu, Inches, Pt
 
-OUT = Path(__file__).with_name("App-Architektur.pptx")
+OUT = {"de": Path(__file__).with_name("App-Architektur.pptx"),
+       "en": Path(__file__).with_name("App-Architecture-EN.pptx")}
+LANG = "de"  # setzt main() je Durchlauf
+
+# Englische Texte, Wortwahl wie die EN-Umschaltung in script.js
+EN = {
+    "App-Architektur: Tech-Stack und Weg einer Anfrage": "App Architecture: Tech Stack and the Path of a Request",
+    "Eine Web-App mit Next.js und TypeScript. Jede Anfrage durchläuft fünf Stationen, bevor Daten fließen.":
+        "A web app built with Next.js and TypeScript. Every request passes five steps before any data moves.",
+    "Oben der Tech-Stack nach Oberbegriffen. Darunter der Weg einer Anfrage: Browser, fünf Stationen "
+    "auf dem Next.js-Server, Datenbank. Unten, was Gast und Mitglied zurückbekommen.":
+        "Top: the tech stack by group. Middle: the path of a request: browser, five steps on the Next.js "
+        "server, database. Bottom: what guest and member get back.",
+    "Sprache": "Language", "Laufzeit": "Runtime",
+    "überall: Browser, Server, Worker": "everywhere: browser, server, worker",
+    "App Router, auf React-Basis": "App Router, built on React",
+    "führt Server und Worker aus": "runs the server and the worker",
+    "Benutzeroberfläche": "User interface", "Sicherheit": "Security", "Daten": "Data",
+    "Hintergrund & E-Mail": "Background & email", "Mail-Dienst": "Email service",
+    "Gast": "Guest", "nicht registriert, ohne Cookie": "not signed up, no cookie",
+    "Mitglied": "Member", "eingeloggt, mit Session-Cookie": "logged in, with session cookie",
+    "Next.js-Server auf Node.js · für Besucher unsichtbar": "Next.js server on Node.js · hidden from visitors",
+    "Einstiegspunkt": "Entry point", "Nimmt Seiten, Formulare und API-Aufrufe an": "Receives pages, forms and API calls",
+    "Authentifizierung": "Authentication",
+    "Prüft Login und Session-Cookie: Gast oder Mitglied?": "Checks login and session cookie: guest or member?",
+    "Validierung": "Validation", "Prüft jede Eingabe gegen ein Schema": "Checks every input against a schema",
+    "Autorisierung": "Authorization",
+    "Gibt nur Felder frei, die die Rolle sehen darf": "Only lets through the fields this role may see",
+    "Baut sichere, typisierte SQL-Abfragen": "Builds safe, typed SQL queries",
+    "Datenbank": "Database", "Konten, Sitzungen, Angebote, Trades": "Accounts, logins, offers, trades",
+    "→ Folie 2": "→ slide 2",
+    "Antwort an den Gast": "Response to the guest", "Station 4 gibt nur": "Step 4 only lets",
+    "frei: öffentliche Vorschauen": "through: public previews",
+    "Antwort an das Mitglied": "Response to the member", "Zusätzlich": "Also",
+    ": alle Details und Handel": ": all details and trading", "Merke": "Note",
+    "Der Browser spricht nur mit dem Server. Scheitert eine Prüfung, endet die Anfrage dort.":
+        "The browser only talks to the server. If a check fails, the request stops there.",
+    "Datenbank und 7-Tage-Job": "Database and 7-Day Job",
+    "PostgreSQL speichert Konten und App-Daten. Ein Hintergrund-Job erinnert Nutzer ohne Trade nach 7 Tagen.":
+        "PostgreSQL stores accounts and app data. A background job reminds users with no trade after 7 days.",
+    "Links die sechs Tabellen: vier legt Better Auth an, zwei gehören zur App. Rechts der zeitgesteuerte Job: "
+    "BullMQ plant ihn bei der Registrierung, Redis hält ihn, der Worker zählt nach 7 Tagen die Trades "
+    "und verschickt nur bei 0 Trades eine Erinnerung.":
+        "Left: the six tables. Better Auth creates four, two belong to the app. Right: the timed job. "
+        "BullMQ plans it at sign-up, Redis keeps it, after 7 days the worker counts the trades "
+        "and sends a reminder only if there are 0.",
+    "PostgreSQL · 6 Tabellen": "PostgreSQL · 6 tables",
+    "Ein Eintrag pro Person": "One row per person", "Anzeigename": "display name", "eindeutig": "unique",
+    "ja/nein": "yes/no", "7-Tage-Frist": "7-day timer",
+    "Aktive Logins, eines pro Gerät": "Active logins, one per device", "steht im Cookie": "stored in the cookie",
+    "Ablaufdatum": "expiry date",
+    "Login-Methoden: Passwort oder z. B. Google": "Login methods: password or e.g. Google",
+    "Login-Art": "login type", "nur als Hash": "hash only",
+    "Codes für E-Mail-Bestätigung und Passwort-Reset": "Codes for email checks and password resets",
+    "wofür": "purpose", "der Code": "the code", "läuft ab": "expires",
+    "Angebote mit zwei Sichtbarkeitsstufen": "Offers with two levels of visibility",
+    "öffentlich": "public", "nur\u00a0Mitglieder": "members\u00a0only",
+    "Abgeschlossene Trades zwischen zwei Nutzern": "Finished trades between two users", "Abschluss": "finished at",
+    "Primärschlüssel: eindeutige ID": "Primary key: unique ID",
+    "Fremdschlüssel: verweist auf eine andere Tabelle": "Foreign key: points to another table",
+    "Kein Zugriff aus dem Browser: nur die Stationen im Backend lesen und schreiben.":
+        "No access from the browser: only the backend steps read and write.",
+    "7-Tage-Job · zeitgesteuert, ohne Browser": "7-day job · on a timer, no browser",
+    "Job einplanen": "Plan the job",
+    "Bei der Registrierung legt der Next.js-Server einen Job an, fällig in 7 Tagen":
+        "At sign-up, the Next.js server adds a job, due in 7\u00a0days",
+    "Job-Speicher": "Job storage",
+    "Bewahrt den Job auf, auch über einen Neustart des Servers": "Keeps the job, even when the server restarts",
+    "Inaktivität prüfen": "Check inactivity",
+    "Eigener Node.js-Prozess. Zählt die Trades; bei mehr als 0 endet der Job":
+        "Its own Node.js process. Counts the trades; if more than 0, the job ends",
+    "E-Mail bauen": "Build the email",
+    "Vorlage als React-Komponente, gerendert zu HTML": "Template as a React component, turned into HTML",
+    "Versand ins Postfach": "Delivery to the inbox",
+    "Noch offen: z. B. Resend, Postmark oder Amazon SES": "Not chosen yet: e.g. Resend, Postmark or Amazon SES",
+    "7 Tage Verzögerung": "7-day delay", "nach 7 Tagen fällig": "due after 7 days",
+    "nur bei 0 Trades": "only if 0 trades", "fertige E-Mail": "finished email",
+    "App-Architektur": "App Architecture",
+}
+MISSING = set()
 
 # Farben aus style.css (:root, hell)
 BG, SURFACE, LINE, INK = "F2F4F8", "FFFFFF", "D6DCE8", "121A2C"
@@ -30,6 +110,17 @@ def tint(hex_color, keep):
     """Mischt eine Farbe mit Weiß; keep = Anteil der Farbe (0..1)."""
     rgb = [int(hex_color[i:i + 2], 16) for i in (0, 2, 4)]
     return "".join(f"{round(255 - (255 - c) * keep):02X}" for c in rgb)
+
+
+def tr(s):
+    """Deutsch bleibt; Englisch über EN, Leerzeichen am Rand bleiben erhalten."""
+    core = s.strip()
+    if LANG == "de" or not core:
+        return s
+    if core not in EN:
+        MISSING.add(core)
+        return s
+    return s[:len(s) - len(s.lstrip())] + EN[core] + s[len(s.rstrip()):]
 
 
 def rgb(h):
@@ -52,7 +143,7 @@ def box(slide, x, y, w, h, fill, line=None, radius=0.09, shape=MSO_SHAPE.ROUNDED
 
 
 def run(text, size=12, bold=False, color=INK, font=SANS):
-    return dict(text=text, size=size, bold=bold, color=color, font=font)
+    return dict(text=tr(text), size=size, bold=bold, color=color, font=font)
 
 
 def text(slide, x, y, w, h, paras, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP, space=0):
@@ -115,7 +206,7 @@ def new_slide(prs, title, lead, notes):
     s.background.fill.fore_color.rgb = rgb(BG)
     text(s, 0.5, 0.4, 12.33, 0.55, [[run(title, 30, True)]])
     text(s, 0.5, 1.0, 12.33, 0.35, [[run(lead, 15)]])
-    s.notes_slide.notes_text_frame.text = notes
+    s.notes_slide.notes_text_frame.text = tr(notes)
     return s
 
 
@@ -306,13 +397,17 @@ def slide_data_job(prs):
 
 
 def main():
-    prs = Presentation()
-    prs.slide_width, prs.slide_height = Emu(12192000), Emu(6858000)  # 16:9, 13,333 × 7,5 Zoll
-    slide_request(prs)
-    slide_data_job(prs)
-    prs.core_properties.title = "App-Architektur"
-    prs.save(OUT)
-    print(OUT)
+    global LANG
+    for LANG in ("de", "en"):
+        prs = Presentation()
+        prs.slide_width, prs.slide_height = Emu(12192000), Emu(6858000)  # 16:9, 13,333 × 7,5 Zoll
+        slide_request(prs)
+        slide_data_job(prs)
+        prs.core_properties.title = tr("App-Architektur")
+        prs.core_properties.language = {"de": "de-DE", "en": "en-US"}[LANG]
+        prs.save(OUT[LANG])
+        print(OUT[LANG])
+    print("ohne Übersetzung:", sorted(MISSING))
 
 
 if __name__ == "__main__":
