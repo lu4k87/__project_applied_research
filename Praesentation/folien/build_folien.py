@@ -541,9 +541,12 @@ def slide_stack(prs):
     y0 = 1.38 + (7.35 - 1.38 - (zl + bh + zg + rh)) / 2
     top_base = y0 + zl
     y1, rw, rg = top_base + bh + zg + rh, 1.05, 0.34
-    handover(s, 0.5, top_base, rw, y1 - top_base, "monitor", "Frontend", "React-Seiten", S1)
+    # Frontend/Datenbank-Leisten etwas flacher als beide Reihen (oben + unten je 0,6"), Mitte bleibt
+    inset = 0.6
+    hy, hh = top_base + inset, y1 - top_base - 2 * inset
+    handover(s, 0.5, hy, rw, hh, "monitor", "Frontend", "React-Seiten", S1)
     dbx = 12.833 - rw
-    handover(s, dbx, top_base, rw, y1 - top_base, "database", "Datenbank", "PostgreSQL", S3)
+    handover(s, dbx, hy, rw, hh, "database", "Datenbank", "PostgreSQL", S3)
     x0, x1 = 0.5 + rw + rg, dbx - rg
     sw = x1 - x0
 
