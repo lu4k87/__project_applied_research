@@ -341,8 +341,9 @@ def slide_request(prs):
     text(s, dbx + 0.1, top + 0.3, dbw - 0.2, fh - 0.4,
          [[run("PostgreSQL", 13, True, INK, TOOL)], [run("Konten, Logins, Angebote, Trades", 11)],
           [run("→ Folie 2", 11, True, S3)]], align=C, anchor=M, space=4)
-    arrow(s, sx + sw + 0.03, my, dbx - 0.03, my, S3, both=True, width=2.5)
-    text(s, sx + sw - 0.02, my + 0.08, 0.46, 0.3, [[run("SQL", 10.5, True, S3)]], align=C)
+    mid = top + fh / 2  # Pfeil + Label gemeinsam auf der senkrechten Mitte von Server und Datenbank
+    arrow(s, sx + sw + 0.03, mid - 0.12, dbx - 0.03, mid - 0.12, S3, both=True, width=2.5)
+    text(s, sx + sw - 0.02, mid - 0.04, 0.46, 0.22, [[run("SQL", 10.5, True, S3)]], align=C)
 
     # Antwort nach Rolle + Merksatz: Icon links, Text mittig daneben
     ry, rh = 6.16, 1.06
