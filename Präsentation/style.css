@@ -37,11 +37,16 @@
   .stack b{font-family:var(--font-mono);font-size:13px;font-weight:600;overflow-wrap:anywhere}
 
   header{position:relative}
-  .lang{position:absolute;top:0;right:0;display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
-  .lang button{font:600 13px/1 var(--font-mono);padding:8px 12px;border:0;background:transparent;color:var(--muted);cursor:pointer}
-  .lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-  .lang button:focus-visible{outline:2px solid var(--s1);outline-offset:-2px}
-  header h1{padding-right:110px}
+  .tools{position:absolute;top:0;right:0;display:flex;gap:8px}
+  .seg-sm{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+  .seg-sm button{font:600 13px/1 var(--font-mono);padding:8px 12px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+  .seg-sm button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+  .seg-sm button:focus-visible{outline:2px solid var(--s1);outline-offset:-2px}
+  header h1{padding-right:240px}
+  @media (max-width:640px){
+    .tools{position:static;justify-content:flex-end;flex-wrap:wrap;margin-bottom:14px}
+    header h1{padding-right:0}
+  }
 
   /* Fundament + Gruppen */
   .base{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}

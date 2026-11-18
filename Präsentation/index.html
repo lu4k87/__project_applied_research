@@ -7,12 +7,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem("arch-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
 <div class="page">
 
 <header>
-  <div class="lang" role="group" aria-label="Sprache / Language"><button type="button" id="l-de" data-l="de" aria-pressed="true">DE</button><button type="button" id="l-en" data-l="en" aria-pressed="false">EN</button></div>
+  <div class="tools">
+    <div class="seg-sm theme" role="group" aria-label="Farbschema"><button type="button" data-t="light" aria-pressed="false">Hell</button><button type="button" data-t="dark" aria-pressed="false">Dunkel</button></div>
+    <div class="seg-sm lang" role="group" aria-label="Sprache / Language"><button type="button" id="l-de" data-l="de" aria-pressed="true">DE</button><button type="button" id="l-en" data-l="en" aria-pressed="false">EN</button></div>
+  </div>
   <h1>App-Architektur</h1>
   <p>Eine Web-App mit Next.js und TypeScript. Die Seite zeigt, wie eine Anfrage vom Browser durch Sicherheitsprüfung und Filter bis in die Datenbank läuft und wie ein Hintergrund-Job inaktive Nutzer nach 7 Tagen erinnert.</p>
 </header>
