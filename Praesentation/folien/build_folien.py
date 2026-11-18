@@ -39,7 +39,7 @@ EN = {
     "Routing + API": "Routing + API", "Next.js Routing\u00a0+\u00a0API": "Next.js Routing\u00a0+\u00a0API",
     "Benutzeroberfläche": "User interface", "Sicherheit": "Security", "Daten": "Data",
     "Gast": "Guest", "Mitglied": "Member", "ohne Cookie": "no cookie", "Ohne": "Not", "Login": "logged in",
-    "Standort": "Site", "+ Login": "+ logged in", "Frontend · Browser": "Frontend · browser",
+    "Registriert": "Registered", "+ Login": "+ logged in", "Frontend · Browser": "Frontend · browser",
     "mit Session-Cookie": "with session cookie",
     "Backend · Next.js-Server auf Node.js · für Besucher unsichtbar":
         "Backend · Next.js server on Node.js · hidden from visitors",
@@ -346,7 +346,7 @@ def slide_request(prs):
 
     zone(s, fex, top - 0.3, bw, "Frontend · Browser", S1, "monitor")
     people = [("user", "Gast", "ohne Cookie", "Ohne\nLogin"),
-              ("user-check", "Mitglied", "mit Session-Cookie", "Standort\n+ Login")]
+              ("user-check", "Mitglied", "mit Session-Cookie", "Registriert\n+ Login")]
     for i, (ic, who, how, state) in enumerate(people):
         cy = top + i * (ch + 0.15)
         # Kontostand senkrecht links neben der Karte (Textfeld um 270° gedreht, Mitte bleibt)
