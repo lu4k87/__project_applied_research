@@ -37,7 +37,7 @@ EN = {
     "Routing + API auf React": "routing + API on React",
     "führt den Server aus": "runs the server",
     "Routing + API": "Routing + API", "Next.js Routing\u00a0+\u00a0API": "Next.js Routing\u00a0+\u00a0API",
-    "Benutzeroberfläche": "User interface", "Sicherheit": "Security", "Daten": "Data",
+    "Benutzeroberfläche": "User interface", "Sicherheit": "Security", "Backend & Sicherheit": "Backend & security", "Daten": "Data",
     "Gast": "Guest", "Mitglied": "Member", "ohne Cookie": "no cookie", "Ohne": "Not", "Login": "logged in",
     "Registriert": "Registered", "+ Login": "+ logged in", "Frontend · Browser": "Frontend · browser",
     "mit Session-Cookie": "with session cookie",
@@ -310,7 +310,7 @@ def slide_request(prs):
         text(s, x, y + 0.71, bw3, 0.3, [[run(name, 12, True, SURFACE, TOOL)]], align=C, anchor=M)
         text(s, x + 0.08, y + 1.03, bw3 - 0.16, 0.42, [[run(desc, 10, False, ON_INK)]], align=C)
     groups = [("monitor", "Benutzeroberfläche", S1, ["React", "Next.js Routing\u00a0+\u00a0API"]),
-              ("shield-check", "Sicherheit", S2, ["Better Auth", "Zod", "Data Access Layer"]),
+              ("shield-check", "Backend & Sicherheit", S2, ["Better Auth", "Zod", "Data Access Layer"]),
               ("database", "Daten", S3, ["Prisma / Drizzle", "PostgreSQL"])]
     gap = 0.15
     gx = fx + fw + gap
