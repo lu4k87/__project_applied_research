@@ -39,7 +39,8 @@ EN = {
     "Routing + API": "Routing + API", "Next.js Routing\u00a0+\u00a0API": "Next.js Routing\u00a0+\u00a0API",
     "Benutzeroberfläche": "User interface", "Sicherheit": "Security", "Daten": "Data",
     "Hintergrund & E-Mail": "Background & email", "Mail-Dienst": "Email service",
-    "Gast": "Guest", "ohne Login": "not logged in",
+    "Gast": "Guest", "ohne Cookie": "no cookie", "Ohne": "Not", "Login": "logged in",
+    "Registriert": "Registered", "+ Login": "+ logged in",
     "Mitglied": "Member", "mit Session-Cookie": "with session cookie",
     "Next.js-Server auf Node.js · für Besucher unsichtbar": "Next.js server on Node.js · hidden from visitors",
     "Einstiegspunkt": "Entry point", "Nimmt jede Anfrage an": "Takes every request",
@@ -49,8 +50,13 @@ EN = {
     "Baut sichere": "Builds safe", "SQL-Abfragen": "SQL queries",
     "Datenbank": "Database", "Konten, Logins, Angebote, Trades": "Accounts, logins, offers, trades",
     "→ Folie 2": "→ slide 2",
-    "Gast sieht": "Guest sees", "öffentliche Vorschau,..": "public preview,..",
-    "Mitglied sieht": "Member sees", "alle Details, Handel,..": "all details, trading,..",
+    "Gast sieht": "Guest sees", "Mitglied sieht": "Member sees",
+    "• Angebote als Vorschau": "• Offers as preview", "• Öffentliche Seiten": "• Public pages",
+    "• Registrieren": "• Sign up", "• Login": "• Log in", "• E-Mail bestätigen": "• Confirm email",
+    "• Passwort zurücksetzen,..": "• Reset password,..",
+    "• Alle Angebots-Details": "• All offer details", "• Eigene Angebote einstellen": "• Post own offers",
+    "• Handeln mit Mitgliedern": "• Trade with members", "• Eigene Trades": "• Own trades",
+    "• Mitglieder-Dashboard": "• Member dashboard", "• E-Mail-Erinnerung,..": "• Email reminder,..",
     "• Industriestandard": "• Industry standard", "• Sicherer Login + Rechte": "• Secure login + access",
     "• Geplante Jobs + E-Mails": "• Scheduled jobs + emails", "• TypeScript überall": "• TypeScript everywhere",
     "• Typsichere Datenbank": "• Type-safe database", "• Große Community,..": "• Large community,..",
@@ -286,8 +292,14 @@ def slide_request(prs):
     zone(s, 0.5, top - 0.3, 1.6, "Browser", S1, "monitor")
     bw = 1.6
     ch = (fh - 0.15) / 2
-    for i, (ic, who, how) in enumerate([("user", "Gast", "ohne Login"), ("user-check", "Mitglied", "mit Session-Cookie")]):
+    people = [("user", "Gast", "ohne Cookie", "Ohne\nLogin"),
+              ("user-check", "Mitglied", "mit Session-Cookie", "Registriert\n+ Login")]
+    for i, (ic, who, how, state) in enumerate(people):
         cy = top + i * (ch + 0.15)
+        # Kontostand senkrecht links neben der Karte (Textfeld um 270° gedreht, Mitte bleibt)
+        vh = 0.38
+        tb = text(s, 0.29 - ch / 2, cy + ch / 2 - vh / 2, ch, vh, lines(state, 10, True, S1), align=C, anchor=M)
+        tb.rotation = 270
         box(s, 0.5, cy, bw, ch, tint(S1, 0.1))
         icon(s, ic, 0.5 + (bw - 0.28) / 2, cy + 0.12, 0.28, S1)
         text(s, 0.55, cy + 0.44, bw - 0.1, ch - 0.48, [[run(who, 14, True)], [run(how, 11)]], align=C, space=1)
@@ -335,18 +347,35 @@ def slide_request(prs):
     # Antwort nach Rolle + Merksatz: Icon links, Text mittig daneben
     ry, rh = 6.16, 1.06
     rw = (12.333 - 2 * 0.2) / 3
-    code = lambda t: run(t, 12, True, INK, MONO)
-    cards = [(tint(S1, 0.1), INK, S1, "eye", "Gast sieht",
-              [[code("previewText")], [run("öffentliche Vorschau,..", 12)]]),
-             (tint(S1, 0.1), INK, S1, "lock-open", "Mitglied sieht",
-              [[code("previewText"), run(" + ", 12, True, S1), code("memberDetails")],
-               [run("alle Details, Handel,..", 12)]]),
-             ]
-    for i, (fill, ink, icol, ic, head, body) in enumerate(cards):
+    def bullets(x, y, w, cols, color, size=10.5):
+        """Stichpunkte in 2 Spalten, linksbündig; linke Spalte so breit wie ihr längster Punkt."""
+        c1 = max(label_width("• " + t, size, bold=False) for t in cols[0]) + 0.22
+        for j, items in enumerate(cols):
+            cx, cw = (x, c1) if j == 0 else (x + c1, w - c1)
+            text(s, cx, y, cw, rh - 0.4, [[run("• " + t, size, False, color)] for t in items], space=1)
+
+    # Gast / Mitglied als Browserfenster: Titelleiste mit Punkten + Adresszeile, darunter die Seite
+    windows = [("eye", "Gast sieht", "previewText",
+                [["Angebote als Vorschau", "Öffentliche Seiten", "E-Mail bestätigen"],
+                 ["Registrieren", "Login", "Passwort zurücksetzen,.."]]),
+               ("lock-open", "Mitglied sieht", "+ memberDetails",
+                [["Alle Angebots-Details", "Eigene Angebote einstellen", "Handeln mit Mitgliedern"],
+                 ["Eigene Trades", "Mitglieder-Dashboard", "E-Mail-Erinnerung,.."]])]
+    bar = 0.3
+    for i, (ic, head, field, cols) in enumerate(windows):
         x = 0.5 + i * (rw + 0.2)
-        box(s, x, ry, rw, rh, fill)
-        icon(s, ic, x + 0.25, ry + (rh - 0.44) / 2, 0.44, icol)
-        text(s, x + 0.85, ry, rw - 1.1, rh, [[run(head, 13.5, True, ink)]] + body, align=C, anchor=M, space=3)
+        frame = box(s, x, ry, rw, rh, SURFACE, tint(S1, 0.45))
+        frame.line.width = Pt(1.25)
+        top_bar = box(s, x, ry, rw, bar, tint(S1, 0.14), shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)
+        top_bar.adjustments[0] = 0.09 / bar
+        for k in range(3):
+            box(s, x + 0.14 + k * 0.13, ry + (bar - 0.08) / 2, 0.08, 0.08, tint(S1, 0.45), shape=MSO_SHAPE.OVAL)
+        url = box(s, x + 0.58, ry + 0.05, rw - 1.06, bar - 0.1, SURFACE, radius=0.1)
+        url.line.fill.background()
+        text(s, x + 0.7, ry + 0.05, rw - 1.2, bar - 0.1,
+             [[run(head, 10.5, True), run("  ·  ", 10.5, True, S1), run(field, 10, True, INK, MONO)]], anchor=M)
+        icon(s, ic, x + rw - 0.36, ry + 0.05, 0.2, S1)
+        bullets(x + 0.2, ry + bar + 0.08, rw - 0.3, cols, INK)
 
     # Benefits: Kopf mit Icon, darunter 2 Spalten Stichpunkte, linksbündig
     x = 0.5 + 2 * (rw + 0.2)
@@ -356,11 +385,7 @@ def slide_request(prs):
     icon(s, "badge-check", x + 0.22 + hw + 0.08, ry + 0.11, 0.26, ON_INK)  # Icon rechts neben dem Titel
     benefits = [["Industriestandard", "Sicherer Login + Rechte", "Geplante Jobs + E-Mails"],
                 ["TypeScript überall", "Typsichere Datenbank", "Große Community,.."]]
-    # Spalten nach gemessener Textbreite: links so breit wie nötig, Rest rechts
-    c1 = max(label_width("• " + t, 10.5, bold=False) for t in benefits[0]) + 0.22
-    for j, items in enumerate(benefits):
-        cx, cw = (x + 0.22, c1) if j == 0 else (x + 0.22 + c1, rw - 0.32 - c1)
-        text(s, cx, ry + 0.42, cw, rh - 0.48, [[run("• " + t, 10.5, False, ON_INK)] for t in items], space=2)
+    bullets(x + 0.22, ry + 0.42, rw - 0.32, benefits, ON_INK)
 
 
 def slide_data_job(prs):
