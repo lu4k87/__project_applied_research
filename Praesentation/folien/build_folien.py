@@ -1,4 +1,4 @@
-"""Erzeugt die 2 Folien (16:9) aus der Architektur-Seite Praesentation/index.html.
+"""Erzeugt die 3 Folien (16:9) aus der Architektur-Seite Praesentation/index.html.
 
 Ausgabe: App-Architektur.pptx (deutsch) und App-Architecture-EN.pptx (englisch);
 PNGs (1920 × 1080) per LibreOffice:
@@ -49,7 +49,7 @@ EN = {
     "Autorisierung": "Authorization", "Was darf Gast oder Mitglied sehen?": "What may guest or member see?",
     "Baut sichere": "Builds safe", "SQL-Abfragen": "SQL queries",
     "Datenbank": "Database", "Standorte, Nutzer, Materialien, Angebote, Matches": "Sites, users, materials, offers, matches",
-    "→ Folie 2": "→ slide 2",
+    "→ Folie 3": "→ slide 3",
     "Gast sieht": "Guest sees", "Mitglied sieht": "Member sees",
     "• Titel + Material": "• Title + material", "• Menge + Stadt": "• Quantity + city",
     "• Registrieren": "• Sign up", "• Login": "• Log in", "• E-Mail bestätigen": "• Confirm email",
@@ -96,6 +96,48 @@ EN = {
     "7 Tage verzögert": "7-day delay", "Job fällig": "job due",
     "nur bei 0 Matches": "only if 0 matches", "Erinnerungs-E-Mail": "reminder email",
     "Anzahl": "Match", "Matches": "count",
+    "Software Architecture Stack: Was jeder Baustein tut": "Software Architecture Stack: What Each Building Block Does",
+    "11 Bausteine zwischen Frontend und Datenbank – was sie tun und warum wir sie gewählt haben.":
+        "11 building blocks between frontend and database – what they do and why we chose them.",
+    "Oben das Backend: TypeScript, Next.js und Node.js tragen alles. Darunter zwei Ketten: jede Anfrage "
+    "passiert Better Auth, Zod, Data Access Layer und Prisma/Drizzle; die automatischen E-Mails laufen über "
+    "BullMQ, Redis, React Email und den Mail-Dienst. Links übergibt das Frontend (andere Gruppe), rechts "
+    "geht es an die Datenbank (nächster Teil).":
+        "Top: the backend. TypeScript, Next.js and Node.js carry everything. Below, two chains: every request "
+        "passes Better Auth, Zod, Data Access Layer and Prisma/Drizzle; the automatic emails run through BullMQ, "
+        "Redis, React Email and the email service. On the left the frontend hands over (other group), on the "
+        "right it goes on to the database (next part).",
+    "Funktion: Automatische E-Mails": "Function: Automated emails",
+    "Backend": "Backend", "trägt alles": "carries everything", "Jede Anfrage": "Every request",
+    "andere Gruppe": "other group", "nächster Teil": "next part", "React-Seiten": "React pages",
+    "Frontend": "Frontend", "PostgreSQL": "PostgreSQL", "SQL": "SQL", "≈": "≈", "✓ Gewählt:": "✓ Chosen:",
+    "Framework": "Framework", "ORM": "ORM",
+    "Job-Warteschlange": "Job queue", "Job-Speicher": "Job storage", "E-Mail-Vorlage": "Email template",
+    "Versand": "Delivery",
+    "JavaScript mit Typen: Fehler zeigt schon der Editor.": "JavaScript with types: the editor shows errors early.",
+    "Rechtschreibprüfung für Code": "spell checker for code",
+    "eine Sprache für Browser, Server, Jobs": "one language for browser, server, jobs",
+    "Liefert Seiten und API aus einem Projekt, auf React.": "Serves pages and API from one project, on React.",
+    "Rezeption für alle Anfragen": "front desk for all requests", "Seiten + API in einem Repo": "pages + API in one repo",
+    "Führt TypeScript auf dem Server aus.": "Runs TypeScript on the server.",
+    "Motor, der den Code antreibt": "engine that drives the code",
+    "gleiche Sprache wie im Browser": "same language as in the browser",
+    "Login, Session-Cookie, Passwort-Reset.": "Login, session cookie, password reset.",
+    "Ausweiskontrolle": "ID check at the door", "geprüft, Konten in unserer DB": "proven, accounts stay in our DB",
+    "Prüft jede Eingabe gegen ein Schema.": "Checks every input against a schema.",
+    "Türsteher mit Checkliste": "bouncer with a checklist", "Schema = Prüfung + Typ": "schema = check + type",
+    "Jeder Datenzugriff läuft hier durch.": "Every data access passes through here.",
+    "Akten nur mit Erlaubnis": "files only with permission", "Rechte an einer Stelle": "access rules in one place",
+    "Übersetzt TypeScript in SQL-Abfragen.": "Turns TypeScript into SQL queries.",
+    "Dolmetscher Code ↔ SQL": "interpreter code ↔ SQL", "typsicher, keine SQL-Injection": "type-safe, no SQL injection",
+    "Plant Aufgaben für später, z. B. in 7 Tagen.": "Schedules tasks for later, e.g. in 7 days.",
+    "Wecker für Aufgaben": "alarm clock for tasks", "wiederholt bei Fehlern": "retries on errors",
+    "Schneller Speicher für geplante Jobs.": "Fast storage for scheduled jobs.",
+    "Terminkalender der Jobs": "calendar of the jobs", "Jobs überleben Neustarts": "jobs survive restarts",
+    "E-Mails als React-Komponenten, als HTML.": "Emails as React components, as HTML.",
+    "Briefvorlage": "letter template", "gleiche Bausteine wie die App": "same building blocks as the app",
+    "Stellt die E-Mail zuverlässig zu.": "Delivers the email reliably.",
+    "die Post": "the postal service", "hohe Zustellrate, Anbieter offen": "high delivery rate, provider open",
     "App-Architektur": "App Architecture",
 }
 MISSING = set()
@@ -362,7 +404,7 @@ def slide_request(prs):
     db.line.width = Pt(1.25)
     text(s, dbx + 0.1, top + 0.3, dbw - 0.2, fh - 0.4,
          [[run("PostgreSQL", 13, True, INK, TOOL)], [run("Standorte, Nutzer, Materialien, Angebote, Matches", 11)],
-          [run("→ Folie 2", 11, True, S3)]], align=C, anchor=M, space=4)
+          [run("→ Folie 3", 11, True, S3)]], align=C, anchor=M, space=4)
     arrow(s, dbx + dbw + 0.03, mid - 0.12, sx - 0.03, mid - 0.12, S3, both=True, width=2.5)
     text(s, dbx + dbw - 0.02, mid - 0.04, 0.46, 0.22, [[run("SQL", 10.5, True, S3)]], align=C)
 
@@ -408,6 +450,127 @@ def slide_request(prs):
     benefits = [["Industriestandard", "Sicherer Login + Rechte", "Zeitgesteuerte Jobs"],
                 ["TypeScript überall", "Typsichere Datenbank", "Erinnerungs-E-Mails,.."]]
     bullets(x + 0.22, ry + 0.44, rw - 0.32, benefits, ON_INK)  # oben = unten, Luft unter dem Titel
+
+
+# Folie 2: die 11 Bausteine des Stacks, je Karte Rolle, Name, was er tut, Alltagsvergleich, Grund der Wahl
+STACK = {  # Schlüssel: (Name, Rolle, Icon, Farbe, was er tut, Alltagsvergleich, gewählt weil)
+    "ts": ("TypeScript", "Sprache", "file-code", INK, "JavaScript mit Typen: Fehler zeigt schon der Editor.",
+           "Rechtschreibprüfung für Code", "eine Sprache für Browser, Server, Jobs"),
+    "next": ("Next.js", "Framework", "layers", INK, "Liefert Seiten und API aus einem Projekt, auf React.",
+             "Rezeption für alle Anfragen", "Seiten + API in einem Repo"),
+    "node": ("Node.js", "Laufzeit", "cpu", INK, "Führt TypeScript auf dem Server aus.",
+             "Motor, der den Code antreibt", "gleiche Sprache wie im Browser"),
+    "auth": ("Better Auth", "Authentifizierung", "key-round", S2, "Login, Session-Cookie, Passwort-Reset.",
+             "Ausweiskontrolle", "geprüft, Konten in unserer DB"),
+    "zod": ("Zod", "Validierung", "list-checks", S2, "Prüft jede Eingabe gegen ein Schema.",
+            "Türsteher mit Checkliste", "Schema = Prüfung + Typ"),
+    "dal": ("Data Access Layer", "Autorisierung", "eye", S2, "Jeder Datenzugriff läuft hier durch.",
+            "Akten nur mit Erlaubnis", "Rechte an einer Stelle"),
+    "orm": ("Prisma / Drizzle", "ORM", "database", S3, "Übersetzt TypeScript in SQL-Abfragen.",
+            "Dolmetscher Code ↔ SQL", "typsicher, keine SQL-Injection"),
+    "bull": ("BullMQ", "Job-Warteschlange", "clock", S4, "Plant Aufgaben für später, z. B. in 7 Tagen.",
+             "Wecker für Aufgaben", "wiederholt bei Fehlern"),
+    "redis": ("Redis", "Job-Speicher", "hard-drive", S4, "Schneller Speicher für geplante Jobs.",
+              "Terminkalender der Jobs", "Jobs überleben Neustarts"),
+    "remail": ("React Email", "E-Mail-Vorlage", "mail", S4, "E-Mails als React-Komponenten, als HTML.",
+               "Briefvorlage", "gleiche Bausteine wie die App"),
+    "mail": ("Mail-Dienst", "Versand", "send", S4, "Stellt die E-Mail zuverlässig zu.",
+             "die Post", "hohe Zustellrate, Anbieter offen"),
+}
+
+
+def fit_size(label, width, sizes=(12, 11.5, 11, 10.5)):
+    """Größte Schriftgröße, bei der ein Tool-Name (Verdana, gerendert als DejaVu Sans) in eine Zeile passt."""
+    from PIL import ImageFont
+    for size in sizes:
+        font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", size * 10)
+        if font.getlength(tr(label)) / 10 / 72 <= width:
+            return size
+    return sizes[-1]
+
+
+def stack_card(s, x, y, w, h, key):
+    """Karte: Icon + Rolle + Name oben, darunter ein Textfluss (was · Vergleich · Grund) – nichts überlappt."""
+    name, role, ic, col, what, like, why = STACK[key]
+    p, nx = 0.12, 0.56
+    box(s, x, y, w, h, tint(col, 0.1))
+    icon(s, ic, x + p, y + 0.13, 0.34, col)
+    text(s, x + nx, y + 0.08, w - nx - 0.06, 0.2, [[run(role, 10, True, col)]])
+    text(s, x + nx, y + 0.28, w - nx - 0.06, 0.28,
+         [[run(name, fit_size(name, w - nx - 0.1), True, INK, TOOL)]])
+    text(s, x + p, y + 0.66, w - 2 * p, h - 0.74, [
+        [run(what, 10.5)],
+        [run("≈ ", 10.5, True, col), run(like, 10.5, True, col)],
+        [run("✓ Gewählt:", 10, True, col), run(" " + why, 10)]], space=3)
+
+
+def handover(s, x, y, w, h, ic, head, who, what, col):
+    """Gestrichelte Leiste: Teil, den eine andere Person vorstellt."""
+    r = box(s, x, y, w, h, tint(col, 0.08), tint(col, 0.45))
+    r.line.dash_style = 4
+    icon(s, ic, x + (w - 0.32) / 2, y + h / 2 - 0.9, 0.32, col)
+    text(s, x + 0.03, y + h / 2 - 0.5, w - 0.06, 1.4,
+         [[run(head, 11, True, col)], [run(who, 10)], [run(what, 10.5, True, INK, TOOL)]], align=PP_ALIGN.CENTER, space=4)
+
+
+def slide_stack(prs):
+    s = new_slide(
+        prs,
+        "Software Architecture Stack: Was jeder Baustein tut",
+        "11 Bausteine zwischen Frontend und Datenbank – was sie tun und warum wir sie gewählt haben.",
+        "Oben das Backend: TypeScript, Next.js und Node.js tragen alles. Darunter zwei Ketten: jede Anfrage "
+        "passiert Better Auth, Zod, Data Access Layer und Prisma/Drizzle; die automatischen E-Mails laufen über "
+        "BullMQ, Redis, React Email und den Mail-Dienst. Links übergibt das Frontend (andere Gruppe), rechts "
+        "geht es an die Datenbank (nächster Teil).",
+    )
+    C, M = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE
+    y0, y1, rw, rg = 1.55, 7.2, 1.05, 0.34
+    handover(s, 0.5, y0, rw, y1 - y0, "monitor", "Frontend", "andere Gruppe", "React-Seiten", S1)
+    dbx = 12.833 - rw
+    handover(s, dbx, y0, rw, y1 - y0, "database", "Datenbank", "nächster Teil", "PostgreSQL", S3)
+    x0, x1 = 0.5 + rw + rg, dbx - rg
+    sw = x1 - x0
+
+    # Backend-Band oben: Sprache, Framework, Laufzeit tragen beide Ketten
+    bh = 1.2
+    box(s, x0, y0, sw, bh, INK)
+    lw = 1.25
+    icon(s, "server", x0 + (lw - 0.32) / 2, y0 + 0.2, 0.32, SURFACE)
+    text(s, x0, y0 + 0.58, lw, 0.5, [[run("Backend", 13, True, SURFACE)], [run("trägt alles", 10, False, ON_INK)]],
+         align=C, space=1)
+    iw = (sw - lw - 0.1) / 3
+    for j, key in enumerate(["ts", "next", "node"]):
+        name, role, ic, _, what, like, why = STACK[key]
+        x = x0 + lw + j * iw
+        icon(s, ic, x + 0.04, y0 + 0.16, 0.3, SURFACE)
+        text(s, x + 0.44, y0 + 0.08, iw - 0.5, 0.2, [[run(role, 10, True, ON_INK)]])
+        text(s, x + 0.44, y0 + 0.26, iw - 0.5, 0.26, [[run(name, 12, True, SURFACE, TOOL)]])
+        text(s, x + 0.04, y0 + 0.6, iw - 0.12, bh - 0.66, [
+            [run("≈ ", 10.5, True, ON_INK), run(like, 10.5, True, ON_INK)],
+            [run("✓ Gewählt:", 10, True, ON_INK), run(" " + why, 10, False, SURFACE)]], space=2)
+
+    # Zwei Ketten mit Pfeilen: jede Anfrage · automatische E-Mails
+    ag, zg = 0.26, 0.36
+    cw = (sw - 3 * ag) / 4
+    top = y0 + bh + zg
+    rh = (y1 - top - zg) / 2
+    rows = [("Jede Anfrage", S2, ["auth", "zod", "dal", "orm"], "shield-check"),
+            ("Funktion: Automatische E-Mails", S4, ["bull", "redis", "remail", "mail"], "mail")]
+    mids = []
+    for i, (lab, col, keys, ic) in enumerate(rows):
+        y = top + i * (rh + zg)
+        zone(s, x0, y - 0.3, sw, lab, col, ic)
+        for j, key in enumerate(keys):
+            x = x0 + j * (cw + ag)
+            stack_card(s, x, y, cw, rh, key)
+            if j:
+                arrow(s, x - ag + 0.03, y + rh / 2, x - 0.03, y + rh / 2, col, width=2.5)
+        mids.append(y + rh / 2)
+
+    # Übergaben: Frontend → erste Karte, ORM ↔ Datenbank (SQL)
+    arrow(s, 0.5 + rw + 0.03, mids[0], x0 - 0.03, mids[0], S1, width=2.5)
+    arrow(s, x1 + 0.03, mids[0], dbx - 0.03, mids[0], S3, both=True, width=2.5)
+    text(s, x1 - 0.06, mids[0] - 0.3, rg + 0.12, 0.22, [[run("SQL", 10.5, True, S3)]], align=C)
 
 
 def slide_data_job(prs):
@@ -552,6 +715,7 @@ def main():
         prs = Presentation()
         prs.slide_width, prs.slide_height = Emu(12192000), Emu(6858000)  # 16:9, 13,333 × 7,5 Zoll
         slide_request(prs)
+        slide_stack(prs)
         slide_data_job(prs)
         prs.core_properties.title = tr("App-Architektur")
         prs.core_properties.language = {"de": "de-DE", "en": "en-US"}[LANG]
