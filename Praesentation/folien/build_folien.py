@@ -461,6 +461,20 @@ STACK = {  # Schlüssel: (Name, Rolle, Icon, Farbe, was er tut, Beispiel im Proj
 }
 
 
+def line_count(t, width, size):
+    """Zeilen, die ein Arial-Text (Liberation Sans, maßgleich) bei Wortumbruch in width Zoll braucht."""
+    from PIL import ImageFont
+    font = ImageFont.truetype("/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf", size * 10)
+    n, cur = 1, ""
+    for word in tr(t).split():
+        trial = f"{cur} {word}".strip()
+        if cur and font.getlength(trial) / 10 / 72 > width:
+            n, cur = n + 1, word
+        else:
+            cur = trial
+    return n
+
+
 def fit_size(label, width, sizes=(12, 11.5, 11, 10.5)):
     """Größte Schriftgröße, bei der ein Tool-Name (Verdana, gerendert als DejaVu Sans) in eine Zeile passt."""
     from PIL import ImageFont
@@ -471,9 +485,10 @@ def fit_size(label, width, sizes=(12, 11.5, 11, 10.5)):
     return sizes[-1]
 
 
-def stack_card(s, x, y, w, h, key):
+def stack_card(s, x, y, w, h, key, what_lines=1):
     """Karte: Icon + Rolle + Name oben, darunter ein Textfluss (was · Beispiel · „Warum <Name>?“) – nichts überlappt.
-    Fundament-Bausteine (Farbe INK) dunkel wie auf Folie 1."""
+    Fundament-Bausteine (Farbe INK) dunkel wie auf Folie 1. what_lines = Zeilen des längsten „was“ der Reihe:
+    kürzere Texte werden mit Leerzeilen aufgefüllt, damit „Beispiel:“ in der ganzen Reihe auf einer Linie steht."""
     name, role, ic, col, what, example, why = STACK[key]
     dark = col == INK
     fill, ink, accent = (INK, SURFACE, ON_INK) if dark else (tint(col, 0.1), INK, col)
@@ -486,7 +501,7 @@ def stack_card(s, x, y, w, h, key):
     label = LABEL_ON_INK if dark else col  # „Beispiel:“ und „Warum …?“ farbig, Text darunter in Textfarbe
     body_y, body_h = y + 0.62, h - 0.62 - 0.12
     text(s, x + p, body_y, w - 2 * p, body_h, [
-        [run(what, 10.5, False, ink)],
+        [run(what, 10.5, False, ink)] + [BR, run(" ", 10.5)] * (what_lines - line_count(what, w - 2 * p, 10.5)),
         [run("Beispiel:", 10, True, label), BR, run(example, 10, False, ink)]], space=5)
     # „Warum <Name>?“ unten in der Karte, linksbündig; Name fett in Textfarbe (Arial, damit er in eine Zeile passt)
     text(s, x + p, body_y, w - 2 * p, body_h, [
@@ -527,17 +542,21 @@ def slide_stack(prs):
     bg = 0.26
     bw = (sw - 2 * bg) / 3
     zone(s, x0, top_base - 0.3, sw, "Backend · Grundlage für jede Anfrage", INK, "server")
-    for j, key in enumerate(["ts", "next", "node"]):
-        stack_card(s, x0 + j * (bw + bg), top_base, bw, bh, key)
+    row = ["ts", "next", "node"]
+    n = max(line_count(STACK[k][4], bw - 0.28, 10.5) for k in row)  # 0.28 = 2 × Innenabstand p der Karte
+    for j, key in enumerate(row):
+        stack_card(s, x0 + j * (bw + bg), top_base, bw, bh, key, n)
 
     # Reihe 2: Kette jeder Anfrage mit Pfeilen
     ag = 0.26
     cw = (sw - 3 * ag) / 4
     y = top_base + bh + zg
     zone(s, x0, y - 0.3, sw, "Jede Anfrage", S2, "shield-check")
-    for j, key in enumerate(["auth", "zod", "dal", "orm"]):
+    row = ["auth", "zod", "dal", "orm"]
+    n = max(line_count(STACK[k][4], cw - 0.28, 10.5) for k in row)
+    for j, key in enumerate(row):
         x = x0 + j * (cw + ag)
-        stack_card(s, x, y, cw, rh, key)
+        stack_card(s, x, y, cw, rh, key, n)
         if j:
             arrow(s, x - ag + 0.03, y + rh / 2, x - 0.03, y + rh / 2, S2, width=2.5)
     mid = y + rh / 2
