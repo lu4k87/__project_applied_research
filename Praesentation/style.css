@@ -180,7 +180,7 @@
   /* Zweite Grafik: Verbindungen */
   .sec-title{font-family:var(--font-display);font-size:clamp(22px,3vw,28px);font-weight:700;letter-spacing:-.01em;line-height:1.15;text-wrap:balance}
   .sec-lead{color:var(--muted);margin-top:6px;max-width:72ch;font-size:17px;text-wrap:pretty}
-  .connect{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,560px);gap:40px;align-items:start;margin-top:16px}
+  .connect{display:grid;grid-template-columns:minmax(0,1fr);gap:40px;align-items:start;margin-top:16px}
   .fig{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:14px}
   .fig svg{display:block;width:100%;height:auto}
   .fig figcaption{font-size:14px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
@@ -253,4 +253,8 @@
     .legend,.notes,.fig figcaption{font-size:15px}
     .key{font-size:15px} .links dt{font-size:14.5px} .links dd{font-size:15px}
   }
-  @media (min-width:1081px){ .links{position:sticky;top:16px} }
+  /* Breit: Legende in einer Zeile, Verbindungen als Raster unter der Grafik */
+  @media (min-width:1081px){
+    .key{flex-direction:row;flex-wrap:wrap;gap:8px 32px}
+    .links dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));column-gap:28px}
+  }
