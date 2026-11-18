@@ -299,8 +299,10 @@ def slide_request(prs):
     lead_bottom, flow_head = 1.26, top - 0.31
     h = 1.62
     y = lead_bottom + (flow_head - lead_bottom - h) / 2
-    fx, fw, bg = 0.5, 4.1, 0.12
-    bw3 = (fw - 2 * bg) / 3
+    # 6 Elemente, ein gemeinsamer Abstand, Reihe mittig auf der Folie
+    bw3, gw, gap = 1.287, 2.25, 0.2  # dunkle Karte | Gruppe (schmaler, längster Eintrag passt) | Abstand
+    fx = (13.333 - 3 * bw3 - 3 * gw - 5 * gap) / 2
+    bg = gap
     base = [("file-code", "Sprache", "TypeScript", "Browser und Server"),
             ("layers", "Framework", "Next.js", "Routing + API auf React"),
             ("cpu", "Laufzeit", "Node.js", "führt den Server aus")]
@@ -314,9 +316,7 @@ def slide_request(prs):
     groups = [("monitor", "Benutzeroberfläche", S1, ["React", "Next.js Routing\u00a0+\u00a0API"]),
               ("shield-check", "Backend & Sicherheit", S2, ["Better Auth", "Zod", "Data Access Layer"]),
               ("database", "Daten", S3, ["Prisma / Drizzle", "PostgreSQL"])]
-    gap = 0.15
-    gx = fx + fw + gap
-    gw = (12.833 - gx - (len(groups) - 1) * gap) / len(groups)
+    gx = fx + 3 * bw3 + 3 * gap
     gh, pad, isz = 1.5, 0.16, 0.32  # etwas flacher als die dunklen Karten, senkrecht mittig zu ihnen
     gy = y + (h - gh) / 2
     for i, (ic, lab, col, items) in enumerate(groups):
