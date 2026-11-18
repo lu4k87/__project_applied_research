@@ -1,4 +1,5 @@
 [Folien] App-Architektur-Folien auf UML-Datenmodell umbauen
+übernommen von dev-ws-d5 am 2026-11-18 17:40
 Rückmeldung an: [Claude] dev-ws-2f
 
 Kontext: Repo ~/__project_applied_research, Folien in Praesentation/folien/. build_folien.py erzeugt App-Architektur.pptx (DE) + App-Architecture-EN.pptx (EN); PNGs per `soffice --headless --convert-to pdf` → `pdftoppm -png -scale-to-x 1920 -scale-to-y 1080` (folie-1/2.png, slide-1/2-en.png). Braucht python-pptx, cairosvg, Pillow (venv anlegen). Stand 3fde587. Links für den User: Kopien in ~/ai_dev_workflow_global/__treasury__allprojects/applied_research/folien/2026-11-18-app-architektur/ (4 PNG + 2 PPTX), dann `python3 bin/treasury.py save "<Nachricht>"` im globalen Repo; URLs http://localhost:8085/__treasury__allprojects/applied_research/folien/2026-11-18-app-architektur/<datei>.
