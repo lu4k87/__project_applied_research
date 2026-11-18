@@ -2,12 +2,13 @@
 
 Ausgabe: App-Architektur.pptx (deutsch) und App-Architecture-EN.pptx (englisch);
 PNGs (1920 × 1080) per LibreOffice:
-    python build_folien.py            # braucht python-pptx
+    python build_folien.py            # braucht python-pptx + cairosvg (Icons aus icons/)
     soffice --headless --convert-to pdf App-Architektur.pptx
     pdftoppm -png -scale-to-x 1920 -scale-to-y 1080 App-Architektur.pdf folie
 Inhalt und Farben folgen index.html / style.css (helles Schema). Schrift Arial:
 liegt in jedem PowerPoint und rendert in LibreOffice maßgleich (Liberation Sans).
 """
+import io
 from pathlib import Path
 
 from lxml import etree
@@ -32,9 +33,10 @@ EN = {
         "Top: the tech stack by group. Middle: the path of a request: browser, five steps on the Next.js "
         "server, database. Bottom: what guest and member get back.",
     "Sprache": "Language", "Laufzeit": "Runtime",
-    "Browser, Server, Worker": "browser, server, worker",
-    "App Router auf React": "App Router on React",
-    "Server und Worker": "server and worker",
+    "Browser, Server, Hintergrund-Jobs": "browser, server, background jobs",
+    "Routing + API auf React": "routing + API on React",
+    "Server und Hintergrund-Jobs": "server and background jobs",
+    "Routing + API": "Routing + API", "Next.js Routing\u00a0+\u00a0API": "Next.js Routing\u00a0+\u00a0API",
     "Benutzeroberfläche": "User interface", "Sicherheit": "Security", "Daten": "Data",
     "Hintergrund & E-Mail": "Background & email", "Mail-Dienst": "Email service",
     "Gast": "Guest", "ohne Login": "not logged in",
@@ -43,12 +45,12 @@ EN = {
     "Einstiegspunkt": "Entry point", "Nimmt jede Anfrage an": "Takes every request",
     "Authentifizierung": "Authentication", "Wer fragt? Gast oder Mitglied": "Who asks? Guest or member",
     "Validierung": "Validation", "Ist die Eingabe gültig?": "Is the input valid?",
-    "Autorisierung": "Authorization", "Was darf diese Rolle sehen?": "What may this role see?",
-    "Baut sichere SQL-Abfragen": "Builds safe SQL queries",
+    "Autorisierung": "Authorization", "Was darf diese Rolle (User) sehen?": "What may this role (user) see?",
+    "Baut sichere": "Builds safe", "SQL-Abfragen": "SQL queries",
     "Datenbank": "Database", "Konten, Logins, Angebote, Trades": "Accounts, logins, offers, trades",
     "→ Folie 2": "→ slide 2",
-    "Gast sieht": "Guest sees", "nur": "only", ": öffentliche Vorschau": ": public preview",
-    "Mitglied sieht": "Member sees", "zusätzlich": "also", ": alle Details, Handel": ": all details, trading",
+    "Gast sieht": "Guest sees", "öffentliche Vorschau,..": "public preview,..",
+    "Mitglied sieht": "Member sees", "alle Details, Handel,..": "all details, trading,..",
     "Merke": "Note",
     "Der Browser spricht nur mit dem Server. Scheitert eine Prüfung, endet die Anfrage dort.":
         "The browser only talks to the server. If a check fails, the request stops there.",
@@ -81,7 +83,7 @@ EN = {
     "Job einplanen": "Plan the job",
     "Bei der Registrierung: Job anlegen, fällig in 7\u00a0Tagen": "At sign-up: add a job, due in 7\u00a0days",
     "Job-Speicher": "Job storage",
-    "Hält den Job, auch über einen Server-Neustart": "Keeps the job, even through a server restart",
+    "Hält den Job, auch über Neustarts": "Keeps the job, even across restarts",
     "Inaktivität prüfen": "Check inactivity",
     "Eigener Node.js-Prozess: zählt die Trades, ab\u00a01\u00a0Trade endet der Job":
         "Its own Node.js process: counts the trades, from 1 trade on the job ends",
@@ -100,6 +102,9 @@ BG, SURFACE, LINE, INK = "F2F4F8", "FFFFFF", "D6DCE8", "121A2C"
 S1, S2, S3, S4 = "2255D4", "0D7A54", "6A3FD0", "A25A00"  # Frontend, Sicherheit, Daten, Hintergrund
 ON_INK = "E3E8F2"  # Nebentext auf dunklem Grund
 SANS, MONO = "Arial", "Courier New"
+TOOL = "Verdana"  # Tools, Frameworks, Datenbank: klar erkennbar, in jedem PowerPoint vorhanden
+ICONS = Path(__file__).with_name("icons")
+_ICON_CACHE = {}
 
 
 def tint(hex_color, keep):
@@ -192,7 +197,20 @@ def step(slide, x, y, n, color, d=0.34):
     r.font.color.rgb = rgb(SURFACE)
 
 
-def zone(slide, x, y, w, label, color):
+def icon(slide, name, x, y, size, color):
+    """Lucide-Icon in Farbe als PNG (256 px) einsetzen."""
+    key = (name, color)
+    if key not in _ICON_CACHE:
+        import cairosvg  # nur hier gebraucht
+        svg = (ICONS / f"{name}.svg").read_text().replace("currentColor", "#" + color)
+        _ICON_CACHE[key] = cairosvg.svg2png(bytestring=svg.encode(), output_width=256, output_height=256)
+    return slide.shapes.add_picture(io.BytesIO(_ICON_CACHE[key]), Inches(x), Inches(y), Inches(size), Inches(size))
+
+
+def zone(slide, x, y, w, label, color, ic=None):
+    if ic:
+        icon(slide, ic, x, y - 0.01, 0.24, color)
+        x, w = x + 0.31, w - 0.31
     text(slide, x, y, w, 0.25, [[run(label, 11, True, color)]])
 
 
@@ -206,6 +224,11 @@ def new_slide(prs, title, lead, notes):
     return s
 
 
+def lines(t, size, bold=False, color=INK, font=SANS):
+    """Text mit festen Umbrüchen (\\n) als eigene Absätze; jede Zeile wird einzeln übersetzt."""
+    return [[run(part, size, bold, color, font)] for part in t.split("\n")]
+
+
 def slide_request(prs):
     s = new_slide(
         prs,
@@ -216,97 +239,104 @@ def slide_request(prs):
     )
     C, M = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE
 
-    # Tech-Stack: Fundament (dunkel) + 4 Gruppen, alles mittig
-    y, h = 1.62, 1.45
-    fx, fw = 0.5, 4.1
-    box(s, fx, y, fw, h, INK)
-    base = [("Sprache", "TypeScript", "Browser, Server, Worker"),
-            ("Framework", "Next.js", "App Router auf React"),
-            ("Laufzeit", "Node.js", "Server und Worker")]
-    cw = (fw - 0.2) / 3
-    for i, (lab, name, desc) in enumerate(base):
-        cx = fx + 0.1 + i * cw  # feste Zeilen, damit alle drei Spalten auf einer Linie liegen
-        text(s, cx, y + 0.3, cw, 0.22, [[run(lab, 10.5, True, ON_INK)]], align=C)
-        text(s, cx, y + 0.52, cw, 0.4, [[run(name, 17, True, SURFACE)]], align=C, anchor=M)
-        text(s, cx + 0.05, y + 0.96, cw - 0.1, 0.45, [[run(desc, 11, False, ON_INK)]], align=C)
-    groups = [("Benutzeroberfläche", S1, ["React", "Next.js App Router"]),
-              ("Sicherheit", S2, ["Better Auth", "Zod", "Data Access Layer"]),
-              ("Daten", S3, ["Prisma / Drizzle", "PostgreSQL"]),
-              ("Hintergrund & E-Mail", S4, ["BullMQ", "Redis", "React Email", "Mail-Dienst"])]
+    # Tech-Stack: 3 Fundament-Karten (dunkel) + 4 Gruppen, alles mittig
+    y, h = 1.62, 1.68
+    fx, fw, bg = 0.5, 4.1, 0.12
+    bw3 = (fw - 2 * bg) / 3
+    base = [("file-code", "Sprache", "TypeScript", "Browser, Server, Hintergrund-Jobs"),
+            ("layers", "Framework", "Next.js", "Routing + API auf React"),
+            ("cpu", "Laufzeit", "Node.js", "Server und Hintergrund-Jobs")]
+    for i, (ic, lab, name, desc) in enumerate(base):
+        x = fx + i * (bw3 + bg)
+        box(s, x, y, bw3, h, INK)
+        icon(s, ic, x + (bw3 - 0.3) / 2, y + 0.15, 0.3, SURFACE)
+        text(s, x, y + 0.52, bw3, 0.2, [[run(lab, 10.5, True, ON_INK)]], align=C)
+        text(s, x, y + 0.74, bw3, 0.34, [[run(name, 13, True, SURFACE, TOOL)]], align=C, anchor=M)
+        text(s, x + 0.08, y + 1.1, bw3 - 0.16, 0.45, [[run(desc, 10.5, False, ON_INK)]], align=C)
+    groups = [("monitor", "Benutzeroberfläche", S1, ["React", "Next.js Routing\u00a0+\u00a0API"]),
+              ("shield-check", "Sicherheit", S2, ["Better Auth", "Zod", "Data Access Layer"]),
+              ("database", "Daten", S3, ["Prisma / Drizzle", "PostgreSQL"]),
+              ("mail", "Hintergrund & E-Mail", S4, ["BullMQ", "Redis", "React Email", "Mail-Dienst"])]
     gap = 0.15
     gx, gw = fx + fw + gap, (12.833 - (fx + fw + gap) - 3 * gap) / 4
-    for i, (lab, col, items) in enumerate(groups):
+    for i, (ic, lab, col, items) in enumerate(groups):
         x = gx + i * (gw + gap)
         box(s, x, y, gw, h, tint(col, 0.1))
         edge = box(s, x, y, gw, 0.08, col, shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)  # Farbkante = Gruppe
         edge.adjustments[0] = 0.5
-        text(s, x + 0.1, y + 0.07, gw - 0.2, h - 0.07,
-             [[run(lab, 11, True, col)]] + [[run(it, 12.5, True)] for it in items],
-             align=C, anchor=M, space=3)
+        icon(s, ic, x + (gw - 0.26) / 2, y + 0.16, 0.26, col)
+        text(s, x + 0.08, y + 0.48, gw - 0.16, h - 0.5,
+             [[run(lab, 11, True, col)]] + [[run(it, 11, True, INK, TOOL)] for it in items],
+             align=C, space=2)
 
     # Weg einer Anfrage: Browser → 5 Stationen → Datenbank
-    top, fh = 3.6, 2.2
-    zone(s, 0.5, top - 0.3, 1.6, "Browser", S1)
+    top, fh = 3.8, 2.2
+    zone(s, 0.5, top - 0.3, 1.6, "Browser", S1, "monitor")
     bw = 1.6
     ch = (fh - 0.15) / 2
-    for i, (who, how) in enumerate([("Gast", "ohne Login"), ("Mitglied", "mit Session-Cookie")]):
+    for i, (ic, who, how) in enumerate([("user", "Gast", "ohne Login"), ("user-check", "Mitglied", "mit Session-Cookie")]):
         cy = top + i * (ch + 0.15)
         box(s, 0.5, cy, bw, ch, tint(S1, 0.1))
-        text(s, 0.55, cy, bw - 0.1, ch, [[run(who, 15, True)], [run(how, 11)]], align=C, anchor=M, space=2)
+        icon(s, ic, 0.5 + (bw - 0.28) / 2, cy + 0.12, 0.28, S1)
+        text(s, 0.55, cy + 0.44, bw - 0.1, ch - 0.48, [[run(who, 14, True)], [run(how, 11)]], align=C, space=1)
 
     dbw = 1.55
     dbx = 12.833 - dbw
     sx = 0.5 + bw + 0.42
     sw = dbx - 0.42 - sx
-    zone(s, sx, top - 0.3, sw, "Next.js-Server auf Node.js · für Besucher unsichtbar", S2)
+    zone(s, sx, top - 0.3, sw, "Next.js-Server auf Node.js · für Besucher unsichtbar", S2, "server")
     box(s, sx, top, sw, fh, tint(S2, 0.1))
     for i in range(2):
         cy = top + i * (ch + 0.15) + ch / 2
         arrow(s, 0.5 + bw + 0.04, cy, sx - 0.02, cy, S1, width=2.5)
 
-    stations = [("Next.js App Router", "Einstiegspunkt", "Nimmt jede Anfrage an"),
-                ("Better Auth", "Authentifizierung", "Wer fragt? Gast oder Mitglied"),
-                ("Zod", "Validierung", "Ist die Eingabe gültig?"),
-                ("Data Access Layer", "Autorisierung", "Was darf diese Rolle sehen?"),
-                ("Prisma / Drizzle", "ORM", "Baut sichere SQL-Abfragen")]
+    stations = [("log-in", "Next.js\nRouting + API", "Einstiegspunkt", "Nimmt jede Anfrage an"),
+                ("key-round", "Better Auth", "Authentifizierung", "Wer fragt? Gast oder Mitglied"),
+                ("list-checks", "Zod", "Validierung", "Ist die Eingabe gültig?"),
+                ("eye", "Data Access Layer", "Autorisierung", "Was darf diese Rolle (User) sehen?"),
+                ("database", "Prisma / Drizzle", "ORM", "Baut sichere\nSQL-Abfragen")]
     pad, ag, d = 0.12, 0.26, 0.4
     stw = (sw - 2 * pad - 4 * ag) / 5
     sty, sth = top + pad, fh - 2 * pad
     my = sty + 0.14 + d / 2  # Mittellinie der Nummern = Höhe der Pfeile
-    for i, (name, role, desc) in enumerate(stations):
+    for i, (ic, name, role, desc) in enumerate(stations):
         x = sx + pad + i * (stw + ag)
         box(s, x, sty, stw, sth, SURFACE)
-        step(s, x + (stw - d) / 2, sty + 0.14, i + 1, S2, d=d)
-        text(s, x + 0.04, sty + 0.64, stw - 0.08, 0.22, [[run(role, 10.5, True, S2)]], align=C)
-        text(s, x + 0.04, sty + 0.88, stw - 0.08, 0.5, [[run(name, 13.5, True)]], align=C, anchor=M)
-        text(s, x + 0.06, sty + 1.44, stw - 0.12, 0.45, [[run(desc, 11)]], align=C)
+        step(s, x + stw / 2 - d - 0.06, sty + 0.14, i + 1, S2, d=d)
+        icon(s, ic, x + stw / 2 + 0.1, my - 0.16, 0.32, S2)
+        text(s, x + 0.04, sty + 0.6, stw - 0.08, 0.22, [[run(role, 10.5, True, S2)]], align=C)
+        text(s, x + 0.04, sty + 0.82, stw - 0.08, 0.46, lines(name, 12, True, INK, TOOL), align=C, anchor=M)
+        text(s, x + 0.06, sty + 1.32, stw - 0.12, 0.6, lines(desc, 11), align=C)
         if i:
             arrow(s, x - ag + 0.03, my, x - 0.03, my, S2, width=2.5)
 
-    zone(s, dbx, top - 0.3, dbw, "Datenbank", S3)
+    zone(s, dbx, top - 0.3, dbw, "Datenbank", S3, "database")
     db = box(s, dbx, top, dbw, fh, tint(S3, 0.12), S3, shape=MSO_SHAPE.CAN)
     db.adjustments[0] = 0.14
     db.line.width = Pt(1.25)
     text(s, dbx + 0.1, top + 0.3, dbw - 0.2, fh - 0.4,
-         [[run("PostgreSQL", 15, True)], [run("Konten, Logins, Angebote, Trades", 11)],
+         [[run("PostgreSQL", 13, True, INK, TOOL)], [run("Konten, Logins, Angebote, Trades", 11)],
           [run("→ Folie 2", 11, True, S3)]], align=C, anchor=M, space=4)
     arrow(s, sx + sw + 0.03, my, dbx - 0.03, my, S3, both=True, width=2.5)
     text(s, sx + sw - 0.02, my + 0.08, 0.46, 0.3, [[run("SQL", 10.5, True, S3)]], align=C)
 
-    # Antwort nach Rolle + Merksatz
-    ry, rh = 6.08, 0.98
+    # Antwort nach Rolle + Merksatz: Icon links, Text mittig daneben
+    ry, rh = 6.16, 1.06
     rw = (12.333 - 2 * 0.2) / 3
     code = lambda t: run(t, 12, True, INK, MONO)
-    cards = [(tint(S1, 0.1), INK, "Gast sieht",
-              [run("nur ", 12), code("previewText"), run(": öffentliche Vorschau", 12)]),
-             (tint(S1, 0.1), INK, "Mitglied sieht",
-              [run("zusätzlich ", 12), code("memberDetails"), run(": alle Details, Handel", 12)]),
-             (INK, SURFACE, "Merke",
-              [run("Der Browser spricht nur mit dem Server. Scheitert eine Prüfung, endet die Anfrage dort.", 12, False, ON_INK)])]
-    for i, (fill, ink, head, body) in enumerate(cards):
+    cards = [(tint(S1, 0.1), INK, S1, "eye", "Gast sieht",
+              [[code("previewText")], [run("öffentliche Vorschau,..", 12)]]),
+             (tint(S1, 0.1), INK, S1, "lock-open", "Mitglied sieht",
+              [[code("previewText"), run(" + ", 12, True, S1), code("memberDetails")],
+               [run("alle Details, Handel,..", 12)]]),
+             (INK, SURFACE, ON_INK, "lightbulb", "Merke",
+              [[run("Der Browser spricht nur mit dem Server. Scheitert eine Prüfung, endet die Anfrage dort.",
+                    12, False, ON_INK)]])]
+    for i, (fill, ink, icol, ic, head, body) in enumerate(cards):
         x = 0.5 + i * (rw + 0.2)
         box(s, x, ry, rw, rh, fill)
-        text(s, x + 0.18, ry, rw - 0.36, rh, [[run(head, 13.5, True, ink)], body], align=C, anchor=M, space=3)
+        icon(s, ic, x + 0.25, ry + (rh - 0.44) / 2, 0.44, icol)
+        text(s, x + 0.85, ry, rw - 1.1, rh, [[run(head, 13.5, True, ink)]] + body, align=C, anchor=M, space=3)
 
 
 def slide_data_job(prs):
@@ -321,7 +351,7 @@ def slide_data_job(prs):
     C, M = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE
 
     lx, lw = 0.5, 7.7
-    zone(s, lx, 1.6, lw, "PostgreSQL · 6 Tabellen", S3)
+    zone(s, lx, 1.6, lw, "PostgreSQL · 6 Tabellen", S3, "database")
     BA, APP = ("Better Auth", S2), ("App", S3)
 
     def col(name, *note):
@@ -361,7 +391,7 @@ def slide_data_job(prs):
         box(s, x, y, tw, th, SURFACE, LINE)
         head = box(s, x, y, tw, hh, tint(ocol, 0.14), shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)
         head.adjustments[0] = 0.09 / hh
-        text(s, x + 0.1, y, tw - 0.2, hh, [[run(origin, 10, True, ocol)], [run(name, 15, True, INK, MONO)]],
+        text(s, x + 0.1, y, tw - 0.2, hh, [[run(origin, 9.5, True, ocol, TOOL)], [run(name, 15, True, INK, MONO)]],
              align=C, anchor=M, space=1)
         text(s, x + 0.16, y + hh + 0.1, tw - 0.32, th - hh - 0.15,
              [[run(desc, 11, True)]] + cols, space=3)
@@ -376,9 +406,10 @@ def slide_data_job(prs):
     # 7-Tage-Job, senkrecht
     rx = lx + lw + 0.4
     rw = 12.833 - rx
-    zone(s, rx, 1.6, rw, "7-Tage-Job · zeitgesteuert, ohne Browser", S4)
+    zone(s, rx, 1.6, rw, "7-Tage-Job · zeitgesteuert, ohne Browser", S4, "clock")
+    icons = ["clock", "hard-drive", "search", "mail", "send"]
     steps = [("BullMQ Queue", "Job einplanen", "Bei der Registrierung: Job anlegen, fällig in 7\u00a0Tagen"),
-             ("Redis", "Job-Speicher", "Hält den Job, auch über einen Server-Neustart"),
+             ("Redis", "Job-Speicher", "Hält den Job, auch über Neustarts"),
              ("BullMQ Worker", "Inaktivität prüfen", "Eigener Node.js-Prozess: zählt die Trades, ab\u00a01\u00a0Trade endet der Job"),
              ("React Email", "E-Mail bauen", "React-Komponente, gerendert zu HTML"),
              ("Mail-Dienst", "Versand ins Postfach", "Noch offen: z. B. Resend, Postmark oder Amazon SES")]
@@ -390,8 +421,9 @@ def slide_data_job(prs):
         y = sy0 + i * (sh + sgap)
         box(s, rx, y, rw, sh, tint(S4, 0.1))
         step(s, rx + 0.16, y + (sh - d) / 2, i + 1, S4, d=d)
-        text(s, rx + 0.72, y, rw - 0.86, sh,
-             [[run(name, 13.5, True), run("  " + role, 11, True, S4)], [run(desc, 11)]],
+        icon(s, icons[i], rx + rw - 0.5, y + (sh - 0.32) / 2, 0.32, S4)
+        text(s, rx + 0.72, y, rw - 1.3, sh,
+             [[run(name, 12, True, INK, TOOL), run("  " + role, 11, True, S4)], [run(desc, 11)]],
              anchor=M, space=2)
         if i < 4:
             arrow(s, ax, y + sh + 0.03, ax, y + sh + sgap - 0.03, S4, width=2.5)
