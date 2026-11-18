@@ -287,10 +287,10 @@ def zone(slide, x, y, w, label, color, ic=None, size=11):
     text(slide, x0, y - (size - 11) / 144, tw, 0.25 + (size - 11) / 72, [[run(label, size, True, color)]])
 
 
-def new_slide(prs, title, lead, notes):
+def new_slide(prs, title, lead, notes, bg=BG):
     s = prs.slides.add_slide(prs.slide_layouts[6])
     s.background.fill.solid()
-    s.background.fill.fore_color.rgb = rgb(BG)
+    s.background.fill.fore_color.rgb = rgb(bg)
     text(s, 0.5, 0.4, 12.33, 0.55, [[run(title, 30, True)]])
     text(s, 0.5, 1.0, 12.33, 0.35, [[run(lead, 15)]])
     s.notes_slide.notes_text_frame.text = tr(notes)
@@ -309,6 +309,7 @@ def slide_request(prs):
         "Next.js + TypeScript. Jede Anfrage passiert fünf Stationen auf dem Server – erst dann fließen Daten.",
         "Oben der Tech-Stack nach Oberbegriffen. Darunter der Weg einer Anfrage: Browser, fünf Stationen "
         "auf dem Next.js-Server, Datenbank. Unten, was Gast und Mitglied zurückbekommen.",
+        bg=SURFACE,  # Folie 1 + 2 weiß (User 2026-11-18)
     )
     C, M = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE
 
@@ -555,6 +556,7 @@ def slide_stack(prs):
         "Oben das Backend: TypeScript, Next.js und Node.js tragen alles. Darunter die Kette jeder Anfrage: "
         "Better Auth, Zod, Data Access Layer und Prisma/Drizzle. Links übergibt das Frontend (andere Gruppe), "
         "rechts geht es an die Datenbank (nächster Teil).",
+        bg=SURFACE,
     )
     # Zwei Reihen: 3 Fundament-Karten (Backend) über der Kette jeder Anfrage, senkrecht mittig unter dem Untertitel
     zl, bh, zg, rh = 0.32, 2.4, 0.4, 2.85
