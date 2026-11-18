@@ -89,8 +89,7 @@ EN = {
         "standard runtime for Next.js, same language as in the browser",
     "Prüft beim Login das Passwort, setzt ein Session-Cookie und erkennt es bei jeder Anfrage wieder.":
         "Checks the password at login, sets a session cookie and recognises it on every request.",
-    "ohne Cookie → Gast, mit Cookie → Mitglied":
-        "no cookie → guest, with cookie → member",
+    "ohne Cookie → Gast,": "no cookie → guest,", "mit Cookie → Mitglied": "with cookie → member",
     "Open Source, Nutzerkonten bleiben in unserer Datenbank":
         "open source, user accounts stay in our database",
     "Prüft jede Eingabe gegen ein festes Schema und lehnt falsche Daten ab, bevor sie die Datenbank erreichen.":
@@ -449,14 +448,14 @@ STACK = {  # Schlüssel: (Name, Rolle, Icon, Farbe, was er tut, Beispiel im Proj
         "bearbeitet viele Anfragen gleichzeitig, ohne zu blockieren", "Standard-Laufzeit für Next.js, gleiche Sprache wie im Browser"),
     "auth": ("Better Auth", "Authentifizierung", "key-round", S2,
         "Prüft beim Login das Passwort, setzt ein Session-Cookie und erkennt es bei jeder Anfrage wieder.",
-        "ohne Cookie → Gast, mit Cookie → Mitglied", "Open Source, Nutzerkonten bleiben in unserer Datenbank"),
+        "ohne Cookie → Gast,\nmit Cookie → Mitglied", "Open Source, Nutzerkonten bleiben in unserer Datenbank"),
     "zod": ("Zod", "Validierung", "list-checks", S2,
         "Prüft jede Eingabe gegen ein festes Schema und lehnt falsche Daten ab, bevor sie die Datenbank erreichen.",
         "Menge in kg muss eine positive Zahl sein", "ein Schema liefert Prüfung und TypeScript-Typ"),
     "dal": ("Data Access Layer", "Autorisierung", "eye", S2,
         "Eigene Code-Schicht für alle Datenzugriffe. Prüft, ob die Rolle die Daten sehen oder ändern darf.",
         "Preis und Kontakt nur für Mitglieder; ein Angebot ändert nur der eigene Standort", "Zugriffsregeln an einer Stelle statt verteilt"),
-    "orm": ("Prisma / Drizzle", "ORM", "database", S3,
+    "orm": ("Prisma / Drizzle", "ORM (Object-\nRelational Mapping)", "database", S3,
         "Bildet die Tabellen als TypeScript-Objekte ab und übersetzt Aufrufe in SQL-Abfragen.",
         "alle Angebote eines Materials laden", "typsicher, Werte werden sicher eingesetzt (keine SQL-Injection)"),
 }
@@ -496,14 +495,16 @@ def stack_card(s, x, y, w, h, key, what_lines=1):
     p, nx = 0.14, 0.58
     box(s, x, y, w, h, fill)
     icon(s, ic, x + p, y + 0.14, 0.34, ink if dark else col)
-    text(s, x + nx, y + 0.08, w - nx - 0.06, 0.2, [[run(role, 10, True, accent)]])
-    text(s, x + nx, y + 0.28, w - nx - 0.06, 0.28,
+    two = "\n" in role  # Rolle mit Langform in 2 Zeilen: Kopf enger, Text darunter bleibt auf seiner Linie
+    text(s, x + nx, y + (0.03 if two else 0.08), w - nx - 0.06, 0.34 if two else 0.2, lines(role, 10, True, accent))
+    text(s, x + nx, y + (0.35 if two else 0.28), w - nx - 0.06, 0.26 if two else 0.28,
          [[run(name, fit_size(name, w - nx - 0.1), True, ink, TOOL)]])
     label = LABEL_ON_INK if dark else col  # „Beispiel:“ und „Warum …?“ farbig, Text darunter in Textfarbe
     body_y, body_h = y + 0.62, h - 0.62 - 0.12
     text(s, x + p, body_y, w - 2 * p, body_h, [
         [run(what, 10.5, False, ink)] + [BR, run(" ", 10.5)] * (what_lines - line_count(what, w - 2 * p, 10.5)),
-        [run("Beispiel:", 10, True, label), BR, run(example, 10, False, ink)]], space=5)
+        [run("Beispiel:", 10, True, label)]
+        + [r for part in example.split("\n") for r in (BR, run(part, 10, False, ink))]], space=5)  # \n = fester Umbruch
     # „Warum <Name>?“ unten in der Karte, linksbündig; Name fett in Textfarbe (Arial, damit er in eine Zeile passt)
     text(s, x + p, body_y, w - 2 * p, body_h, [
         [run("Warum", 10, True, label), run(" "), run(name.replace(" ", "\u00a0"), 10, True, ink),
