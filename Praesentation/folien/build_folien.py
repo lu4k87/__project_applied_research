@@ -251,15 +251,16 @@ def label_width(label, size=11, bold=True):
     return font.getlength(tr(label)) / 10 / 72
 
 
-def zone(slide, x, y, w, label, color, ic=None):
-    """Zonen-Titel (Icon + Text) mittig über der Grafik darunter."""
-    tw = label_width(label) + 0.06
-    gw = tw + (0.31 if ic else 0)
+def zone(slide, x, y, w, label, color, ic=None, size=11):
+    """Zonen-Titel (Icon + Text) mittig über der Grafik darunter; Icon wächst mit der Schrift."""
+    tw = label_width(label, size) + 0.06
+    d = 0.24 * size / 11
+    gw = tw + (d + 0.07 if ic else 0)
     x0 = x + (w - gw) / 2
     if ic:
-        icon(slide, ic, x0, y - 0.01, 0.24, color)
-        x0 += 0.31
-    text(slide, x0, y, tw, 0.25, [[run(label, 11, True, color)]])
+        icon(slide, ic, x0, y - 0.01 - (d - 0.24) / 2, d, color)
+        x0 += d + 0.07
+    text(slide, x0, y - (size - 11) / 144, tw, 0.25 + (size - 11) / 72, [[run(label, size, True, color)]])
 
 
 def new_slide(prs, title, lead, notes):
@@ -543,7 +544,7 @@ def slide_stack(prs):
     # Reihe 1: Sprache, Framework, Laufzeit als einzelne dunkle Karten
     bg = 0.26
     bw = (sw - 2 * bg) / 3
-    zone(s, x0, top_base - 0.3, sw, "Backend · Grundlage für jede Anfrage", INK, "server")
+    zone(s, x0, top_base - 0.3, sw, "Backend · Grundlage für jede Anfrage", INK, "server", size=13)
     row = ["ts", "next", "node"]
     n = max(line_count(STACK[k][4], bw - 0.28, 10.5) for k in row)  # 0.28 = 2 × Innenabstand p der Karte
     for j, key in enumerate(row):
@@ -553,7 +554,7 @@ def slide_stack(prs):
     ag = 0.26
     cw = (sw - 3 * ag) / 4
     y = top_base + bh + zg
-    zone(s, x0, y - 0.3, sw, "Jede Anfrage", S2, "shield-check")
+    zone(s, x0, y - 0.3, sw, "Jede Anfrage", S2, "shield-check", size=13)
     row = ["auth", "zod", "dal", "orm"]
     n = max(line_count(STACK[k][4], cw - 0.28, 10.5) for k in row)
     for j, key in enumerate(row):
