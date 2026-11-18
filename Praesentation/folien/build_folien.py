@@ -312,15 +312,16 @@ def slide_request(prs):
     gap = 0.15
     gx = fx + fw + gap
     gw = (12.833 - gx - (len(groups) - 1) * gap) / len(groups)
+    gh, pad, isz = 1.5, 0.16, 0.32  # etwas flacher als die dunklen Karten, senkrecht mittig zu ihnen
+    gy = y + (h - gh) / 2
     for i, (ic, lab, col, items) in enumerate(groups):
         x = gx + i * (gw + gap)
-        box(s, x, y, gw, h, tint(col, 0.1))
-        edge = box(s, x, y, gw, 0.07, col, shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)  # Farbkante = Gruppe
-        edge.adjustments[0] = 0.5
-        icon(s, ic, x + (gw - 0.24) / 2, y + 0.13, 0.24, col)
-        text(s, x + 0.08, y + 0.4, gw - 0.16, h - 0.42,  # Titel mit \n = fester Umbruch
+        box(s, x, gy, gw, gh, tint(col, 0.1))
+        icon(s, ic, x + pad, gy + 0.13, isz, col)
+        ty = gy + 0.13 + isz + 0.1  # Text mit Abstand unter dem Icon
+        text(s, x + pad, ty, gw - 2 * pad, gy + gh - ty,  # Titel mit \n = fester Umbruch
              [[run(t, 10, True, col)] for t in lab.split("\n")] + [[run(it, 10, True, INK, TOOL)] for it in items],
-             align=C, space=1)
+             space=3)
 
     # Weg einer Anfrage: Browser → 5 Stationen → Datenbank (Frontend links, Datenbank rechts)
     fh = 2.2
