@@ -367,7 +367,7 @@ def slide_request(prs):
                 ("key-round", "Better Auth", "Authentifizierung", "Wer fragt? Gast oder Mitglied"),
                 ("list-checks", "Zod", "Validierung", "Ist die Eingabe gültig?"),
                 ("eye", "Data Access Layer", "Autorisierung", "Was darf Gast oder Mitglied sehen?"),
-                ("database", "Prisma / Drizzle", "ORM", "Baut sichere\nSQL-Abfragen")]
+                ("database", "Prisma / Drizzle", "ORM (Object-\nRelational Mapping)", "Baut sichere\nSQL-Abfragen")]
     pad, ag, d = 0.12, 0.26, 0.4
     stw = (sw - 2 * pad - 4 * ag) / 5
     sty, sth = top + pad, fh - 2 * pad
@@ -377,8 +377,11 @@ def slide_request(prs):
         box(s, x, sty, stw, sth, SURFACE)
         icon(s, ic, x + stw / 2 - 0.42, my - 0.16, 0.32, S2)  # Icon links, Nummer rechts
         step(s, x + stw / 2 + 0.06, sty + 0.14, i + 1, S2, d=d)
-        text(s, x + 0.04, sty + 0.6, stw - 0.08, 0.22, [[run(role, 10.5, True, S2)]], align=C)
-        text(s, x + 0.04, sty + 0.82, stw - 0.08, 0.46, lines(name, 12, True, INK, TOOL), align=C, anchor=M)
+        two = "\n" in role  # Rolle mit Langform in 2 Zeilen, Name rückt nach, Beschreibung bleibt
+        text(s, x + 0.02, sty + (0.54 if two else 0.6), stw - 0.04, 0.36 if two else 0.22,
+             lines(role, 10 if two else 10.5, True, S2), align=C)
+        text(s, x + 0.04, sty + (0.9 if two else 0.82), stw - 0.08, 0.4 if two else 0.46,
+             lines(name, 12, True, INK, TOOL), align=C, anchor=M)
         text(s, x + 0.06, sty + 1.32, stw - 0.12, 0.6, lines(desc, 11), align=C)
         if i:  # Pfeil von der vorigen Station (links) nach rechts, senkrecht mittig zur Karte
             arrow(s, x - ag + 0.03, sty + sth / 2, x - 0.03, sty + sth / 2, S2, width=2.5)
