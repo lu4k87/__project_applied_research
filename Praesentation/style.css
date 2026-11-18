@@ -180,7 +180,7 @@
   /* Zweite Grafik: Verbindungen */
   .sec-title{font-family:var(--font-display);font-size:clamp(22px,3vw,28px);font-weight:700;letter-spacing:-.01em;line-height:1.15;text-wrap:balance}
   .sec-lead{color:var(--muted);margin-top:6px;max-width:72ch;font-size:17px;text-wrap:pretty}
-  .connect{display:grid;grid-template-columns:minmax(0,720px) minmax(320px,1fr);gap:40px;align-items:start;margin-top:16px}
+  .connect{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,560px);gap:40px;align-items:start;margin-top:16px}
   .fig{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:14px}
   .fig svg{display:block;width:100%;height:auto}
   .fig figcaption{font-size:14px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
@@ -202,8 +202,7 @@
   .a1{stroke:var(--s1)} .a2{stroke:var(--s2)} .a4{stroke:var(--s4)}
   .f1{fill:var(--s1)} .f2{fill:var(--s2)} .f3{fill:var(--s3)} .f4{fill:var(--s4)}
 
-  .links{max-width:640px}
-  .links h3{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+    .links h3{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
   .links dl{border-top:1px solid var(--line)}
   .links dl div{padding:9px 0;border-bottom:1px solid var(--line);border-left:3px solid var(--c);padding-left:11px}
   .links dt{font:600 13.5px/1.4 var(--font-mono)}
@@ -240,3 +239,18 @@
     .base-item b{font-size:18px}
   }
   @media (prefers-reduced-motion:reduce){ .wrap [data-paths]{transition:none} }
+
+  /* Sehr breit: einzeilige Texte größer, damit weniger Leerraum bleibt */
+  @media (min-width:1400px){
+    header p,.sec-lead{font-size:18px}
+    .caption{font-size:16px}
+    .base-item span{font-size:12px} .base-item b{font-size:22px} .base-item em{font-size:14px}
+    .grp h4{font-size:12px} .grp li b{font:600 14.5px/1.35 var(--font-mono)} .grp li span{font-size:13.5px}
+    .layer-title b{font-size:13px} .layer-title span{font-size:15px}
+    .col h2{font-size:20px} .col-sub{font-size:15px}
+    .hop{font-size:14px} .io{font-size:13.5px}
+    .tbl-desc{font-size:15px} .cols dt{font-size:14px} .cols dd{font-size:13.5px}
+    .legend,.notes,.fig figcaption{font-size:15px}
+    .key{font-size:15px} .links dt{font-size:14.5px} .links dd{font-size:15px}
+  }
+  @media (min-width:1081px){ .links{position:sticky;top:16px} }
