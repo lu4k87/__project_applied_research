@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App-Architektur – Frontend, Backend &amp; Datenbank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="lang" role="group" aria-label="Sprache / Language"><button type="button" id="l-de" data-l="de" aria-pressed="true">DE</button><button type="button" id="l-en" data-l="en" aria-pressed="false">EN</button></div>
+  <h1>App-Architektur</h1>
+  <p>Eine Web-App mit Next.js und TypeScript. Die Seite zeigt, wie eine Anfrage vom Browser durch Sicherheitsprüfung und Filter bis in die Datenbank läuft und wie ein Hintergrund-Job inaktive Nutzer nach 7 Tagen erinnert.</p>
+</header>
+
+<div class="base" aria-label="Fundament">
+  <div class="base-item"><span>Programmiersprache</span><b>TypeScript</b><em>überall: Browser, Server, Worker</em></div>
+  <div class="base-item"><span>Web-Framework</span><b>Next.js</b><em>App Router, baut auf React auf</em></div>
+  <div class="base-item"><span>Laufzeitumgebung</span><b>Node.js</b><em>führt Server und Worker aus</em></div>
+</div>
+
+<div class="groups" aria-label="Tech-Stack nach Oberbegriffen">
+  <div class="grp" style="--c:var(--s1)"><h4>Benutzeroberfläche</h4><ul><li><b>React</b><span>UI-Komponenten</span></li><li><b>Next.js App Router</b><span>Seiten &amp; Routing</span></li></ul></div>
+  <div class="grp" style="--c:var(--s2)"><h4>Sicherheit</h4><ul><li><b>Better Auth</b><span>Authentifizierung</span></li><li><b>Zod</b><span>Validierung</span></li><li><b>Data Access Layer</b><span>Autorisierung</span></li></ul></div>
+  <div class="grp" style="--c:var(--s3)"><h4>Daten</h4><ul><li><b>Prisma / Drizzle</b><span>ORM</span></li><li><b>PostgreSQL</b><span>Datenbank</span></li></ul></div>
+  <div class="grp" style="--c:var(--s4)"><h4>Hintergrund &amp; E-Mail</h4><ul><li><b>BullMQ</b><span>Job-Queue</span></li><li><b>Redis</b><span>Job-Speicher</span></li><li><b>React Email</b><span>E-Mail-Vorlagen</span></li><li><b>Mail-Dienst</b><span>z.&nbsp;B. Resend</span></li></ul></div>
+</div>
+
+<section>
+  <div class="pathbar">
+    <div class="seg" role="group" aria-label="Weg im Diagramm hervorheben">
+      <button type="button" id="p-all" data-p="" aria-pressed="true">Alles</button>
+      <button type="button" id="p-guest" data-p="guest" aria-pressed="false">Gast</button>
+      <button type="button" id="p-member" data-p="member" aria-pressed="false">Mitglied</button>
+      <button type="button" id="p-job" data-p="job" aria-pressed="false">7-Tage-Job</button>
+    </div>
+    <p class="caption" id="caption" aria-live="polite">Wähle einen Weg, um seine Stationen im Diagramm hervorzuheben.</p>
+  </div>
+
+  <div class="wrap" id="wrap">
+    <svg id="wires" aria-hidden="true">
+      <defs>
+        <marker id="m1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--s1)"/></marker>
+        <marker id="m2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--s2)"/></marker>
+        <marker id="m4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--s4)"/></marker>
+      </defs>
+    </svg>
+
+    <div class="layers">
+      <!-- FRONTEND -->
+      <section class="layer">
+        <div class="layer-title"><b style="color:var(--s1)">Frontend</b><span>React und Next.js, läuft im Browser</span></div>
+        <div class="col" style="--c:var(--s1)">
+          <h2><span class="num">1</span>Wer besucht die Seite?</h2>
+          <p class="col-sub">Zwei Arten von Besuchern, eine gemeinsame Tür zum Server.</p>
+          <div class="alt">
+            <article class="node" id="guest" data-paths="guest">
+              <span class="kat">Client</span>
+              <div class="node-head"><span class="step"></span><h3>Gast, nicht registriert</h3></div>
+              <span class="tech">React · Next.js · HTTPS</span>
+              <ul>
+                <li>Öffnet die öffentliche Website</li>
+                <li>Schickt kein Session-Cookie mit</li>
+                <li>Bekommt nur Vorschauen zu sehen</li>
+              </ul>
+              <div class="io">fragt an bei <span class="chip to2">Sicherheit &amp; Filter</span></div>
+            </article>
+            <article class="node" id="member" data-paths="member">
+              <span class="kat">Client</span>
+              <div class="node-head"><span class="step"></span><h3>Eingeloggtes Mitglied</h3></div>
+              <span class="tech">React · Next.js · Session-Cookie</span>
+              <ul>
+                <li>Öffnet das Mitglieder-Dashboard</li>
+                <li>Schickt bei jeder Anfrage sein Session-Cookie mit</li>
+                <li>Sieht alle Details und kann handeln</li>
+              </ul>
+              <div class="io">fragt an bei <span class="chip to2">Sicherheit &amp; Filter</span></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="hop stage-hop" style="--c:var(--s1)" data-paths="guest member">HTTPS-Anfrage an den Next.js-Server. Mitglieder senden ihr Session-Cookie mit.</div>
+
+      <!-- BACKEND -->
+      <section class="layer">
+        <div class="layer-title"><b style="color:var(--s2)">Backend &amp; Datenbank</b><span>Next.js-Server auf Node.js, für Besucher unsichtbar</span></div>
+        <div class="be-cols">
+
+          <div class="col" style="--c:var(--s2)">
+            <h2><span class="num">2</span>Sicherheit &amp; Filter</h2>
+            <p class="col-sub">Jede Anfrage durchläuft diese fünf Stationen auf dem Next.js-Server, bevor Daten fließen.</p>
+            <div class="seq">
+              <article class="node" id="next" data-paths="guest member">
+                <span class="kat">Einstiegspunkt</span>
+                <div class="node-head"><span class="step"></span><h3>Anfrage annehmen</h3></div>
+                <span class="tech">Next.js App Router</span>
+                <ul>
+                  <li>Server Components bauen die Seite auf dem Server zusammen</li>
+                  <li>Server Actions und Route Handler nehmen Formulare und API-Aufrufe an</li>
+                  <li>Reicht jede Anfrage zuerst an die Login-Prüfung weiter</li>
+                </ul>
+              </article>
+              <div class="hop" data-paths="guest member">Anfrage, bei Mitgliedern mit Cookie</div>
+              <article class="node" id="auth" data-paths="guest member">
+                <span class="kat">Authentifizierung</span>
+                <div class="node-head"><span class="step"></span><h3>Login- und Sitzungsprüfung</h3></div>
+                <span class="tech">Better Auth</span><span class="badge-now">aktuell</span>
+                <ul>
+                  <li>Auth-Bibliothek für TypeScript: Registrierung, Login, E-Mail-Verifizierung</li>
+                  <li>Prüft das Passwort gegen den Hash in <code>account</code></li>
+                  <li>Sucht das Session-Cookie in <code>session</code> und prüft das Ablaufdatum</li>
+                  <li>Ohne gültiges Cookie läuft die Anfrage als Gast weiter</li>
+                </ul>
+                <div class="io">liest und schreibt <span class="chip to3">user</span><span class="chip to3">session</span><span class="chip to3">account</span><span class="chip to3">verification</span></div>
+              </article>
+              <div class="hop" data-paths="guest member">Rolle steht fest: Gast oder Mitglied</div>
+              <article class="node" id="zod" data-paths="guest member">
+                <span class="kat">Validierung</span>
+                <div class="node-head"><span class="step"></span><h3>Eingabeprüfung</h3></div>
+                <span class="tech">Zod</span>
+                <ul>
+                  <li>Vergleicht jede Eingabe mit einem Schema: Typ, Länge, Format</li>
+                  <li>Lehnt Ungültiges ab, bevor es Logik oder Datenbank erreicht</li>
+                </ul>
+              </article>
+              <div class="hop" data-paths="guest member">nur gültige Eingaben</div>
+              <article class="node" id="dal" data-paths="guest member">
+                <span class="kat">Autorisierung</span>
+                <div class="node-head"><span class="step"></span><h3>Sichtbarkeits-Filter</h3></div>
+                <span class="tech">Data Access Layer</span>
+                <ul>
+                  <li>Einziger Weg vom Server-Code zu den Daten</li>
+                  <li>Gast: nur <code>previewText</code></li>
+                  <li>Mitglied: zusätzlich <code>memberDetails</code> und Handel</li>
+                  <li>Private Felder verlassen den Server für Gäste nie</li>
+                </ul>
+              </article>
+              <div class="hop" data-paths="guest member">erlaubte Abfrage</div>
+              <article class="node" id="orm" data-paths="guest member">
+                <span class="kat">Datenzugriff · ORM</span>
+                <div class="node-head"><span class="step"></span><h3>Datenbank-Übersetzer</h3></div>
+                <span class="tech">Prisma oder Drizzle ORM</span>
+                <ul>
+                  <li>Typsichere Abfragen in TypeScript statt handgeschriebenem SQL</li>
+                  <li>Werte gehen als Parameter an die Datenbank, das verhindert SQL-Injection</li>
+                  <li>Migrationen halten das Tabellenschema versioniert</li>
+                </ul>
+                <div class="io">liest und schreibt <span class="chip to3">listings</span><span class="chip to3">trades</span></div>
+              </article>
+            </div>
+          </div>
+
+          <div class="hop stage-hop" style="--c:var(--s2)" data-paths="guest member">SQL-Abfragen an die Datenbank</div>
+
+          <div class="col" style="--c:var(--s3)">
+            <h2><span class="num">3</span>PostgreSQL-Datenbank</h2>
+            <p class="col-sub">Vier Tabellen legt Better Auth selbst an, zwei gehören zur App. Spalten in camelCase wie im Better-Auth-Standard.</p>
+            <div class="alt">
+              <p class="tgrp">Better Auth · Kernschema <span>wird per CLI erzeugt</span></p>
+              <article class="node tbl" id="t-users" data-paths="member">
+                <div class="tbl-head"><h3>user</h3><span class="kind">Tabelle</span></div>
+                <p class="tbl-desc">Ein Eintrag pro Person</p>
+                <dl class="cols">
+                  <div><dt>id</dt><dd><span class="tag">PK</span></dd></div>
+                  <div><dt>name</dt><dd>Anzeigename</dd></div>
+                  <div><dt>email</dt><dd>eindeutig</dd></div>
+                  <div><dt>emailVerified</dt><dd>bestätigt ja/nein</dd></div>
+                  <div><dt>image</dt><dd>Profilbild, optional</dd></div>
+                  <div><dt>createdAt, updatedAt</dt><dd>createdAt startet die 7-Tage-Frist</dd></div>
+                </dl>
+              </article>
+              <article class="node tbl" id="t-sessions" data-paths="member">
+                <div class="tbl-head"><h3>session</h3><span class="kind">Tabelle</span></div>
+                <p class="tbl-desc">Aktive Logins, eines pro Gerät</p>
+                <dl class="cols">
+                  <div><dt>id</dt><dd><span class="tag">PK</span></dd></div>
+                  <div><dt>userId</dt><dd><span class="tag">FK</span> → user</dd></div>
+                  <div><dt>token</dt><dd>steht im Cookie, eindeutig</dd></div>
+                  <div><dt>expiresAt</dt><dd>Ablaufdatum</dd></div>
+                  <div><dt>ipAddress, userAgent</dt><dd>Gerät, optional</dd></div>
+                  <div><dt>createdAt, updatedAt</dt><dd>Zeitstempel</dd></div>
+                </dl>
+              </article>
+              <article class="node tbl" id="t-account" data-paths="member">
+                <div class="tbl-head"><h3>account</h3><span class="kind">Tabelle</span></div>
+                <p class="tbl-desc">Login-Methoden eines Nutzers: Passwort oder z.&nbsp;B. Google</p>
+                <dl class="cols">
+                  <div><dt>id</dt><dd><span class="tag">PK</span></dd></div>
+                  <div><dt>userId</dt><dd><span class="tag">FK</span> → user</dd></div>
+                  <div><dt>providerId</dt><dd>„credential“ für E-Mail + Passwort</dd></div>
+                  <div><dt>accountId</dt><dd>ID beim Anbieter</dd></div>
+                  <div><dt>password</dt><dd><span class="tag priv">Hash</span> nur bei credential</dd></div>
+                  <div><dt>accessToken, refreshToken, idToken, scope</dt><dd>nur bei Social Login</dd></div>
+                  <div><dt>accessTokenExpiresAt, refreshTokenExpiresAt</dt><dd>Ablauf der Tokens</dd></div>
+                  <div><dt>createdAt, updatedAt</dt><dd>Zeitstempel</dd></div>
+                </dl>
+              </article>
+              <article class="node tbl" id="t-verification" data-paths="member">
+                <div class="tbl-head"><h3>verification</h3><span class="kind">Tabelle</span></div>
+                <p class="tbl-desc">Kurzlebige Codes für E-Mail-Bestätigung und Passwort-Reset</p>
+                <dl class="cols">
+                  <div><dt>id</dt><dd><span class="tag">PK</span></dd></div>
+                  <div><dt>identifier</dt><dd>wofür der Code gilt</dd></div>
+                  <div><dt>value</dt><dd>der Code selbst</dd></div>
+                  <div><dt>expiresAt</dt><dd>läuft automatisch ab</dd></div>
+                  <div><dt>createdAt, updatedAt</dt><dd>Zeitstempel</dd></div>
+                </dl>
+              </article>
+
+              <p class="tgrp">App · eigene Tabellen <span>Beispiel-Spalten</span></p>
+              <article class="node tbl" id="t-listings" data-paths="guest member">
+                <div class="tbl-head"><h3>listings</h3><span class="kind">Tabelle</span></div>
+                <p class="tbl-desc">Angebote mit zwei Sichtbarkeitsstufen</p>
+                <dl class="cols">
+                  <div><dt>id</dt><dd><span class="tag">PK</span></dd></div>
+                  <div><dt>ownerId</dt><dd><span class="tag">FK</span> → user</dd></div>
+                  <div><dt>previewText</dt><dd><span class="tag">öffentlich</span></dd></div>
+                  <div><dt>memberDetails</dt><dd><span class="tag priv">nur Mitglieder</span></dd></div>
+                  <div><dt>createdAt</dt><dd>Zeitstempel</dd></div>
+                </dl>
+              </article>
+              <article class="node tbl" id="t-trades" data-paths="member job">
+                <div class="tbl-head"><h3>trades</h3><span class="kind">Tabelle</span></div>
+                <p class="tbl-desc">Abgeschlossene Trades zwischen zwei Nutzern</p>
+                <dl class="cols">
+                  <div><dt>id</dt><dd><span class="tag">PK</span></dd></div>
+                  <div><dt>listingId</dt><dd><span class="tag">FK</span> → listings</dd></div>
+                  <div><dt>sellerId, buyerId</dt><dd><span class="tag">FK</span> → user</dd></div>
+                  <div><dt>completedAt</dt><dd>Abschlusszeit</dd></div>
+                </dl>
+              </article>
+            </div>
+          </div>
+
+          <div class="hop up stage-hop" style="--c:var(--s4)" data-paths="job">Der Worker zählt die Einträge in trades. Er läuft im Hintergrund, ohne Browser.</div>
+
+          <div class="col" style="--c:var(--s4)">
+            <h2><span class="num">4</span>Inaktivitäts-Check</h2>
+            <p class="col-sub">Zeitgesteuert, unabhängig von Besuchern.</p>
+            <div class="seq">
+              <article class="node" id="queue" data-paths="job">
+                <span class="kat">Job-Queue</span>
+                <div class="node-head"><span class="step"></span><h3>Job einplanen</h3></div>
+                <span class="tech">BullMQ · Queue</span>
+                <ul>
+                  <li>Job-Queue für Node.js</li>
+                  <li>Der Next.js-Server legt bei der Registrierung einen verzögerten Job an: fällig in 7 Tagen</li>
+                </ul>
+              </article>
+              <div class="hop" data-paths="job">Job mit 7 Tagen Verzögerung</div>
+              <article class="node" id="redis" data-paths="job">
+                <span class="kat">In-Memory-Datenbank</span>
+                <div class="node-head"><span class="step"></span><h3>Job-Speicher</h3></div>
+                <span class="tech">Redis</span>
+                <ul>
+                  <li>BullMQ legt seine Jobs in Redis ab</li>
+                  <li>Der Job übersteht so auch einen Neustart des Servers</li>
+                </ul>
+              </article>
+              <div class="hop" data-paths="job">nach 7 Tagen fällig</div>
+              <article class="node" id="worker" data-paths="job">
+                <span class="kat">Hintergrundprozess</span>
+                <div class="node-head"><span class="step"></span><h3>Prüfung auf Inaktivität</h3></div>
+                <span class="tech">BullMQ · Worker</span>
+                <ul>
+                  <li>Eigener Node.js-Prozess, getrennt vom Next.js-Server</li>
+                  <li>Zählt die Trades des Nutzers</li>
+                  <li>Mehr als 0 Trades: Job endet ohne E-Mail</li>
+                </ul>
+                <div class="io">liest <span class="chip to3">trades</span></div>
+              </article>
+              <div class="hop" data-paths="job">nur bei 0 Trades</div>
+              <article class="node" id="mail" data-paths="job">
+                <span class="kat">Transaktions-E-Mail</span>
+                <div class="node-head"><span class="step"></span><h3>Erinnerungs-E-Mail</h3></div>
+                <span class="tech">React Email</span>
+                <ul>
+                  <li>E-Mail-Vorlage als React-Komponente, wird zu HTML gerendert</li>
+                  <li>Versand über einen Mail-Dienst an die Adresse des Nutzers</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="wide"><i></i>Anfrage und Datenfluss</span>
+    <span class="wide"><i class="d"></i>Hintergrund-Job, zeitgesteuert</span>
+    <span><span class="chip to3">name</span> Tabelle, auf die eine Station zugreift</span>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec-title">Wer sendet was an wen</h2>
+  <p class="sec-lead">Jeder Pfeil zeigt in die Richtung, in die Daten fließen. Die Beschriftung nennt, was unterwegs ist.</p>
+
+  <div class="connect">
+    <figure class="fig">
+      <svg viewBox="0 0 380 872" role="img" aria-label="Verbindungen zwischen Browser, dem Next.js-Server mit seinen Stationen, der PostgreSQL-Datenbank und dem Hintergrund-Job. Der Browser spricht nur mit dem Server, nie direkt mit der Datenbank.">
+        <defs>
+          <marker id="e1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f1"/></marker>
+          <marker id="e2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f2"/></marker>
+          <marker id="e4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f4"/></marker>
+        </defs>
+
+        <!-- Frontend -->
+        <text class="g-layer f1" x="16" y="14">FRONTEND · REACT + NEXT.JS IM BROWSER</text>
+        <rect class="g-box k1" x="16" y="24" width="162" height="44" rx="8"/>
+        <text class="g-title" x="28" y="43">Gast</text>
+        <text class="g-sub" x="28" y="58">nicht registriert</text>
+        <rect class="g-box k1" x="202" y="24" width="162" height="44" rx="8"/>
+        <text class="g-title" x="214" y="43">Mitglied</text>
+        <text class="g-sub" x="214" y="58">eingeloggt</text>
+
+        <!-- Browser <-> Server -->
+        <line class="a a1" x1="34" y1="70" x2="34" y2="122" marker-end="url(#e1)"/>
+        <text class="g-lab f1" x="42" y="93">Anfrage</text>
+        <text class="g-sub" x="42" y="106">ohne Cookie</text>
+        <line class="a a2" x1="112" y1="124" x2="112" y2="72" marker-end="url(#e2)"/>
+        <text class="g-lab f2" x="120" y="93">Antwort</text>
+        <text class="g-sub" x="120" y="106">nur Vorschau</text>
+        <line class="a a1" x1="220" y1="70" x2="220" y2="122" marker-end="url(#e1)"/>
+        <text class="g-lab f1" x="228" y="93">Anfrage</text>
+        <text class="g-sub" x="228" y="106">mit Cookie</text>
+        <line class="a a2" x1="298" y1="124" x2="298" y2="72" marker-end="url(#e2)"/>
+        <text class="g-lab f2" x="306" y="93">Antwort</text>
+        <text class="g-sub" x="306" y="106">alle Details</text>
+
+        <!-- Backend-Rahmen -->
+        <rect class="g-frame" x="8" y="126" width="364" height="644" rx="14"/>
+        <text class="g-layer f2" x="20" y="146">BACKEND · NEXT.JS-SERVER AUF NODE.JS</text>
+
+        <!-- Einstiegspunkt -->
+        <rect class="g-box k2" x="20" y="158" width="342" height="46" rx="8"/>
+        <text class="g-name" x="32" y="177">Next.js App Router</text>
+        <text class="g-sub" x="32" y="193">Einstiegspunkt: Seiten, Server Actions, Route Handler</text>
+        <line class="a a2" x1="44" y1="205" x2="44" y2="231" marker-end="url(#e2)"/>
+        <text class="g-sub" x="54" y="223">Anfrage, bei Mitgliedern mit Cookie</text>
+
+        <g transform="translate(0,76)">
+
+        <!-- Datenbank -->
+        <rect class="g-db" x="250" y="154" width="112" height="292" rx="10"/>
+        <text class="g-lab f3" x="260" y="171">PostgreSQL</text>
+        <text class="g-sub" x="260" y="186">Better Auth</text>
+        <rect class="g-box k3" x="258" y="192" width="96" height="24" rx="6"/>
+        <text class="g-name" x="266" y="208">user</text>
+        <rect class="g-box k3" x="258" y="222" width="96" height="24" rx="6"/>
+        <text class="g-name" x="266" y="238">session</text>
+        <rect class="g-box k3" x="258" y="252" width="96" height="24" rx="6"/>
+        <text class="g-name" x="266" y="268">account</text>
+        <rect class="g-box k3" x="258" y="282" width="96" height="24" rx="6"/>
+        <text class="g-name" x="266" y="298">verification</text>
+        <text class="g-sub" x="306" y="328" text-anchor="middle">kein Zugriff</text>
+        <text class="g-sub" x="306" y="341" text-anchor="middle">aus dem Browser</text>
+        <text class="g-sub" x="260" y="366">App</text>
+        <rect class="g-box k3" x="258" y="372" width="96" height="28" rx="6"/>
+        <text class="g-name" x="266" y="390">listings</text>
+        <rect class="g-box k3" x="258" y="408" width="96" height="28" rx="6"/>
+        <text class="g-name" x="266" y="426">trades</text>
+
+        <!-- Better Auth <-> eigene Tabellen -->
+        <line class="a a2" x1="209" y1="166" x2="255" y2="204" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="209" y1="176" x2="255" y2="234" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="209" y1="186" x2="255" y2="264" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="209" y1="196" x2="255" y2="294" marker-start="url(#e2)" marker-end="url(#e2)"/>
+
+        <!-- Vier Stationen -->
+        <rect class="g-box k2" x="20" y="158" width="186" height="46" rx="8"/>
+        <text class="g-name" x="32" y="177">Better Auth</text>
+        <text class="g-sub" x="32" y="193">Authentifizierung: wer fragt an?</text>
+        <line class="a a2" x1="44" y1="205" x2="44" y2="231" marker-end="url(#e2)"/>
+        <text class="g-sub" x="54" y="223">Rolle: Gast oder Mitglied</text>
+
+        <rect class="g-box k2" x="20" y="234" width="186" height="46" rx="8"/>
+        <text class="g-name" x="32" y="253">Zod</text>
+        <text class="g-sub" x="32" y="269">Validierung: prüft jede Eingabe</text>
+        <line class="a a2" x1="44" y1="281" x2="44" y2="307" marker-end="url(#e2)"/>
+        <text class="g-sub" x="54" y="299">nur gültige Eingaben</text>
+
+        <rect class="g-box k2" x="20" y="310" width="186" height="46" rx="8"/>
+        <text class="g-name" x="32" y="329">Data Access Layer</text>
+        <text class="g-sub" x="32" y="345">Autorisierung: Felder nach Rolle</text>
+        <line class="a a2" x1="44" y1="357" x2="44" y2="383" marker-end="url(#e2)"/>
+        <text class="g-sub" x="54" y="375">erlaubte Abfrage</text>
+
+        <rect class="g-box k2" x="20" y="386" width="186" height="46" rx="8"/>
+        <text class="g-name" x="32" y="405">Prisma / Drizzle</text>
+        <text class="g-sub" x="32" y="421">ORM: baut sichere SQL-Abfragen</text>
+
+        <!-- Server <-> Datenbank -->
+        <line class="a a2" x1="209" y1="402" x2="255" y2="388" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="209" y1="418" x2="255" y2="422" marker-start="url(#e2)" marker-end="url(#e2)"/>
+
+        <!-- Hintergrund-Job -->
+        <line class="g-div" x1="20" y1="456" x2="236" y2="456"/>
+        <text class="g-layer f4" x="20" y="474">HINTERGRUND-JOB · ZEITGESTEUERT</text>
+
+        <rect class="g-box k4" x="20" y="484" width="152" height="46" rx="8"/>
+        <text class="g-name" x="32" y="503">BullMQ Queue</text>
+        <text class="g-sub" x="32" y="519">Job bei Registrierung</text>
+        <line class="a a4" x1="44" y1="531" x2="44" y2="555" marker-end="url(#e4)"/>
+        <text class="g-sub" x="54" y="547">7 Tage verzögert</text>
+
+        <rect class="g-box k4" x="20" y="558" width="152" height="46" rx="8"/>
+        <text class="g-name" x="32" y="577">Redis</text>
+        <text class="g-sub" x="32" y="593">bewahrt den Job auf</text>
+
+        <line class="a a4" x1="174" y1="581" x2="247" y2="581" marker-end="url(#e4)"/>
+        <text class="g-lab f4" x="211" y="574" text-anchor="middle">Job fällig</text>
+        <text class="g-sub" x="211" y="596" text-anchor="middle">nach 7 Tagen</text>
+
+        <rect class="g-box k4" x="250" y="558" width="112" height="46" rx="8"/>
+        <text class="g-name" x="260" y="577">BullMQ Worker</text>
+        <text class="g-sub" x="260" y="593">prüft Inaktivität</text>
+
+        <line class="a a4" x1="306" y1="438" x2="306" y2="555" stroke-dasharray="4 3" marker-end="url(#e4)"/>
+        <text class="g-lab f4" x="298" y="506" text-anchor="end">Anzahl Trades</text>
+
+        <line class="a a4" x1="306" y1="606" x2="306" y2="631" marker-end="url(#e4)"/>
+        <text class="g-sub" x="298" y="622" text-anchor="end">nur bei 0 Trades</text>
+
+        <rect class="g-box k4" x="250" y="634" width="112" height="46" rx="8"/>
+        <text class="g-name" x="260" y="653">React Email</text>
+        <text class="g-sub" x="260" y="669">baut die E-Mail</text>
+
+        <line class="a a4" x1="306" y1="682" x2="306" y2="737" marker-end="url(#e4)"/>
+        <text class="g-lab f4" x="298" y="713" text-anchor="end">Erinnerungs-E-Mail</text>
+        <text class="g-sub" x="298" y="726" text-anchor="end">über einen Mail-Dienst</text>
+
+        <!-- Außerhalb -->
+        <rect class="g-box k0" x="202" y="740" width="160" height="46" rx="8"/>
+        <text class="g-title" x="214" y="759">Postfach des Nutzers</text>
+        <text class="g-sub" x="214" y="775">außerhalb der App</text>
+        </g>
+      </svg>
+      <figcaption>Der Browser spricht nur mit dem Next.js-Server. An die Datenbank kommen ausschließlich die Stationen im Backend.</figcaption>
+    </figure>
+
+    <div class="links">
+      <ul class="key">
+        <li><b>→</b>Daten fließen in Pfeilrichtung</li>
+        <li><b>↔</b>Daten in beide Richtungen: lesen und schreiben</li>
+        <li><b>┄→</b>zeitgesteuert, ohne Beteiligung eines Browsers</li>
+      </ul>
+      <h3>Alle Verbindungen</h3>
+      <dl>
+        <div style="--c:var(--s1)"><dt>Browser → Next.js-Server</dt><dd>Anfrage über HTTPS. Mitglieder senden ihr Session-Cookie mit, Gäste nicht.</dd></div>
+        <div style="--c:var(--s2)"><dt>Next.js-Server → Browser</dt><dd>Antwort, vom Data Access Layer nach Rolle gefiltert: Vorschau für Gäste, alle Details für Mitglieder.</dd></div>
+        <div style="--c:var(--s2)"><dt>Better Auth ↔ user, session, account, verification</dt><dd>Konto in <code>user</code> anlegen, Passwort-Hash in <code>account</code> prüfen, Bestätigungscode in <code>verification</code> ablegen, Sitzung in <code>session</code> speichern und bei jeder Anfrage wiederfinden.</dd></div>
+        <div style="--c:var(--s2)"><dt>Next.js → Better Auth → Zod → Data Access Layer → ORM</dt><dd>Die Anfrage wandert Station für Station weiter. Scheitert eine Prüfung, endet sie dort mit einer Fehlermeldung.</dd></div>
+        <div style="--c:var(--s2)"><dt>ORM ↔ listings, trades</dt><dd>Angebote lesen und anlegen, abgeschlossene Trades speichern.</dd></div>
+        <div style="--c:var(--s4)"><dt>Queue → Redis → Worker</dt><dd>Der Job wird bei der Registrierung abgelegt und 7 Tage später an den Worker übergeben.</dd></div>
+        <div style="--c:var(--s4)"><dt>trades → Worker</dt><dd>Der Worker fragt die Anzahl der Trades des Nutzers ab.</dd></div>
+        <div style="--c:var(--s4)"><dt>Worker → React Email → Postfach</dt><dd>Nur bei 0 Trades: Die Vorlage wird zu HTML gerendert und über einen Mail-Dienst verschickt.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="sec-title">Die Komponenten erklärt</h2>
+  <p class="sec-lead">Was jedes Teil ist und wofür es in dieser App zuständig ist, sortiert nach Oberbegriff.</p>
+
+  <div class="gloss">
+    <div class="gloss-grp" style="--c:var(--ink)">
+      <h3>Fundament</h3>
+      <div class="gloss-grid">
+        <article class="card">
+          <div class="card-head"><h4>TypeScript</h4><span class="role">Programmiersprache</span></div>
+          <p>JavaScript mit Typen. Der Editor erkennt viele Fehler, bevor der Code überhaupt läuft.</p>
+          <div class="row"><b>Aufgabe hier:</b> Eine Sprache für Browser, Server und Worker. Zod, das ORM und Better Auth reichen ihre Typen durch den ganzen Code weiter.</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h4>Next.js</h4><span class="role">Web-Framework</span></div>
+          <p>Baut auf React auf und liefert Frontend und Backend in einem Projekt: Seiten, Routing und Server-Code.</p>
+          <div class="row"><b>Aufgabe hier:</b> Nimmt jede Anfrage an. Server Components bauen Seiten zusammen, Server Actions und Route Handler verarbeiten Formulare und API-Aufrufe.</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h4>React</h4><span class="role">UI-Bibliothek</span></div>
+          <p>Setzt die Oberfläche aus wiederverwendbaren Komponenten zusammen.</p>
+          <div class="row"><b>Aufgabe hier:</b> Zeigt Vorschauen, Dashboard und Handelsformulare an. React Email nutzt dieselbe Schreibweise für E-Mails.</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h4>Node.js</h4><span class="role">Laufzeitumgebung</span></div>
+          <p>Führt JavaScript und TypeScript außerhalb des Browsers aus.</p>
+          <div class="row"><b>Aufgabe hier:</b> Darauf laufen der Next.js-Server und, als eigener Prozess, der BullMQ-Worker.</div>
+        </article>
+      </div>
+    </div>
+
+    <div class="gloss-grp" style="--c:var(--s2)">
+      <h3>Sicherheit</h3>
+      <div class="gloss-grid">
+        <article class="card">
+          <div class="card-head"><h4>Better Auth<span class="badge-now">aktuell</span></h4><span class="role">Authentifizierung</span></div>
+          <p>Klärt, wer anfragt. Open-Source-Bibliothek für TypeScript, die Konten und Sitzungen in der eigenen Datenbank speichert statt bei einem fremden Dienst.</p>
+          <div class="row"><b>Aufgabe hier:</b> Registrierung, Login, E-Mail-Verifizierung und das Session-Cookie.</div>
+          <div class="row"><b>Stand:</b> Das ältere Auth.js (früher NextAuth.js) wird seit September 2025 vom Better-Auth-Team gepflegt. Diese Seite nutzt durchgehend Better Auth.</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h4>Zod</h4><span class="role">Validierung</span></div>
+          <p>Beschreibt in einem Schema, wie gültige Daten aussehen, und prüft Eingaben dagegen.</p>
+          <div class="row"><b>Aufgabe hier:</b> Jedes Formular und jeder API-Aufruf wird geprüft, bevor der Server damit arbeitet. Aus dem Schema entsteht zugleich der TypeScript-Typ.</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h4>Data Access Layer</h4><span class="role">Autorisierung</span></div>
+          <p>Kein Produkt, sondern ein Muster: eigene Server-Dateien, über die jeder Datenzugriff läuft.</p>
+          <div class="row"><b>Aufgabe hier:</b> Entscheidet nach Rolle, welche Felder zurückgehen. Gäste erhalten nur <code>previewText</code>, Mitglieder zusätzlich <code>memberDetails</code>.</div>
+          <div class="row"><b>Merke:</b> Mit <code>import "server-only"</code> kann dieser Code nicht versehentlich im Browser landen.</div>
+        </article>
+      </div>
+    </div>
+
+    <div class="gloss-grp" style="--c:var(--s3)">
+      <h3>Daten</h3>
+      <div class="gloss-grid">
+        <article class="card">
+          <div class="card-head"><h4>Prisma / Drizzle</h4><span class="role">ORM</span></div>
+          <p>Übersetzt TypeScript-Aufrufe in SQL und liefert typisierte Ergebnisse zurück.</p>
+          <div class="row"><b>Aufgabe hier:</b> Liest und schreibt <code>listings</code> und <code>trades</code>, verwaltet Migrationen.</div>
+          <div class="row"><b>Wahl:</b> Eines von beiden reicht. Prisma ist etablierter und hat ein eigenes Schema-Format, Drizzle ist schlanker und näher an SQL.</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h4>PostgreSQL</h4><span class="role">Relationale Datenbank</span></div>
+          <p>Speichert Daten dauerhaft in Tabellen, die über Schlüssel miteinander verknüpft sind.</p>
+          <div class="row"><b>Aufgabe hier:</b> Hält die vier Better-Auth-Tabellen und die App-Tabellen <code>listings</code> und <code>trades</code>. Fremdschlüssel verbinden alles mit <code>user</code>. Transaktionen sorgen dafür, dass ein Trade ganz oder gar nicht gespeichert wird.</div>
+        </article>
+      </div>
+    </div>
+
+    <div class="gloss-grp" style="--c:var(--s4)">
+      <h3>Hintergrund &amp; E-Mail</h3>
+      <div class="gloss-grid">
+        <article class="card">
+          <div class="card-head"><h4>BullMQ</h4><span class="role">Job-Queue</span></div>
+          <p>Warteschlange für Aufgaben, die später oder im Hintergrund laufen sollen.</p>
+          <div class="row"><b>Aufgabe hier:</b> Plant bei der Registrierung den 7-Tage-Job und führt ihn im Worker aus. Fehlgeschlagene Jobs lassen sich automatisch wiederholen.</div>
+          <div class="row"><b>Merke:</b> Der Worker braucht einen dauerhaft laufenden Node.js-Prozess neben dem Next.js-Server.</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h4>Redis</h4><span class="role">In-Memory-Datenbank</span></div>
+          <p>Sehr schneller Speicher, der Daten im Arbeitsspeicher hält.</p>
+          <div class="row"><b>Aufgabe hier:</b> Bewahrt die BullMQ-Jobs auf, bis sie fällig sind. Die eigentlichen App-Daten liegen weiter in PostgreSQL.</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h4>React Email</h4><span class="role">E-Mail-Vorlagen</span></div>
+          <p>E-Mails als React-Komponenten schreiben, die zu HTML für Mail-Programme gerendert werden.</p>
+          <div class="row"><b>Aufgabe hier:</b> Baut die Erinnerungs-E-Mail. Verschickt sie nicht selbst.</div>
+        </article>
+        <article class="card">
+          <div class="card-head"><h4>Mail-Dienst</h4><span class="role">Versand</span></div>
+          <p>Stellt E-Mails zu und kümmert sich darum, dass sie nicht im Spam landen.</p>
+          <div class="row"><b>Aufgabe hier:</b> Nimmt die fertige E-Mail vom Worker entgegen und liefert sie ins Postfach.</div>
+          <div class="row"><b>Offen:</b> Noch nicht festgelegt. Üblich sind Resend, Postmark oder Amazon SES.</div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
