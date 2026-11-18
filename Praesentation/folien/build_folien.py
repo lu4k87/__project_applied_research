@@ -38,7 +38,7 @@ EN = {
     "Server und Hintergrund-Jobs": "server and background jobs",
     "Routing + API": "Routing + API", "Next.js Routing\u00a0+\u00a0API": "Next.js Routing\u00a0+\u00a0API",
     "Benutzeroberfläche": "User interface", "Sicherheit": "Security", "Daten": "Data",
-    "Hintergrund & E-Mail": "Background & email", "Mail-Dienst": "Email service",
+    "Funktion:": "Function:", "Automatische E-Mails": "Automated emails", "Mail-Dienst": "Email service",
     "Gast": "Guest", "ohne Cookie": "no cookie", "Ohne": "Not", "Login": "logged in",
     "Standort": "Site", "+ Login": "+ logged in", "Frontend · Browser": "Frontend · browser",
     "mit Session-Cookie": "with session cookie",
@@ -263,7 +263,7 @@ def slide_request(prs):
     C, M = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE
 
     # Tech-Stack: 3 Fundament-Karten (dunkel) + 4 Gruppen, alles mittig
-    y, h = 1.62, 1.68
+    y, h = 1.62, 1.76
     fx, fw, bg = 0.5, 4.1, 0.12
     bw3 = (fw - 2 * bg) / 3
     base = [("file-code", "Sprache", "TypeScript", "Browser, Server, Hintergrund-Jobs"),
@@ -279,7 +279,7 @@ def slide_request(prs):
     groups = [("monitor", "Benutzeroberfläche", S1, ["React", "Next.js Routing\u00a0+\u00a0API"]),
               ("shield-check", "Sicherheit", S2, ["Better Auth", "Zod", "Data Access Layer"]),
               ("database", "Daten", S3, ["Prisma / Drizzle", "PostgreSQL"]),
-              ("mail", "Hintergrund & E-Mail", S4, ["BullMQ", "Redis", "React Email", "Mail-Dienst"])]
+              ("mail", "Funktion:\nAutomatische E-Mails", S4, ["BullMQ", "Redis", "React Email", "Mail-Dienst"])]
     gap = 0.15
     gx, gw = fx + fw + gap, (12.833 - (fx + fw + gap) - 3 * gap) / 4
     for i, (ic, lab, col, items) in enumerate(groups):
@@ -287,9 +287,9 @@ def slide_request(prs):
         box(s, x, y, gw, h, tint(col, 0.1))
         edge = box(s, x, y, gw, 0.08, col, shape=MSO_SHAPE.ROUND_2_SAME_RECTANGLE)  # Farbkante = Gruppe
         edge.adjustments[0] = 0.5
-        icon(s, ic, x + (gw - 0.26) / 2, y + 0.16, 0.26, col)
-        text(s, x + 0.08, y + 0.48, gw - 0.16, h - 0.5,
-             [[run(lab, 11, True, col)]] + [[run(it, 11, True, INK, TOOL)] for it in items],
+        icon(s, ic, x + (gw - 0.26) / 2, y + 0.12, 0.26, col)
+        text(s, x + 0.08, y + 0.42, gw - 0.16, h - 0.44,  # Titel mit \n = fester Umbruch
+             [[run(t, 11, True, col)] for t in lab.split("\n")] + [[run(it, 11, True, INK, TOOL)] for it in items],
              align=C, space=2)
 
     # Weg einer Anfrage: Browser → 5 Stationen → Datenbank
