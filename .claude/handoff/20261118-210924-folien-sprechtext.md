@@ -1,4 +1,5 @@
 [Claude] [Folien] Sprechtexte Folie 1+2 weiter bearbeiten
+übernommen von dev-ws-40 am 2026-11-18 21:09
 Rückmeldung an: dev-ws-13
 Kontext: Deck Praesentation/folien/ hat 3 Folien (alle weiß,
   Stand f438e7a). Folie 1 + 2 präsentiert der User, Folie 3
