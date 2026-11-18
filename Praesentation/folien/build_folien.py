@@ -114,7 +114,7 @@ EN = {
     "Backend · Grundlage für jede Anfrage": "Backend · foundation for every request",
     "Die Bausteine des Stacks: was sie tun, ein Beispiel aus der App und warum wir sie gewählt haben.":
         "The building blocks of the stack: what they do, an example from the app and why we chose them.",
-    "Beispiel:": "Example:", "Grund:": "Reason:", "Grundlage": "foundation",
+    "Beispiel:": "Example:", "Warum": "Why", "Grundlage": "foundation",
     "App-Architektur": "App Architecture",
 }
 MISSING = set()
@@ -123,6 +123,7 @@ MISSING = set()
 BG, SURFACE, LINE, INK = "F2F4F8", "FFFFFF", "D6DCE8", "121A2C"
 S1, S2, S3 = "2255D4", "0D7A54", "6A3FD0"  # Frontend, Sicherheit, Daten
 ON_INK = "E3E8F2"  # Nebentext auf dunklem Grund
+NAME_ON_INK = "9DBBFF"  # Tool-Name in „Warum …?“ auf dunklem Grund: hebt sich von ON_INK ab (Kontrast > 7:1)
 SANS, MONO = "Arial", "Courier New"
 TOOL = "Verdana"  # Tools, Frameworks, Datenbank: klar erkennbar, in jedem PowerPoint vorhanden
 ICONS = Path(__file__).with_name("icons")
@@ -465,7 +466,7 @@ def fit_size(label, width, sizes=(12, 11.5, 11, 10.5)):
 
 
 def stack_card(s, x, y, w, h, key):
-    """Karte: Icon + Rolle + Name oben, darunter ein Textfluss (was · Beispiel · Grund) – nichts überlappt.
+    """Karte: Icon + Rolle + Name oben, darunter ein Textfluss (was · Beispiel · „Warum <Name>?“) – nichts überlappt.
     Fundament-Bausteine (Farbe INK) dunkel wie auf Folie 1."""
     name, role, ic, col, what, example, why = STACK[key]
     dark = col == INK
@@ -479,7 +480,9 @@ def stack_card(s, x, y, w, h, key):
     text(s, x + p, y + 0.68, w - 2 * p, h - 0.76, [
         [run(what, 10.5, False, ink)],
         [run("Beispiel:", 10, True, accent), run(" " + example, 10, False, ink)],
-        [run("Grund:", 10, True, accent), run(" " + why, 10, False, ink)]], space=5)
+        # „Warum <Name>?“ statt „Grund:“; der Name fett in eigener Farbe und Tool-Schrift hebt sich vom Akzent ab
+        [run("Warum", 10, True, accent), run(" "), run(name.replace(" ", "\u00a0"), 10, True, NAME_ON_INK if dark else ink, TOOL), run("?", 10, True, accent),
+         run(" " + why, 10, False, ink)]], space=5)
 
 
 def handover(s, x, y, w, h, ic, head, who, what, col):
