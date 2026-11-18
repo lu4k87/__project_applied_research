@@ -302,6 +302,12 @@
     <span class="wide"><i></i>Anfrage und Datenfluss</span>
     <span class="wide"><i class="d"></i>Hintergrund-Job, zeitgesteuert</span>
     <span><span class="chip to3">name</span> Tabelle, auf die eine Station zugreift</span>
+    <span style="--c:var(--s3)"><span class="tag">PK</span> Primärschlüssel: eindeutige ID der Zeile</span>
+    <span style="--c:var(--s3)"><span class="tag">FK</span> Fremdschlüssel: verweist auf eine Zeile einer anderen Tabelle</span>
+    <span style="--c:var(--s3)"><span class="tag priv">Hash</span> Passwort nur als Hash gespeichert, nie im Klartext</span>
+    <span style="--c:var(--s3)"><span class="tag">öffentlich</span> <span class="tag priv">nur Mitglieder</span> Sichtbarkeit eines Felds</span>
+    <span><span class="step" style="--c:var(--s1)">1</span> Nummer der Station im gewählten Weg</span>
+    <span><span class="badge-now">aktuell</span> aktiv gepflegte Bibliothek, hier eingesetzt</span>
   </div>
 </section>
 
@@ -349,8 +355,8 @@
         <rect class="g-box k2" x="20" y="158" width="1260" height="46" rx="8"/>
         <text class="g-name" x="650" y="177" text-anchor="middle">Next.js App Router</text>
         <text class="g-sub" x="650" y="193" text-anchor="middle">Einstiegspunkt: Seiten, Server Actions, Route Handler</text>
-        <line class="a a2" x1="44" y1="205" x2="44" y2="231" marker-end="url(#e2)"/>
-        <text class="g-sub" x="54" y="223">Anfrage, bei Mitgliedern mit Cookie</text>
+        <line class="a a2" x1="170" y1="205" x2="170" y2="231" marker-end="url(#e2)"/>
+        <text class="g-sub" x="180" y="223">Anfrage, bei Mitgliedern mit Cookie</text>
 
         <g transform="translate(0,76)">
 
@@ -375,47 +381,47 @@
         <text class="g-name" x="1194" y="426" text-anchor="middle">trades</text>
 
         <!-- Better Auth <-> eigene Tabellen -->
-        <line class="a a2" x1="383" y1="166" x2="1113" y2="204" marker-start="url(#e2)" marker-end="url(#e2)"/>
-        <line class="a a2" x1="383" y1="176" x2="1113" y2="234" marker-start="url(#e2)" marker-end="url(#e2)"/>
-        <line class="a a2" x1="383" y1="186" x2="1113" y2="264" marker-start="url(#e2)" marker-end="url(#e2)"/>
-        <line class="a a2" x1="383" y1="196" x2="1113" y2="294" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="323" y1="166" x2="1113" y2="204" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="323" y1="176" x2="1113" y2="234" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="323" y1="186" x2="1113" y2="264" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="323" y1="196" x2="1113" y2="294" marker-start="url(#e2)" marker-end="url(#e2)"/>
 
         <!-- Vier Stationen -->
-        <rect class="g-box k2" x="20" y="158" width="360" height="46" rx="8"/>
-        <text class="g-name" x="200" y="177" text-anchor="middle">Better Auth</text>
-        <text class="g-sub" x="200" y="193" text-anchor="middle">Authentifizierung: wer fragt an?</text>
-        <line class="a a2" x1="44" y1="205" x2="44" y2="231" marker-end="url(#e2)"/>
-        <text class="g-sub" x="54" y="223">Rolle: Gast oder Mitglied</text>
+        <rect class="g-box k2" x="20" y="158" width="300" height="46" rx="8"/>
+        <text class="g-name" x="170" y="177" text-anchor="middle">Better Auth</text>
+        <text class="g-sub" x="170" y="193" text-anchor="middle">Authentifizierung: wer fragt an?</text>
+        <line class="a a2" x1="170" y1="205" x2="170" y2="231" marker-end="url(#e2)"/>
+        <text class="g-sub" x="180" y="223">Rolle: Gast oder Mitglied</text>
 
-        <rect class="g-box k2" x="20" y="234" width="360" height="46" rx="8"/>
-        <text class="g-name" x="200" y="253" text-anchor="middle">Zod</text>
-        <text class="g-sub" x="200" y="269" text-anchor="middle">Validierung: prüft jede Eingabe</text>
-        <line class="a a2" x1="44" y1="281" x2="44" y2="307" marker-end="url(#e2)"/>
-        <text class="g-sub" x="54" y="299">nur gültige Eingaben</text>
+        <rect class="g-box k2" x="20" y="234" width="300" height="46" rx="8"/>
+        <text class="g-name" x="170" y="253" text-anchor="middle">Zod</text>
+        <text class="g-sub" x="170" y="269" text-anchor="middle">Validierung: prüft jede Eingabe</text>
+        <line class="a a2" x1="170" y1="281" x2="170" y2="307" marker-end="url(#e2)"/>
+        <text class="g-sub" x="180" y="299">nur gültige Eingaben</text>
 
-        <rect class="g-box k2" x="20" y="310" width="360" height="46" rx="8"/>
-        <text class="g-name" x="200" y="329" text-anchor="middle">Data Access Layer</text>
-        <text class="g-sub" x="200" y="345" text-anchor="middle">Autorisierung: Felder nach Rolle</text>
-        <line class="a a2" x1="44" y1="357" x2="44" y2="383" marker-end="url(#e2)"/>
-        <text class="g-sub" x="54" y="375">erlaubte Abfrage</text>
+        <rect class="g-box k2" x="20" y="310" width="300" height="46" rx="8"/>
+        <text class="g-name" x="170" y="329" text-anchor="middle">Data Access Layer</text>
+        <text class="g-sub" x="170" y="345" text-anchor="middle">Autorisierung: Felder nach Rolle</text>
+        <line class="a a2" x1="170" y1="357" x2="170" y2="383" marker-end="url(#e2)"/>
+        <text class="g-sub" x="180" y="375">erlaubte Abfrage</text>
 
-        <rect class="g-box k2" x="20" y="386" width="360" height="46" rx="8"/>
-        <text class="g-name" x="200" y="405" text-anchor="middle">Prisma / Drizzle</text>
-        <text class="g-sub" x="200" y="421" text-anchor="middle">ORM: baut sichere SQL-Abfragen</text>
+        <rect class="g-box k2" x="20" y="386" width="300" height="46" rx="8"/>
+        <text class="g-name" x="170" y="405" text-anchor="middle">Prisma / Drizzle</text>
+        <text class="g-sub" x="170" y="421" text-anchor="middle">ORM: baut sichere SQL-Abfragen</text>
 
         <!-- Server <-> Datenbank -->
-        <line class="a a2" x1="383" y1="402" x2="1113" y2="388" marker-start="url(#e2)" marker-end="url(#e2)"/>
-        <line class="a a2" x1="383" y1="418" x2="1113" y2="422" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="323" y1="402" x2="1113" y2="388" marker-start="url(#e2)" marker-end="url(#e2)"/>
+        <line class="a a2" x1="323" y1="418" x2="1113" y2="422" marker-start="url(#e2)" marker-end="url(#e2)"/>
 
         <!-- Hintergrund-Job -->
-        <line class="g-div" x1="20" y1="456" x2="410" y2="456"/>
+        <line class="g-div" x1="20" y1="456" x2="350" y2="456"/>
         <text class="g-layer f4" x="20" y="474">HINTERGRUND-JOB · ZEITGESTEUERT</text>
 
         <rect class="g-box k4" x="20" y="484" width="300" height="46" rx="8"/>
         <text class="g-name" x="170" y="503" text-anchor="middle">BullMQ Queue</text>
         <text class="g-sub" x="170" y="519" text-anchor="middle">Job bei Registrierung</text>
-        <line class="a a4" x1="44" y1="531" x2="44" y2="555" marker-end="url(#e4)"/>
-        <text class="g-sub" x="54" y="547">7 Tage verzögert</text>
+        <line class="a a4" x1="170" y1="531" x2="170" y2="555" marker-end="url(#e4)"/>
+        <text class="g-sub" x="180" y="547">7 Tage verzögert</text>
 
         <rect class="g-box k4" x="20" y="558" width="300" height="46" rx="8"/>
         <text class="g-name" x="170" y="577" text-anchor="middle">Redis</text>

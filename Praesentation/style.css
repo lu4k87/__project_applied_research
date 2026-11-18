@@ -58,7 +58,7 @@
   .groups{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
   /* Sehr breit: Fundament und Gruppen als eine Leiste mit sieben Feldern */
   @media (min-width:1400px){
-    .stackbar{display:grid;grid-template-columns:repeat(3,minmax(0,.8fr)) repeat(4,minmax(0,1fr));gap:8px}
+    .stackbar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
     .stackbar>.base,.stackbar>.groups{display:contents}
     .base-item{justify-content:center}
   }
@@ -245,7 +245,7 @@
   @media (min-width:1400px){
     header p,.sec-lead{font-size:18px}
     .caption{font-size:16px}
-    .base-item span{font-size:12px} .base-item b{font-size:22px} .base-item em{font-size:14px}
+    .base-item span{font-size:12px} .base-item b{font-size:26px} .base-item em{font-size:14px}
     .grp h4{font-size:12px} .grp li b{font:600 14.5px/1.35 var(--font-mono)} .grp li span{font-size:13.5px}
     .layer-title b{font-size:13px} .layer-title span{font-size:15px}
     .col h2{font-size:20px} .col-sub{font-size:15px}
