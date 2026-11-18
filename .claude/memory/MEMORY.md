@@ -1,2 +1,3 @@
 - [KreiswertS-Auftrag](project-kreiswerts.md) — Plattform-Prototyp Kunststoff-Austausch Kamp-Lintfort: Ziele, 6 Phasen, Ergebnisse, Zielgruppen, Erfolgskriterium (ab 2026-10-22)
 - [Projekt A Materialfluss](project-goal-projekt-a.md) — Kehrum-Karte bis 2026-10-22 (Vorgänger), Doppelarbeit mit Gemini-Chat, echte Firmen nur mit Quelle
+- [Datenmodell für App-Folien](app-architektur-datenmodell.md) — 5 Tabellen, Felder, Gast/Mitglied, 7-Tage-Job als Wissen für Folie 1+2; UML-Folie gestrichen (2026-11-18)
