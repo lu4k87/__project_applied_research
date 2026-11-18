@@ -180,7 +180,7 @@
   /* Zweite Grafik: Verbindungen */
   .sec-title{font-family:var(--font-display);font-size:clamp(22px,3vw,28px);font-weight:700;letter-spacing:-.01em;line-height:1.15;text-wrap:balance}
   .sec-lead{color:var(--muted);margin-top:6px;max-width:72ch;font-size:17px;text-wrap:pretty}
-  .connect{display:grid;grid-template-columns:minmax(0,560px) minmax(0,1fr);gap:40px;align-items:start;margin-top:16px}
+  .connect{display:grid;grid-template-columns:minmax(0,720px) minmax(320px,1fr);gap:40px;align-items:start;margin-top:16px}
   .fig{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:14px}
   .fig svg{display:block;width:100%;height:auto}
   .fig figcaption{font-size:14px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
@@ -202,6 +202,7 @@
   .a1{stroke:var(--s1)} .a2{stroke:var(--s2)} .a4{stroke:var(--s4)}
   .f1{fill:var(--s1)} .f2{fill:var(--s2)} .f3{fill:var(--s3)} .f4{fill:var(--s4)}
 
+  .links{max-width:640px}
   .links h3{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
   .links dl{border-top:1px solid var(--line)}
   .links dl div{padding:9px 0;border-bottom:1px solid var(--line);border-left:3px solid var(--c);padding-left:11px}
@@ -217,9 +218,8 @@
     .cols{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
     .cols div:last-child{border-bottom:1px solid var(--line);padding-bottom:5px}
   }
-  /* Breit: Verbindungsliste zweispaltig, Glossar-Gruppen als vier Spalten */
+  /* Breit: Glossar-Gruppen als vier Spalten */
   @media (min-width:1081px){
-    .links dl{display:grid;grid-template-columns:1fr 1fr;column-gap:28px}
     .gloss{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;align-items:start}
     .gloss-grid{grid-template-columns:1fr}
   }
