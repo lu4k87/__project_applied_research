@@ -309,7 +309,7 @@ def slide_request(prs):
         "Next.js + TypeScript. Jede Anfrage passiert fünf Stationen auf dem Server – erst dann fließen Daten.",
         "Oben der Tech-Stack nach Oberbegriffen. Darunter der Weg einer Anfrage: Browser, fünf Stationen "
         "auf dem Next.js-Server, Datenbank. Unten, was Gast und Mitglied zurückbekommen.",
-        bg=SURFACE,  # Folie 1 + 2 weiß (User 2026-11-18)
+        bg=SURFACE,  # alle Folien weiß (User 2026-11-18)
     )
     C, M = PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE
 
@@ -661,7 +661,7 @@ def er_end(s, x, y, d, kind, color=S3):
     for o in (-0.09, 0, 0.09):
         slide_line(s, tip[0], tip[1], x + px * o, y + py * o, color, width=1.5)
     r, t = 0.05, 0.22
-    c = box(s, x + dx * t - r, y + dy * t - r, 2 * r, 2 * r, BG, line=color, shape=MSO_SHAPE.OVAL)
+    c = box(s, x + dx * t - r, y + dy * t - r, 2 * r, 2 * r, SURFACE, line=color, shape=MSO_SHAPE.OVAL)
     c.line.width = Pt(1.5)
     no_shadow(c)
 
@@ -674,6 +674,7 @@ def slide_db(prs):
         "Das erste Datenmodell: fünf Tabellen in PostgreSQL. Ein Standort (sites) hat genau einen Login (users), "
         "verkauft über Angebote (offers) Materialien aus dem Katalog (materials) und kauft über Matches "
         "(agreements) die Angebote anderer Standorte.",
+        bg=SURFACE,
     )
     M = MSO_ANCHOR.MIDDLE
     FS, RH, HH = 9, 0.172, 0.5  # Schrift der Feldzeilen, Zeilenhöhe, Kopfhöhe
