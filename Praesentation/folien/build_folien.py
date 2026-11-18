@@ -123,7 +123,7 @@ MISSING = set()
 BG, SURFACE, LINE, INK = "F2F4F8", "FFFFFF", "D6DCE8", "121A2C"
 S1, S2, S3 = "2255D4", "0D7A54", "6A3FD0"  # Frontend, Sicherheit, Daten
 ON_INK = "E3E8F2"  # Nebentext auf dunklem Grund
-NAME_ON_INK = "9DBBFF"  # Tool-Name in „Warum …?“ auf dunklem Grund: hebt sich von ON_INK ab (Kontrast > 7:1)
+LABEL_ON_INK = "9DBBFF"  # „Beispiel:“/„Warum …?“ auf dunklem Grund: farbig wie auf hellen Karten (Kontrast > 7:1)
 SANS, MONO = "Arial", "Courier New"
 TOOL = "Verdana"  # Tools, Frameworks, Datenbank: klar erkennbar, in jedem PowerPoint vorhanden
 ICONS = Path(__file__).with_name("icons")
@@ -170,8 +170,11 @@ def run(text, size=12, bold=False, color=INK, font=SANS):
     return dict(text=tr(text), size=size, bold=bold, color=color, font=font)
 
 
+BR = None  # Zeilenumbruch innerhalb eines Absatzes (für text())
+
+
 def text(slide, x, y, w, h, paras, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP, space=0):
-    """paras: Liste von Absätzen, jeder Absatz eine Liste von run()-Dicts."""
+    """paras: Liste von Absätzen, jeder Absatz eine Liste von run()-Dicts; BR = Zeilenumbruch im Absatz."""
     tb = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
     tf = tb.text_frame
     tf.word_wrap = True
@@ -183,6 +186,9 @@ def text(slide, x, y, w, h, paras, align=PP_ALIGN.LEFT, anchor=MSO_ANCHOR.TOP, s
         if i:
             p.space_before = Pt(space)
         for r in runs:
+            if r is BR:
+                p.add_line_break()
+                continue
             rr = p.add_run()
             rr.text = r["text"]
             f = rr.font
@@ -477,12 +483,15 @@ def stack_card(s, x, y, w, h, key):
     text(s, x + nx, y + 0.08, w - nx - 0.06, 0.2, [[run(role, 10, True, accent)]])
     text(s, x + nx, y + 0.28, w - nx - 0.06, 0.28,
          [[run(name, fit_size(name, w - nx - 0.1), True, ink, TOOL)]])
-    text(s, x + p, y + 0.68, w - 2 * p, h - 0.76, [
+    label = LABEL_ON_INK if dark else col  # „Beispiel:“ und „Warum …?“ farbig, Text darunter in Textfarbe
+    body_y, body_h = y + 0.62, h - 0.62 - 0.12
+    text(s, x + p, body_y, w - 2 * p, body_h, [
         [run(what, 10.5, False, ink)],
-        [run("Beispiel:", 10, True, accent), run(" " + example, 10, False, ink)],
-        # „Warum <Name>?“ statt „Grund:“; der Name fett in eigener Farbe und Tool-Schrift hebt sich vom Akzent ab
-        [run("Warum", 10, True, accent), run(" "), run(name.replace(" ", "\u00a0"), 10, True, NAME_ON_INK if dark else ink, TOOL), run("?", 10, True, accent),
-         run(" " + why, 10, False, ink)]], space=5)
+        [run("Beispiel:", 10, True, label), BR, run(example, 10, False, ink)]], space=5)
+    # „Warum <Name>?“ unten in der Karte, linksbündig; Name fett in Textfarbe (Arial, damit er in eine Zeile passt)
+    text(s, x + p, body_y, w - 2 * p, body_h, [
+        [run("Warum", 10, True, label), run(" "), run(name.replace(" ", "\u00a0"), 10, True, ink),
+         run("?", 10, True, label), BR, run(why, 10, False, ink)]], anchor=MSO_ANCHOR.BOTTOM)
 
 
 def handover(s, x, y, w, h, ic, head, who, what, col):
@@ -504,8 +513,8 @@ def slide_stack(prs):
         "rechts geht es an die Datenbank (nächster Teil).",
     )
     # Zwei Reihen: 3 Fundament-Karten (Backend) über der Kette jeder Anfrage, senkrecht mittig unter dem Untertitel
-    zl, bh, zg, rh = 0.32, 2.15, 0.4, 2.85
-    y0 = 1.45 + (7.25 - 1.45 - (zl + bh + zg + rh)) / 2
+    zl, bh, zg, rh = 0.32, 2.4, 0.4, 2.85
+    y0 = 1.38 + (7.35 - 1.38 - (zl + bh + zg + rh)) / 2
     top_base = y0 + zl
     y1, rw, rg = top_base + bh + zg + rh, 1.05, 0.34
     handover(s, 0.5, top_base, rw, y1 - top_base, "monitor", "Frontend", "andere Gruppe", "React-Seiten", S1)
