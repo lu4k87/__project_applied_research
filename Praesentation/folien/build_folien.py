@@ -225,6 +225,8 @@ def step(slide, x, y, n, color, d=0.34):
     c = box(slide, x, y, d, d, color, line=color, shape=MSO_SHAPE.OVAL)
     c.fill.background()
     c.line.width = Pt(1.75)
+    # Theme-Schatten (effectRef 2) ganz abschalten: LibreOffice zeichnet ihn sonst trotz leerer effectLst
+    c._element.find(qn("p:style")).find(qn("a:effectRef")).set("idx", "0")
     tf = c.text_frame
     tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
