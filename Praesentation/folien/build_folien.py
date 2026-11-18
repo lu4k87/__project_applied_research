@@ -51,9 +51,9 @@ EN = {
     "→ Folie 2": "→ slide 2",
     "Gast sieht": "Guest sees", "öffentliche Vorschau,..": "public preview,..",
     "Mitglied sieht": "Member sees", "alle Details, Handel,..": "all details, trading,..",
-    "• Industriestandard, weit verbreitet": "• Industry standard, widely used",
-    "• Fertige Bausteine für Login + Rechte": "• Ready-made parts for login + access",
-    "• Eine Sprache: TypeScript,..": "• One language: TypeScript,..",
+    "• Industriestandard": "• Industry standard", "• Sicherer Login + Rechte": "• Secure login + access",
+    "• Geplante Jobs + E-Mails": "• Scheduled jobs + emails", "• TypeScript überall": "• TypeScript everywhere",
+    "• Typsichere Datenbank": "• Type-safe database", "• Große Community,..": "• Large community,..",
     "Datenbank und 7-Tage-Job": "Database and 7-Day Job",
     "PostgreSQL hält 6 Tabellen. Ein Hintergrund-Job erinnert nach 7 Tagen alle, die noch nicht gehandelt haben.":
         "PostgreSQL holds 6 tables. A background job reminds everyone who has not traded after 7 days.",
@@ -207,10 +207,11 @@ def icon(slide, name, x, y, size, color):
     return slide.shapes.add_picture(io.BytesIO(_ICON_CACHE[key]), Inches(x), Inches(y), Inches(size), Inches(size))
 
 
-def label_width(label, size=11):
-    """Breite eines fetten Arial-Labels in Zoll (Liberation Sans Bold ist maßgleich)."""
+def label_width(label, size=11, bold=True):
+    """Breite eines Arial-Texts in Zoll (Liberation Sans ist maßgleich)."""
     from PIL import ImageFont
-    font = ImageFont.truetype("/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf", size * 10)
+    face = "Bold" if bold else "Regular"
+    font = ImageFont.truetype(f"/usr/share/fonts/truetype/liberation2/LiberationSans-{face}.ttf", size * 10)
     return font.getlength(tr(label)) / 10 / 72
 
 
@@ -313,8 +314,8 @@ def slide_request(prs):
     for i, (ic, name, role, desc) in enumerate(stations):
         x = sx + pad + i * (stw + ag)
         box(s, x, sty, stw, sth, SURFACE)
-        step(s, x + stw / 2 - d - 0.06, sty + 0.14, i + 1, S2, d=d)
-        icon(s, ic, x + stw / 2 + 0.1, my - 0.16, 0.32, S2)
+        icon(s, ic, x + stw / 2 - 0.42, my - 0.16, 0.32, S2)  # Icon links, Nummer rechts
+        step(s, x + stw / 2 + 0.06, sty + 0.14, i + 1, S2, d=d)
         text(s, x + 0.04, sty + 0.6, stw - 0.08, 0.22, [[run(role, 10.5, True, S2)]], align=C)
         text(s, x + 0.04, sty + 0.82, stw - 0.08, 0.46, lines(name, 12, True, INK, TOOL), align=C, anchor=M)
         text(s, x + 0.06, sty + 1.32, stw - 0.12, 0.6, lines(desc, 11), align=C)
@@ -340,15 +341,26 @@ def slide_request(prs):
              (tint(S1, 0.1), INK, S1, "lock-open", "Mitglied sieht",
               [[code("previewText"), run(" + ", 12, True, S1), code("memberDetails")],
                [run("alle Details, Handel,..", 12)]]),
-             (INK, SURFACE, ON_INK, "badge-check", "Benefits",
-              [[run("• " + t, 11, False, ON_INK)] for t in
-               ("Industriestandard, weit verbreitet", "Fertige Bausteine für Login + Rechte",
-                "Eine Sprache: TypeScript,..")])]
+             ]
     for i, (fill, ink, icol, ic, head, body) in enumerate(cards):
         x = 0.5 + i * (rw + 0.2)
         box(s, x, ry, rw, rh, fill)
         icon(s, ic, x + 0.25, ry + (rh - 0.44) / 2, 0.44, icol)
         text(s, x + 0.85, ry, rw - 1.1, rh, [[run(head, 13.5, True, ink)]] + body, align=C, anchor=M, space=3)
+
+    # Benefits: Kopf mit Icon, darunter 2 Spalten Stichpunkte, linksbündig
+    x = 0.5 + 2 * (rw + 0.2)
+    box(s, x, ry, rw, rh, INK)
+    hw = label_width("Benefits", 13.5) + 0.06
+    text(s, x + 0.22, ry + 0.1, hw, 0.28, [[run("Benefits", 13.5, True, SURFACE)]], anchor=M)
+    icon(s, "badge-check", x + 0.22 + hw + 0.08, ry + 0.11, 0.26, ON_INK)  # Icon rechts neben dem Titel
+    benefits = [["Industriestandard", "Sicherer Login + Rechte", "Geplante Jobs + E-Mails"],
+                ["TypeScript überall", "Typsichere Datenbank", "Große Community,.."]]
+    # Spalten nach gemessener Textbreite: links so breit wie nötig, Rest rechts
+    c1 = max(label_width("• " + t, 10.5, bold=False) for t in benefits[0]) + 0.22
+    for j, items in enumerate(benefits):
+        cx, cw = (x + 0.22, c1) if j == 0 else (x + 0.22 + c1, rw - 0.32 - c1)
+        text(s, cx, ry + 0.42, cw, rh - 0.48, [[run("• " + t, 10.5, False, ON_INK)] for t in items], space=2)
 
 
 def slide_data_job(prs):
