@@ -21,6 +21,6 @@ Beziehungen: sites 1:n users · sites 1:n offers (Verkäufer) · sites 1:n agree
 
 Begriffe: **Gast** (ohne Login: Titel, Material, Menge, Stadt) · **Mitglied** (Standort + Login: zusätzlich Preis, Beschreibung, Kontakt, Match anfragen, Angebote einstellen, eigene Matches) · **Match** = Agreement Käufer–Angebot.
 
-Offen im ER-Diagramm (dem User gemeldet 2026-11-18): „Beschreibung“ auf der Folie gibt es nur als sites.description; price_eur_per_kg FLOAT vs. agreed_price_eur_per_kg INTEGER.
+Offen im ER-Diagramm (dem User gemeldet 2026-11-18): „Beschreibung“ auf der Folie gibt es nur als sites.description; DATETIME gibt es in PostgreSQL nicht (offers.available_from); 1:1 sites–users, aber users.site_id ohne U; Preise FLOAT/INTEGER statt NUMERIC; CO2-Faktoren INTEGER. **User-Entscheidung 2026-11-18: Folie 3 bleibt 1:1 wie das Bild**, Fehler nur der Person nennen, die die Datenbank präsentiert – nicht eigenmächtig korrigieren.
 
 Verwandt: [[project-kreiswerts]]
