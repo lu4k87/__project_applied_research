@@ -31,7 +31,7 @@ There are two roles:
 
 - The **guest** is not logged in.
 
-- The **member** is logged in and sends a session cookie with every request, a small identifier that lets the server recognise the member.
+- The **member** is logged in and sends a session cookie with every request, a small identifier that lets the server recognise the user as a member.
 
 Every request passes through **five stations** on the server:
 
