@@ -9,9 +9,9 @@ Regeln für diese Texte: Projekt-Memory `sprechtexte-ohne-ansprache` (kein wir/i
 
 ### Einstieg
 
-Kommen wir nun zum technischen Teil: dem **Backend**, also dem Teil der App, der auf dem Server läuft und für Besucher unsichtbar bleibt.
+Kommen wir nun zum technischen Teil: dem **Backend**, also dem Teil der App, der auf dem Server läuft und für Besucher unsichtbar bleibt. Er umfasst zwei Folien: zuerst die **App-Architektur** als Gesamtbild, danach den **Software Architecture Stack** mit seinen einzelnen Bausteinen.
 
-Die Folie zur **App-Architektur** zeigt dazu zwei Dinge: oben den **Tech-Stack**, darunter den **Weg einer Anfrage**.
+Die Folie zur **App-Architektur** zeigt zwei Dinge: oben den **Tech-Stack**, darunter den **Weg einer Anfrage**.
 
 
 ### Tech-Stack
