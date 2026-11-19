@@ -9,7 +9,7 @@ Rules for these texts: project memory `sprechtexte-ohne-ansprache` (no we/you/on
 
 ### Opening
 
-The presentation starts with the **backend**: the part of the app that runs on the server and stays invisible to visitors. The frontend, the visible interface, follows later.
+Now on to the technical part: the **backend**, the part of the app that runs on the server and stays invisible to visitors.
 
 The slide on **app architecture** shows two things: at the top the **tech stack**, below it the **path of a request**.
 

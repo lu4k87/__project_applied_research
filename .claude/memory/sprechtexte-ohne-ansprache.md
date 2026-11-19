@@ -13,7 +13,7 @@ Jedes Tool (TypeScript, Next.js, Node.js, Better Auth, Zod, Data Access Layer, O
 
 Sprechtext **an der Folienüberschrift ausrichten**: Einstieg nennt Titel + Untertitel-Idee, Gliederung folgt deren Teilen (z. B. „Tech-Stack“ → „Weg einer Anfrage“); User 2026-11-18: „die sprechtexte auch passend zur überschrift der folie..“.
 
-**Reihenfolge der Präsentation** (User 2026-11-19): erst Backend (Folie 1 + 2), dann Datenbank (Folie 3, andere Person); das Frontend kommt erst danach → nie „nach dem Frontend …“ schreiben.
+**Reihenfolge der Präsentation** (User 2026-11-19): erst Backend (Folie 1 + 2), dann Datenbank (Folie 3, andere Person); das Frontend kommt erst danach → nie „nach dem Frontend …“ schreiben. Einstieg Folie 1 wörtlich vom User: „Kommen wir nun zum technischen Teil …“ (einzige erlaubte wir-Form, User 2026-11-19; nicht „Den Anfang macht …“).
 
 **Why:** User 2026-11-18 zur ersten Fassung der Sprechtexte Folie 1+2: „Wir/ihr... -> nein! ohne wir/ihr usw“.
 
