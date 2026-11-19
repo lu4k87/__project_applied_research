@@ -13,6 +13,8 @@ Jedes Tool (TypeScript, Next.js, Node.js, Better Auth, Zod, Data Access Layer, O
 
 Sprechtext **an der Folienüberschrift ausrichten**: Einstieg nennt Titel + Untertitel-Idee, Gliederung folgt deren Teilen (z. B. „Tech-Stack“ → „Weg einer Anfrage“); User 2026-11-18: „die sprechtexte auch passend zur überschrift der folie..“.
 
+**Reihenfolge der Präsentation** (User 2026-11-19): erst Backend (Folie 1 + 2), dann Datenbank (Folie 3, andere Person); das Frontend kommt erst danach → nie „nach dem Frontend …“ schreiben.
+
 **Why:** User 2026-11-18 zur ersten Fassung der Sprechtexte Folie 1+2: „Wir/ihr... -> nein! ohne wir/ihr usw“.
 
 **How to apply:** Gilt für alle Sprechtexte/Notizen der Präsentation (DE + EN: kein „we/you“). Vor Abgabe Text nach diesen Wörtern durchsuchen. Ton sachlich, **ohne Floskeln** (kein „Spannender ist …“, „Egal, wer kommt“, „sozusagen“, „Also: …“; User 2026-11-18: „weniger floskeln, mehr sachlich“), nichts von der Folie ablesen. Verwandt: [[app-architektur-datenmodell]]

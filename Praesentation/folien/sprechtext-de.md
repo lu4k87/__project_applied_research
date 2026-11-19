@@ -9,7 +9,7 @@ Regeln für diese Texte: Projekt-Memory `sprechtexte-ohne-ansprache` (kein wir/i
 
 ### Einstieg
 
-Nach dem Frontend folgt das **Backend**: der Teil der App, der auf dem Server läuft und für Besucher unsichtbar bleibt.
+Den Anfang macht das **Backend**: der Teil der App, der auf dem Server läuft und für Besucher unsichtbar bleibt. Das Frontend, also die sichtbare Oberfläche, folgt später.
 
 Die Folie zur **App-Architektur** zeigt dazu zwei Dinge: oben den **Tech-Stack**, darunter den **Weg einer Anfrage**.
 
